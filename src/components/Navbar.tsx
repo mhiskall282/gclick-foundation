@@ -1,26 +1,39 @@
 import React, { useState } from 'react';
 import { Menu, X, MousePointerClick } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const isAuthenticated = sessionStorage.getItem('isAuthenticated') === 'true';
 
   const navigation = [
     { name: 'Home', href: '/' },
-    { name: 'Programs', href: '/programs' },
-    { name: 'About', href: '/about' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Donate', href: '/donate' },
-    { name: 'Contact', href: '/contact' },
-    { name: 'Resources', href: '/resources' },
+    { name: 'Programs', href: '#programs' },
+    { name: 'About', href: '#about' },
+    { name: 'Blog', href: '#blog' },
+    { name: 'Donate', href: '#donate' },
+    { name: 'Contact', href: '#contact' },
+    { name: 'Resources', href: '#resources' },
   ];
+
+  const handleAdminClick = () => {
+    if (isAuthenticated) {
+      navigate('/admin/dashboard');
+    } else {
+      navigate('/admin/login');
+    }
+  };
 
   return (
     <nav className="bg-white shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <MousePointerClick className="h-8 w-8 text-pink-600" />
-            <span className="ml-2 text-2xl font-bold text-pink-600">Gclick</span>
+            <Link to="/" className="flex items-center">
+              <MousePointerClick className="h-8 w-8 text-pink-600" />
+              <span className="ml-2 text-2xl font-bold text-pink-600">Gclick</span>
+            </Link>
           </div>
           
           <div className="hidden md:flex items-center space-x-4">
@@ -33,8 +46,11 @@ const Navbar = () => {
                 {item.name}
               </a>
             ))}
-            <button className="bg-pink-600 text-white px-4 py-2 rounded-md hover:bg-pink-700 transition-colors">
-              Admin Login
+            <button
+              onClick={handleAdminClick}
+              className="bg-pink-600 text-white px-4 py-2 rounded-md hover:bg-pink-700 transition-colors"
+            >
+              {isAuthenticated ? 'Admin Dashboard' : 'Admin Login'}
             </button>
           </div>
 
@@ -61,8 +77,11 @@ const Navbar = () => {
                 {item.name}
               </a>
             ))}
-            <button className="w-full bg-pink-600 text-white px-4 py-2 rounded-md hover:bg-pink-700 transition-colors">
-              Admin Login
+            <button
+              onClick={handleAdminClick}
+              className="w-full bg-pink-600 text-white px-4 py-2 rounded-md hover:bg-pink-700 transition-colors"
+            >
+              {isAuthenticated ? 'Admin Dashboard' : 'Admin Login'}
             </button>
           </div>
         </div>

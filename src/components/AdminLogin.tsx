@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { Lock, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (username === 'admin' && password === 'admin') {
-      // Handle successful login
-      console.log('Logged in successfully');
+      sessionStorage.setItem('isAuthenticated', 'true');
+      navigate('/admin/dashboard');
     } else {
       setError('Invalid credentials');
     }
