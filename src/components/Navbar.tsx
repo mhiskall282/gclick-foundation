@@ -32,7 +32,7 @@ const Navbar = () => {
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
               <MousePointerClick className="h-8 w-8 text-pink-600" />
-              <span className="ml-2 text-2xl font-bold text-pink-600">Gclick</span>
+              <span className="ml-2 text-2xl font-bold text-pink-600">G-Click</span>
             </Link>
           </div>
           

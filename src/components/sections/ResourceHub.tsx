@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, Video, Users, Download, ArrowRight } from 'lucide-react';
+import { BookOpen, Video, Users, Download, ArrowRight as ArrowRightIcon } from 'lucide-react';
 import type { Resource } from '../../types/resource';
 
 const resources: Resource[] = [
@@ -58,7 +58,7 @@ const ResourceHub = () => {
                   className="inline-flex items-center text-pink-600 hover:text-pink-700"
                 >
                   Access Resource
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <ArrowRightIcon className="ml-2 h-4 w-4" />
                 </a>
               </div>
             );
