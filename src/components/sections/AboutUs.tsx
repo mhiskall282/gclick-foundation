@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award, Users, TrendingUp } from 'lucide-react';
+import { Award, Users, TrendingUp, Linkedin, Twitter } from 'lucide-react';
 import type { TeamMember } from '../../types';
 
 const teamMembers: TeamMember[] = [
@@ -7,13 +7,17 @@ const teamMembers: TeamMember[] = [
     id: 1,
     name: "Miss Wintima Akudugu",
     role: "Founder & CEO",
-    image: "/images/wintima.jpg"
+    image: "/images/wintima.jpg",
+    linkedin: "https://www.linkedin.com",
+    twitter: "https://x.com/"
   },
   {
     id: 2,
     name: "Miss Esther Gyimah",
     role: "Head of Programs and Operations",
-    image: "/images/EG.jpg"
+    image: "/images/EG.jpg",
+    linkedin: "https://www.linkedin.com",
+    twitter: "https://x.com/"
   },
   {
     id: 3,
