@@ -23,7 +23,9 @@ const teamMembers: TeamMember[] = [
     id: 3,
     name: "Sofia Rodriguez",
     role: "Community Manager",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400"
+    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400",
+    linkedin: "https://www.linkedin.com",
+    twitter: "https://x.com/"
   }
 ];
 
@@ -76,6 +78,20 @@ const AboutUs = () => {
                 <div className="mt-4">
                   <h4 className="text-lg font-bold text-gray-900">{member.name}</h4>
                   <p className="text-pink-600">{member.role}</p>
+                </div>
+                
+                {/* Social Media Icons */}
+                <div className="mt-4 flex justify-center space-x-4">
+                  {member.linkedin && (
+                    <a href={member.linkedin} target="_blank" rel="noopener noreferrer">
+                      <Linkedin className="h-6 w-6 text-blue-700 hover:text-blue-500" />
+                    </a>
+                  )}
+                  {member.twitter && (
+                    <a href={member.twitter} target="_blank" rel="noopener noreferrer">
+                      <Twitter className="h-6 w-6 text-blue-400 hover:text-blue-300" />
+                    </a>
+                  )}
                 </div>
               </div>
             ))}
