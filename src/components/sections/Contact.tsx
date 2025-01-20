@@ -37,7 +37,7 @@ const Contact = () => {
               <Mail className="h-6 w-6 text-pink-600 mt-1" />
               <div className="ml-4">
                 <h3 className="text-lg font-medium text-gray-900">Email</h3>
-                <p className="mt-1 text-gray-600">contact@gclick.com</p>
+                <p className="mt-1 text-gray-600">g.click4change@gmail.com</p>
               </div>
             </div>
 
@@ -45,7 +45,7 @@ const Contact = () => {
               <Phone className="h-6 w-6 text-pink-600 mt-1" />
               <div className="ml-4">
                 <h3 className="text-lg font-medium text-gray-900">Phone</h3>
-                <p className="mt-1 text-gray-600">+1 (555) 123-4567</p>
+                <p className="mt-1 text-gray-600">+233246010890 , +233507092947 </p>
               </div>
             </div>
 
@@ -53,7 +53,7 @@ const Contact = () => {
               <MapPin className="h-6 w-6 text-pink-600 mt-1" />
               <div className="ml-4">
                 <h3 className="text-lg font-medium text-gray-900">Location</h3>
-                <p className="mt-1 text-gray-600">123 Innovation Street<br />Tech City, TC 12345</p>
+                <p className="mt-1 text-gray-600">University of Education, Winneba.<br />T P. O. Box 25. Winneba.</p>
               </div>
             </div>
           </div>
