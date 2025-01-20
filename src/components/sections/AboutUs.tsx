@@ -7,13 +7,13 @@ const teamMembers: TeamMember[] = [
     id: 1,
     name: "Miss Wintima Akudugu",
     role: "Founder & CEO",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400"
+    image: "/images/wintima.jpg"
   },
   {
     id: 2,
     name: "Miss Esther Gyimah",
     role: "Head of Programs and Operations",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400"
+    image: "/images/EG.jpg"
   },
   {
     id: 3,
