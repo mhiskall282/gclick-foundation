@@ -5,14 +5,14 @@ import type { TeamMember } from '../../types';
 const teamMembers: TeamMember[] = [
   {
     id: 1,
-    name: "Dr. Emily Chen",
-    role: "Executive Director",
+    name: "Miss Wintima Akudugu",
+    role: "Founder & CEO",
     image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400"
   },
   {
     id: 2,
-    name: "James Wilson",
-    role: "Head of Programs",
+    name: "Miss Esther Gyimah",
+    role: "Head of Programs and Operations",
     image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400"
   },
   {
