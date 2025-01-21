@@ -39,7 +39,7 @@ const Footer = () => {
               <a href="https://facebook.com" className="text-gray-400 hover:text-pink-500">
                 <Facebook className="h-6 w-6" />
               </a>
-              <a href="https;//x.com" className="text-gray-400 hover:text-pink-500">
+              <a href="https://x.com" className="text-gray-400 hover:text-pink-500">
                 <Twitter className="h-6 w-6" />
               </a>
               <a href="https://instagram.com" className="text-gray-400 hover:text-pink-500">
@@ -54,16 +54,19 @@ const Footer = () => {
             </div>
             <div className="mt-4">
               <p className="text-gray-400">Email: g.click4change@gmail.com</p>
-              <p className="text-gray-400">Phone: +233 24 601 0890 <br />
-  +233 50 709 2947 <br />+233 26 448 5766
-</p>
+              <p className="text-gray-400">
+                Phone: 
+                <br />+233 24 601 0890
+                <br />+233 50 709 2947
+                <br />+233 26 448 5766
+              </p>
             </div>
           </div>
         </div>
 
         <div className="mt-8 pt-8 border-t border-gray-800">
           <p className="text-center text-gray-400">
-            © {currentYear} Blacks Tech Africa. All rights reserved.
+            © {currentYear} G-Click. All rights reserved.
           </p>
         </div>
       </div>
