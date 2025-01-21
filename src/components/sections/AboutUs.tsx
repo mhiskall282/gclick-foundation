@@ -13,9 +13,9 @@ const teamMembers: TeamMember[] = [
   },
   {
     id: 2,
-    name: "Miss Esther Gyimah",
+    name: "Ms. Esther Gyimah",
     role: "Head of Programs and Operations",
-    image: "/images/EG.jpg",
+    image: "/images/EG.png",
     linkedin: "https://www.linkedin.com",
     twitter: "https://x.com/"
   },
