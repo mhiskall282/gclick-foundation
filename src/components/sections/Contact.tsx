@@ -19,25 +19,27 @@ const Contact = () => {
     setError('');
     setSuccess('');
 
-    const apiKey = '89914e5a-d53c-456d-aac7-9b60bbc68b93'; //API
+    const apiKey = '89914e5a-d53c-456d-aac7-9b60bbc68b93'; // Your Web3Forms API Key
 
     try {
+      // Making the POST request to Web3Forms API
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json',  // Ensure the data is sent as JSON
         },
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
           subject: formData.subject,
           message: formData.message,
-          api_key: apiKey
+          api_key: apiKey,  // Pass the API Key in the body
         }),
       });
 
       const data = await response.json();
 
+      // Check the success status
       if (data.success) {
         setSuccess('Your message has been sent successfully!');
         setFormData({
@@ -47,12 +49,13 @@ const Contact = () => {
           message: ''
         });
       } else {
-        setError('There was an issue sending your message. Please try again.');
+        setError(data.message || 'There was an issue sending your message. Please try again.');
       }
     } catch (err) {
+      // Catch any errors
       setError('An error occurred while submitting the form. Please try again later.');
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false);  // Reset submitting state
     }
   };
 
