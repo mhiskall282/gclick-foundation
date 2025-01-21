@@ -12,11 +12,55 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [validationErrors, setValidationErrors] = useState<any>({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
 
   const apiKey = '89914e5a-d53c-456d-aac7-9b60bbc68b93'; // Replace with your Web3Forms API key
 
+  const validateForm = () => {
+    const errors: any = {};
+
+    // Validate Name
+    if (!formData.name.trim()) {
+      errors.name = 'Name is required.';
+    }
+
+    // Validate Email
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (!formData.email.trim()) {
+      errors.email = 'Email is required.';
+    } else if (!emailRegex.test(formData.email)) {
+      errors.email = 'Please enter a valid email address.';
+    }
+
+    // Validate Subject
+    if (!formData.subject.trim()) {
+      errors.subject = 'Subject is required.';
+    }
+
+    // Validate Message
+    if (!formData.message.trim()) {
+      errors.message = 'Message is required.';
+    }
+
+    setValidationErrors(errors);
+
+    // Return false if there are validation errors
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate form data before submitting
+    if (!validateForm()) {
+      return; // Stop form submission if validation fails
+    }
+
     setIsSubmitting(true);
     setError('');
     setSuccess('');
@@ -123,6 +167,7 @@ const Contact = () => {
                 value={formData.name}
                 onChange={handleChange}
               />
+              {validationErrors.name && <p className="text-red-600 text-sm">{validationErrors.name}</p>}
             </div>
 
             <div>
@@ -138,6 +183,7 @@ const Contact = () => {
                 value={formData.email}
                 onChange={handleChange}
               />
+              {validationErrors.email && <p className="text-red-600 text-sm">{validationErrors.email}</p>}
             </div>
 
             <div>
@@ -153,6 +199,7 @@ const Contact = () => {
                 value={formData.subject}
                 onChange={handleChange}
               />
+              {validationErrors.subject && <p className="text-red-600 text-sm">{validationErrors.subject}</p>}
             </div>
 
             <div>
@@ -168,6 +215,7 @@ const Contact = () => {
                 value={formData.message}
                 onChange={handleChange}
               />
+              {validationErrors.message && <p className="text-red-600 text-sm">{validationErrors.message}</p>}
             </div>
 
             <button
