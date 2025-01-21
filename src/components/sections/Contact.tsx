@@ -22,8 +22,8 @@ const Contact = () => {
     const apiKey = '89914e5a-d53c-456d-aac7-9b60bbc68b93'; // Your Web3Forms API Key
 
     try {
-      // Making the POST request to Web3Forms API
-      const response = await fetch('https://api.web3forms.com/submit', {
+      // Correctly pass the API key as a query parameter
+      const response = await fetch(`https://api.web3forms.com/submit?api_key=${apiKey}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',  // Ensure the data is sent as JSON
@@ -33,7 +33,6 @@ const Contact = () => {
           email: formData.email,
           subject: formData.subject,
           message: formData.message,
-          api_key: apiKey,  // Pass the API Key in the body
         }),
       });
 
