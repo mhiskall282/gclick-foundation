@@ -9,10 +9,51 @@ const Contact = () => {
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
+    setIsSubmitting(true);
+    setError('');
+    setSuccess('');
+
+    const apiKey = '89914e5a-d53c-456d-aac7-9b60bbc68b93'; //API
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          api_key: apiKey
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSuccess('Your message has been sent successfully!');
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+      } else {
+        setError('There was an issue sending your message. Please try again.');
+      }
+    } catch (err) {
+      setError('An error occurred while submitting the form. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -60,6 +101,9 @@ const Contact = () => {
 
           {/* Contact Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
+            {error && <div className="text-red-600">{error}</div>}
+            {success && <div className="text-green-600">{success}</div>}
+
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                 Name
@@ -122,9 +166,10 @@ const Contact = () => {
 
             <button
               type="submit"
-              className="w-full bg-pink-600 text-white py-2 px-4 rounded-md hover:bg-pink-700 transition-colors"
+              className={`w-full bg-pink-600 text-white py-2 px-4 rounded-md hover:bg-pink-700 transition-colors ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+              disabled={isSubmitting}
             >
-              Send Message
+              {isSubmitting ? 'Sending...' : 'Send Message'}
             </button>
           </form>
         </div>
