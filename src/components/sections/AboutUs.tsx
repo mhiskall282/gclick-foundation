@@ -7,7 +7,7 @@ const teamMembers: TeamMember[] = [
     id: 1,
     name: "Miss Wintima Akudugu",
     role: "Founder & CEO",
-    image: "/images/wintima.jpg",
+    image: "/images/wintima.png",
     linkedin: "https://www.linkedin.com",
     twitter: "https://x.com/"
   },
