@@ -22,22 +22,26 @@ const Contact = () => {
     setSuccess('');
 
     try {
-      // Create a FormData object
-      const formDataToSend = new FormData(e.target as HTMLFormElement);
-      formDataToSend.append('access_key', apiKey);
+      // Create the request body in JSON format
+      const body = JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        access_key: apiKey,  // Your Web3Forms API key
+      });
 
-      const object = Object.fromEntries(formDataToSend);
-      const json = JSON.stringify(object);
-
+      // Ensure fetch uses POST method with correct headers and body
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
+          'Content-Type': 'application/json',  // JSON format for the request body
+          Accept: 'application/json',  // Accept JSON responses
         },
-        body: json
+        body: body,  // Send the body as JSON
       });
 
+      // Get the response and handle success or error
       const data = await response.json();
 
       if (data.success) {
