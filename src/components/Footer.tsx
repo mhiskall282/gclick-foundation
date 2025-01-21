@@ -36,25 +36,27 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Connect With Us</h3>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-pink-500">
+              <a href="https://facebook.com" className="text-gray-400 hover:text-pink-500">
                 <Facebook className="h-6 w-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-pink-500">
+              <a href="https;//x.com" className="text-gray-400 hover:text-pink-500">
                 <Twitter className="h-6 w-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-pink-500">
+              <a href="https://instagram.com" className="text-gray-400 hover:text-pink-500">
                 <Instagram className="h-6 w-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-pink-500">
+              <a href="https://www.linkedin.com" className="text-gray-400 hover:text-pink-500">
                 <Linkedin className="h-6 w-6" />
               </a>
-              <a href="mailto:contact@gclick.com" className="text-gray-400 hover:text-pink-500">
+              <a href="mailto:g.click4change@gmail.com" className="text-gray-400 hover:text-pink-500">
                 <Mail className="h-6 w-6" />
               </a>
             </div>
             <div className="mt-4">
-              <p className="text-gray-400">Email: contact@gclick.com</p>
-              <p className="text-gray-400">Phone: +1 (555) 123-4567</p>
+              <p className="text-gray-400">Email: g.click4change@gmail.com</p>
+              <p className="text-gray-400">Phone: +233 24 601 0890 <br />
+  +233 50 709 2947 <br />+233 26 448 5766
+</p>
             </div>
           </div>
         </div>
