@@ -252,7 +252,7 @@ const DonatePage = () => {
                 Secured via Paystack Gateway • SSL Secure
               </div>
 
-              <button type="submit" className="w-full py-4 bg-brand-emerald text-brand-dark-obsidian rounded-xl font-bold hover:bg-brand-emerald/90 transition-all text-sm shadow-lg shadow-brand-emerald/15">
+              <button type="submit" className="w-full py-4 bg-brand-emerald text-brand-dark-obsidian rounded-xl font-bold hover:bg-brand-emerald/90 transition-all text-sm shadow-lg shadow-brand-pink/30">
                 Authorize {formatMoney(sliderValue)}
               </button>
             </form>

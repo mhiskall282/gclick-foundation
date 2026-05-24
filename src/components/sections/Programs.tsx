@@ -28,7 +28,7 @@ const Programs = () => {
           {programsData.map((program) => (
             <div
               key={program.id}
-              className="bg-brand-dark-card border border-brand-dark-border rounded-3xl overflow-hidden shadow-2xl hover:border-brand-emerald/40 hover:shadow-glow transition-all duration-300 flex flex-col justify-between group"
+              className="bg-brand-dark-card border border-brand-dark-border rounded-3xl overflow-hidden shadow-2xl hover:border-brand-pink/40 hover:shadow-glow transition-all duration-300 flex flex-col justify-between group"
             >
               <div>
                 <div className="relative h-48 overflow-hidden border-b border-brand-dark-border">
@@ -43,7 +43,7 @@ const Programs = () => {
                   </div>
                 </div>
                 <div className="p-6 space-y-3">
-                  <h3 className="text-xl font-display font-bold text-white group-hover:text-brand-emerald transition-colors leading-tight">
+                  <h3 className="text-xl font-display font-bold text-white group-hover:text-brand-pink transition-colors leading-tight">
                     {program.title}
                   </h3>
                   <p className="text-gray-400 text-sm leading-relaxed">{program.description}</p>
