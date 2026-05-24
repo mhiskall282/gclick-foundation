@@ -1,72 +1,62 @@
 import React from 'react';
-import { BookOpen, Users, Video, Brain } from 'lucide-react';
-import type { Program } from '../../types';
-
-const programs: Program[] = [
-  {
-    id: 1,
-    title: "Mentorship Program",
-    description: "Connect with industry experts who will guide your professional journey",
-    image: "https://images.unsplash.com/photo-1531545514256-b1400bc00f31?auto=format&fit=crop&q=80&w=800",
-  },
-  {
-    id: 2,
-    title: "Skills Workshop",
-    description: "Hands-on training sessions to develop practical skills",
-    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800",
-  },
-  {
-    id: 3,
-    title: "Online Courses",
-    description: "Self-paced learning with expert-curated content",
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=800",
-  },
-  {
-    id: 4,
-    title: "Innovation Lab",
-    description: "Explore cutting-edge technologies and creative solutions",
-    image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80&w=800",
-  },
-];
+import { ArrowRight, Sparkles } from 'lucide-react';
+import { programsData } from '../../data/programsData';
+import { Link } from 'react-router-dom';
 
 const Programs = () => {
   return (
-    <section id="programs" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-            Our Programs
+    <section id="programs" className="py-28 bg-brand-dark-obsidian text-white border-y border-brand-dark-border relative overflow-hidden supabase-grid">
+      {/* Decorative Radial Glows */}
+      <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-brand-emerald/5 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-brand-purple/5 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="text-center max-w-2xl mx-auto space-y-4 mb-20">
+          <span className="inline-flex items-center text-xs uppercase tracking-wider text-brand-emerald font-bold bg-brand-emerald/10 px-4 py-2 rounded-full border border-brand-emerald/20">
+            <Sparkles className="h-3.5 w-3.5 mr-2" />
+            Empowering Curricula
+          </span>
+          <h2 className="text-4xl md:text-5xl font-display font-extrabold text-white tracking-tight leading-none">
+            Educational Tracks
           </h2>
-          <p className="mt-4 text-xl text-gray-600">
-            Discover opportunities that align with your goals
+          <p className="text-gray-400 text-base md:text-lg">
+            Syllabi engineered in collaboration with industry experts to accelerate your developer journey.
           </p>
         </div>
 
-        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {programs.map((program) => (
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {programsData.map((program) => (
             <div
               key={program.id}
-              className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+              className="bg-brand-dark-card border border-brand-dark-border rounded-3xl overflow-hidden shadow-2xl hover:border-brand-emerald/40 hover:shadow-glow transition-all duration-300 flex flex-col justify-between group"
             >
-              <div className="relative h-48">
-                <img
-                  src={program.image}
-                  alt={program.title}
-                  className="w-full h-full object-cover"
-                />
+              <div>
+                <div className="relative h-48 overflow-hidden border-b border-brand-dark-border">
+                  <img
+                    src={program.image}
+                    alt={program.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
+                    loading="lazy"
+                  />
+                  <div className="absolute top-4 right-4 bg-brand-dark-obsidian/85 backdrop-blur-md px-3 py-1 rounded-full text-brand-emerald text-xs font-bold border border-brand-dark-border">
+                    {program.duration || 'Flexible'}
+                  </div>
+                </div>
+                <div className="p-6 space-y-3">
+                  <h3 className="text-xl font-display font-bold text-white group-hover:text-brand-emerald transition-colors leading-tight">
+                    {program.title}
+                  </h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">{program.description}</p>
+                </div>
               </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-gray-900">{program.title}</h3>
-                <p className="mt-2 text-gray-600">{program.description}</p>
-                <a
-                  href={`/programs/${program.id}`}
-                  className="mt-4 inline-flex items-center text-pink-600 hover:text-pink-700"
+              <div className="p-6 pt-0">
+                <Link
+                  to={`/programs/${program.id}`}
+                  className="inline-flex items-center text-xs font-bold uppercase tracking-wider text-brand-emerald hover:text-white transition-colors"
                 >
-                  Learn more
-                  <svg className="ml-2 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </a>
+                  Configure Stack
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
               </div>
             </div>
           ))}
@@ -77,3 +67,4 @@ const Programs = () => {
 };
 
 export default Programs;
+

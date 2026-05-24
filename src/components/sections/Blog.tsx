@@ -1,62 +1,63 @@
 import React from 'react';
 import { Calendar, ArrowRight } from 'lucide-react';
-import type { BlogPost } from '../../types';
-
-const blogPosts: BlogPost[] = [
-  {
-    id: 1,
-    title: "The Future of Digital Education",
-    excerpt: "Exploring how AI and machine learning are transforming educational experiences...",
-    date: "2024-03-15",
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=800"
-  },
-  {
-    id: 2,
-    title: "Success Story: From Student to Tech Lead",
-    excerpt: "Meet Sarah, who transformed her career through our mentorship program...",
-    date: "2024-03-10",
-    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800"
-  },
-  {
-    id: 3,
-    title: "Building Inclusive Tech Communities",
-    excerpt: "How we're working to create more diverse and inclusive spaces in tech...",
-    date: "2024-03-05",
-    image: "https://images.unsplash.com/photo-1531545514256-b1400bc00f31?auto=format&fit=crop&q=80&w=800"
-  }
-];
+import { blogData } from '../../data/blogData';
+import { Link } from 'react-router-dom';
 
 const Blog = () => {
   return (
-    <section id="blog" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Latest Updates</h2>
-          <p className="mt-4 text-xl text-gray-600">Stay informed with our latest news and stories</p>
+    <section id="blog" className="py-24 bg-white relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-pink/5 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="text-center max-w-2xl mx-auto space-y-4 mb-16">
+          <span className="inline-block text-xs uppercase tracking-widest text-brand-pink font-bold bg-brand-pink/10 px-4 py-1.5 rounded-full border border-brand-pink/20">
+            Latest Updates
+          </span>
+          <h2 className="text-4xl md:text-5xl font-display font-extrabold text-brand-dark tracking-tight leading-none">
+            News & Insights
+          </h2>
+          <p className="text-brand-charcoal/70 text-lg">
+            Stay informed with our latest reports, workshop logs, and community updates.
+          </p>
         </div>
 
         <div className="grid gap-8 md:grid-cols-3">
-          {blogPosts.map((post) => (
-            <article key={post.id} className="bg-white rounded-lg shadow-lg overflow-hidden">
-              <img
-                className="w-full h-48 object-cover"
-                src={post.image}
-                alt={post.title}
-              />
-              <div className="p-6">
-                <div className="flex items-center text-sm text-gray-500 mb-2">
-                  <Calendar className="h-4 w-4 mr-2" />
-                  {new Date(post.date).toLocaleDateString()}
+          {blogData.map((post) => (
+            <article 
+              key={post.id} 
+              className="bg-[#FCFAF7] border border-brand-sand rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
+            >
+              <div>
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                    src={post.image}
+                    alt={post.title}
+                    loading="lazy"
+                  />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{post.title}</h3>
-                <p className="text-gray-600 mb-4">{post.excerpt}</p>
-                <a
-                  href={`/blog/${post.id}`}
-                  className="inline-flex items-center text-pink-600 hover:text-pink-700"
+                <div className="p-6 space-y-3">
+                  <div className="flex items-center text-xs font-semibold text-brand-charcoal/50 uppercase tracking-wider gap-3">
+                    <span className="flex items-center">
+                      <Calendar className="h-3.5 w-3.5 mr-1" />
+                      {new Date(post.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
+                    </span>
+                    <span>•</span>
+                    <span>{post.readTime}</span>
+                  </div>
+                  <h3 className="text-xl font-display font-bold text-brand-dark leading-tight">{post.title}</h3>
+                  <p className="text-brand-charcoal/75 text-sm leading-relaxed">{post.excerpt}</p>
+                </div>
+              </div>
+              <div className="p-6 pt-0">
+                <Link
+                  to={`/blog/${post.id}`}
+                  className="inline-flex items-center text-xs font-bold uppercase tracking-wider text-brand-pink hover:text-brand-purple transition-colors"
                 >
-                  Read more
+                  Read Article
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
+                </Link>
               </div>
             </article>
           ))}
@@ -66,4 +67,4 @@ const Blog = () => {
   );
 };
 
-export default Blog;
+export default Blog;

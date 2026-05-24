@@ -1,45 +1,55 @@
 import React from 'react';
-import { BookOpen, Video, Users, Download, ArrowRight as ArrowRightIcon } from 'lucide-react';
+import { BookOpen, Video, Users, Download, ArrowRight } from 'lucide-react';
 import type { Resource } from '../../types/resource';
 
 const resources: Resource[] = [
   {
     id: 1,
     title: "Learning Materials",
-    description: "Access our comprehensive library of educational resources",
+    description: "Access our comprehensive library of educational slides, guides, and checklists.",
     icon: BookOpen,
-    link: "/resources/materials"
+    link: "#"
   },
   {
     id: 2,
-    title: "Workshop Recordings",
-    description: "Watch recordings of our past workshops and training sessions",
+    title: "Workshop Videos",
+    description: "Watch full recordings of our past software development workshops and panels.",
     icon: Video,
-    link: "/resources/workshops"
+    link: "#"
   },
   {
     id: 3,
-    title: "Mentorship Guide",
-    description: "Learn how to make the most of your mentorship journey",
+    title: "Mentorship Guides",
+    description: "Learn how to establish relationships and set roadmap goals with your mentors.",
     icon: Users,
-    link: "/resources/mentorship"
+    link: "#"
   },
   {
     id: 4,
-    title: "Downloadable Templates",
-    description: "Get started with our professional development templates",
+    title: "Developer Kits",
+    description: "Get started quickly with structured CV templates, Git guides, and IDE setups.",
     icon: Download,
-    link: "/resources/templates"
+    link: "#"
   }
 ];
 
 const ResourceHub = () => {
   return (
-    <section id="resources" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Resource Hub</h2>
-          <p className="mt-4 text-xl text-gray-600">Everything you need to succeed in your journey</p>
+    <section id="resources" className="py-24 bg-brand-cream relative overflow-hidden">
+      {/* Decorative backdrop glow */}
+      <div className="absolute bottom-12 left-12 w-[350px] h-[350px] bg-brand-purple/5 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="text-center max-w-2xl mx-auto space-y-4 mb-16">
+          <span className="inline-block text-xs uppercase tracking-widest text-brand-purple font-bold bg-brand-purple/10 px-4 py-1.5 rounded-full border border-brand-purple/20">
+            Developer Toolkit
+          </span>
+          <h2 className="text-4xl md:text-5xl font-display font-extrabold text-brand-dark tracking-tight leading-none">
+            Resource Hub
+          </h2>
+          <p className="text-brand-charcoal/70 text-lg">
+            Everything you need to accelerate your learning journey and build projects.
+          </p>
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -48,18 +58,24 @@ const ResourceHub = () => {
             return (
               <div
                 key={resource.id}
-                className="bg-white rounded-lg p-8 shadow-lg hover:shadow-xl transition-shadow"
+                className="bg-white border border-brand-sand rounded-3xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
               >
-                <Icon className="h-8 w-8 text-pink-600 mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{resource.title}</h3>
-                <p className="text-gray-600 mb-4">{resource.description}</p>
-                <a
-                  href={resource.link}
-                  className="inline-flex items-center text-pink-600 hover:text-pink-700"
-                >
-                  Access Resource
-                  <ArrowRightIcon className="ml-2 h-4 w-4" />
-                </a>
+                <div className="space-y-4">
+                  <div className="w-12 h-12 rounded-2xl bg-brand-cream border border-brand-sand flex items-center justify-center">
+                    <Icon className="h-5 w-5 text-brand-purple" />
+                  </div>
+                  <h3 className="text-xl font-display font-bold text-brand-dark leading-tight">{resource.title}</h3>
+                  <p className="text-brand-charcoal/75 text-sm leading-relaxed">{resource.description}</p>
+                </div>
+                <div className="pt-6">
+                  <button
+                    onClick={() => alert(`This resource is preparing for release. Join our newsletter to receive it first!`)}
+                    className="inline-flex items-center text-xs font-bold uppercase tracking-wider text-brand-pink hover:text-brand-purple transition-colors"
+                  >
+                    Access Resource
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </button>
+                </div>
               </div>
             );
           })}
@@ -69,4 +85,4 @@ const ResourceHub = () => {
   );
 };
 
-export default ResourceHub;
+export default ResourceHub;

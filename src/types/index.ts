@@ -13,6 +13,9 @@ export interface Program {
   title: string;
   description: string;
   image: string;
+  duration?: string;
+  syllabus?: string[];
+  details?: string;
 }
 
 export interface BlogPost {

@@ -1,134 +1,67 @@
 import React from 'react';
-import { Heart, Star, Shield, Award } from 'lucide-react';
+import { Heart, Star, Shield, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-const sponsorshipTiers = [
-  {
-    id: 1,
-    name: "Supporter",
-    price: "25",
-    icon: Heart,
-    features: [
-      "Recognition on our website",
-      "Monthly newsletter updates",
-      "Impact report access"
-    ]
-  },
-  {
-    id: 2,
-    name: "Champion",
-    price: "100",
-    icon: Star,
-    features: [
-      "All Supporter benefits",
-      "Exclusive event invitations",
-      "Quarterly impact meetings",
-      "Social media recognition"
-    ]
-  },
-  {
-    id: 3,
-    name: "Partner",
-    price: "500",
-    icon: Shield,
-    features: [
-      "All Champion benefits",
-      "Featured sponsor spotlight",
-      "Program naming rights",
-      "VIP event access",
-      "Custom impact report"
-    ]
-  }
-];
+const DonateTeaser = () => {
+  const impactMetrics = [
+    {
+      id: 1,
+      metric: "$25",
+      impact: "Provides learning materials, coding textbooks, and digital curriculum setups for one student."
+    },
+    {
+      id: 2,
+      metric: "$100",
+      impact: "Sponsors a complete weekend code workshop session with internet connectivity and lab hours."
+    },
+    {
+      id: 3,
+      metric: "$500",
+      impact: "Funds a full 12-week mentorship program and placement matching for a student leader."
+    }
+  ];
 
-const impactMetrics = [
-  {
-    id: 1,
-    metric: "$25",
-    impact: "Provides learning materials for one student"
-  },
-  {
-    id: 2,
-    metric: "$100",
-    impact: "Sponsors a full workshop session"
-  },
-  {
-    id: 3,
-    metric: "$500",
-    impact: "Funds a complete mentorship program"
-  }
-];
-
-const Donate = () => {
   return (
-    <section className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Support Our Mission</h2>
-          <p className="mt-4 text-xl text-gray-600">Help us create more opportunities for growth and learning</p>
+    <section id="donate" className="py-24 bg-white relative overflow-hidden">
+      {/* Background ambient glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-pink/5 rounded-full blur-[130px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="text-center max-w-2xl mx-auto space-y-4 mb-16">
+          <span className="inline-block text-xs uppercase tracking-widest text-brand-pink font-bold bg-brand-pink/10 px-4 py-1.5 rounded-full border border-brand-pink/20">
+            Make an Impact
+          </span>
+          <h2 className="text-4xl md:text-5xl font-display font-extrabold text-brand-dark tracking-tight leading-none">
+            Support Our Mission
+          </h2>
+          <p className="text-brand-charcoal/70 text-lg">
+            Help us expand our operations, sponsor student resources, and build digital laboratories.
+          </p>
         </div>
 
-        {/* Impact Section */}
-        <div className="mb-16">
-          <h3 className="text-2xl font-bold text-center mb-8">Your Impact</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {impactMetrics.map((item) => (
-              <div key={item.id} className="bg-white p-6 rounded-lg shadow-md text-center">
-                <p className="text-3xl font-bold text-pink-600">{item.metric}</p>
-                <p className="mt-2 text-gray-600">{item.impact}</p>
-              </div>
-            ))}
-          </div>
+        {/* Impact Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-12">
+          {impactMetrics.map((item) => (
+            <div key={item.id} className="bg-[#FCFAF7] border border-brand-sand p-8 rounded-3xl text-center shadow-sm hover:shadow-lg transition-all duration-300">
+              <p className="text-4xl font-display font-extrabold text-brand-pink">{item.metric}</p>
+              <p className="mt-3 text-brand-charcoal/80 text-sm leading-relaxed">{item.impact}</p>
+            </div>
+          ))}
         </div>
 
-        {/* Sponsorship Tiers */}
-        <div className="grid gap-8 lg:grid-cols-3">
-          {sponsorshipTiers.map((tier) => {
-            const Icon = tier.icon;
-            return (
-              <div
-                key={tier.id}
-                className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
-              >
-                <div className="p-8">
-                  <Icon className="h-12 w-12 text-pink-600 mx-auto" />
-                  <h3 className="mt-4 text-2xl font-semibold text-center text-gray-900">
-                    {tier.name}
-                  </h3>
-                  <p className="mt-4 text-center">
-                    <span className="text-4xl font-bold text-gray-900">${tier.price}</span>
-                    <span className="text-gray-600">/month</span>
-                  </p>
-                  <ul className="mt-6 space-y-4">
-                    {tier.features.map((feature, index) => (
-                      <li key={index} className="flex items-center">
-                        <svg
-                          className="h-5 w-5 text-pink-600"
-                          fill="none"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span className="ml-3 text-gray-600">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <button
-                    className="mt-8 w-full bg-pink-600 text-white py-2 px-4 rounded-md hover:bg-pink-700 transition-colors"
-                  >
-                    Become a {tier.name}
-                  </button>
-                </div>
-              </div>
-            );
-          })}
+        {/* Call to Action button */}
+        <div className="text-center">
+          <Link
+            to="/donate"
+            className="inline-flex items-center px-8 py-4 bg-brand-pink hover:bg-brand-pink/90 text-white font-semibold rounded-full shadow-xl shadow-brand-pink/15 transition-all duration-300 hover:scale-105"
+          >
+            Go to Donation Portal
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
         </div>
       </div>
     </section>
   );
 };
 
-export default Donate;
+export default DonateTeaser;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Lock, User } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Lock, User, ArrowLeft } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
@@ -19,70 +19,82 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Admin Login
-          </h2>
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={handleLogin}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="username" className="sr-only">
-                Username
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  id="username"
-                  name="username"
-                  type="text"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-pink-500 focus:border-pink-500 focus:z-10 sm:text-sm"
-                  placeholder="Username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-pink-500 focus:border-pink-500 focus:z-10 sm:text-sm"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-            </div>
+    <div className="min-h-screen flex items-center justify-center bg-brand-cream py-12 px-6 relative overflow-hidden ambient-grain">
+      {/* Decorative backdrop glows */}
+      <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-brand-purple/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-brand-pink/5 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="max-w-md w-full relative z-10 space-y-8">
+        <Link to="/" className="inline-flex items-center text-sm font-semibold text-brand-charcoal/50 hover:text-brand-pink transition-colors">
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back to site
+        </Link>
+
+        <div className="bg-white border border-brand-sand rounded-3xl p-8 shadow-xl">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-display font-extrabold text-brand-dark">
+              Admin Login
+            </h2>
+            <p className="text-brand-charcoal/50 text-xs font-semibold uppercase tracking-wider mt-2">G-Click Console Access</p>
           </div>
 
-          {error && (
-            <div className="text-red-500 text-sm text-center">{error}</div>
-          )}
+          <form className="space-y-5" onSubmit={handleLogin}>
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="username" className="block text-xs font-semibold text-brand-charcoal/60 mb-1.5">
+                  Username
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                    <User className="h-4 w-4 text-brand-charcoal/40" />
+                  </div>
+                  <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    required
+                    className="w-full px-4 py-3 pl-10 border border-brand-sand rounded-xl bg-brand-cream text-sm focus:outline-none focus:border-brand-pink"
+                    placeholder="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                </div>
+              </div>
 
-          <div>
+              <div>
+                <label htmlFor="password" className="block text-xs font-semibold text-brand-charcoal/60 mb-1.5">
+                  Password
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                    <Lock className="h-4 w-4 text-brand-charcoal/40" />
+                  </div>
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    required
+                    className="w-full px-4 py-3 pl-10 border border-brand-sand rounded-xl bg-brand-cream text-sm focus:outline-none focus:border-brand-pink"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {error && (
+              <div className="text-red-600 text-xs font-semibold text-center bg-red-50 p-3 rounded-xl">{error}</div>
+            )}
+
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+              className="w-full py-4 bg-brand-pink text-white rounded-xl text-sm font-bold flex items-center justify-center transition-all shadow-lg shadow-brand-pink/15"
             >
               Sign in
             </button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );
