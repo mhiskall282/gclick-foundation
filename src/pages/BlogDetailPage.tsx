@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { blogData } from '../data/blogData';
-import { Calendar, User, Clock, ArrowLeft, Heart, Share2 } from 'lucide-react';
+import { Calendar, Clock, ArrowLeft, Heart, Share2 } from 'lucide-react';
 
 const BlogDetailPage = () => {
   const { id } = useParams<{ id: string }>();

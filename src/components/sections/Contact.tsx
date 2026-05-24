@@ -12,7 +12,7 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [validationErrors, setValidationErrors] = useState<any>({
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({
     name: '',
     email: '',
     subject: '',
@@ -23,7 +23,7 @@ const Contact = () => {
   const apiKey = import.meta.env.VITE_WEB3FORMS_KEY || '89914e5a-d53c-456d-aac7-9b60bbc68b93';
 
   const validateForm = () => {
-    const errors: any = {};
+    const errors: Record<string, string> = {};
 
     if (!formData.name.trim()) {
       errors.name = 'Name is required.';
@@ -90,7 +90,7 @@ const Contact = () => {
       } else {
         setError(data.message || 'There was an issue sending your message. Please try again.');
       }
-    } catch (err) {
+    } catch {
       setError('An error occurred while submitting the form. Please try again later.');
     } finally {
       setIsSubmitting(false);

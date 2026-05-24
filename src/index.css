@@ -81,3 +81,30 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Geeky terminal scanline overlay */
+.crt-overlay {
+  position: relative;
+}
+.crt-overlay::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.18) 50%);
+  background-size: 100% 4px;
+  z-index: 10;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Simulated terminal blinking cursor */
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #DB2777 } /* brand-pink */
+}
+.animate-cursor-blink {
+  border-right: 2px solid #DB2777;
+  animation: blink-caret 0.75s step-end infinite;
+}
+
