@@ -72,14 +72,18 @@
 /* Scroll reveal physics */
 .reveal-on-scroll {
   opacity: 0;
-  transform: translateY(24px);
-  will-change: transform, opacity;
-  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(28px) scale(0.97);
+  filter: blur(6px);
+  will-change: transform, opacity, filter;
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), 
+              filter 0.85s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .reveal-on-scroll.active {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
+  filter: blur(0px);
 }
 
 /* Geeky terminal scanline overlay */
@@ -106,5 +110,46 @@
 .animate-cursor-blink {
   border-right: 2px solid #DB2777;
   animation: blink-caret 0.75s step-end infinite;
+}
+
+/* Premium Vercel-style 1px hover border sweep */
+.hover-border-glow {
+  position: relative;
+  transition: border-color 0.3s ease;
+}
+.hover-border-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, transparent 0%, transparent 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: background 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+  z-index: 5;
+}
+.hover-border-glow:hover::before {
+  background: linear-gradient(135deg, #DB2777 0%, #7C3AED 50%, transparent 100%);
+  opacity: 1;
+}
+
+/* Supabase-style dynamic laser lines */
+@keyframes beam-flow {
+  0% { transform: translateY(-150%); }
+  100% { transform: translateY(150%); }
+}
+.grid-beam-vertical {
+  position: absolute;
+  width: 1px;
+  height: 250px;
+  background: linear-gradient(to bottom, transparent, #DB2777, #7C3AED, transparent);
+  animation: beam-flow 12s linear infinite;
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 1;
 }
 

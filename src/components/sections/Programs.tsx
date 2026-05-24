@@ -29,7 +29,7 @@ const Programs = () => {
             <div
               key={program.id}
               style={{ transitionDelay: `${index * 150}ms` }}
-              className="bg-brand-dark-card border border-brand-dark-border rounded-3xl overflow-hidden shadow-2xl hover:border-brand-pink/40 hover:shadow-glow transition-all duration-300 flex flex-col justify-between group reveal-on-scroll"
+              className="bg-brand-dark-card border border-brand-dark-border rounded-3xl overflow-hidden shadow-2xl hover:border-brand-pink/40 hover:shadow-glow transition-all duration-300 flex flex-col justify-between group reveal-on-scroll hover-border-glow"
             >
               <div>
                 <div className="relative h-48 overflow-hidden border-b border-brand-dark-border">

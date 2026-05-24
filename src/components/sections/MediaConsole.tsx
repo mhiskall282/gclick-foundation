@@ -80,7 +80,7 @@ const MediaConsole = () => {
         </div>
 
         {/* Console Container */}
-        <div className="w-full bg-brand-dark-card border border-brand-dark-border rounded-3xl overflow-hidden shadow-2xl grid grid-cols-1 lg:grid-cols-12 reveal-on-scroll">
+        <div className="w-full bg-brand-dark-card border border-brand-dark-border rounded-3xl overflow-hidden shadow-2xl grid grid-cols-1 lg:grid-cols-12 reveal-on-scroll hover-border-glow">
           
           {/* Left Column: Explorer Tree Sidebar */}
           <div className="lg:col-span-3 bg-brand-dark-obsidian/45 border-r border-brand-dark-border flex flex-col p-6 space-y-6">

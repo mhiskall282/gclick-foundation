@@ -38,6 +38,10 @@ const stats = [
 const AboutUs = () => {
   return (
     <section id="about" className="py-32 bg-brand-dark-obsidian text-white border-b border-brand-dark-border/50 relative overflow-hidden supabase-grid">
+      {/* Supabase-style Neon Grid Beams */}
+      <div className="grid-beam-vertical left-[8%] top-0" />
+      <div className="grid-beam-vertical right-[12%] bottom-0" />
+
       {/* Decorative pulse blur */}
       <div className="absolute top-12 right-12 w-[500px] h-[500px] bg-brand-pink/5 rounded-full blur-[140px] pointer-events-none animate-pulse-glow" />
       <div className="absolute bottom-12 -left-12 w-[350px] h-[350px] bg-brand-purple/5 rounded-full blur-[100px] pointer-events-none animate-pulse-glow" />
@@ -60,7 +64,7 @@ const AboutUs = () => {
           </div>
 
           {/* Glass Founder Card */}
-          <div className="lg:col-span-7 bg-brand-dark-card border border-brand-dark-border rounded-3xl p-8 shadow-2xl flex flex-col md:flex-row gap-8 items-center relative overflow-hidden group reveal-on-scroll" style={{ transitionDelay: '150ms' }}>
+          <div className="lg:col-span-7 bg-brand-dark-card border border-brand-dark-border rounded-3xl p-8 shadow-2xl flex flex-col md:flex-row gap-8 items-center relative overflow-hidden group reveal-on-scroll hover-border-glow" style={{ transitionDelay: '150ms' }}>
             <div className="absolute -top-12 -left-12 w-40 h-40 bg-brand-pink/10 rounded-full blur-3xl pointer-events-none group-hover:scale-110 transition-transform duration-500" />
             <img 
               src="/images/wintima.png" 
@@ -90,7 +94,7 @@ const AboutUs = () => {
               <div
                 key={stat.id}
                 style={{ transitionDelay: `${index * 150}ms` }}
-                className="bg-brand-dark-card border border-brand-dark-border rounded-3xl p-8 text-center shadow-md hover:shadow-2xl hover:border-brand-pink/30 hover:scale-[1.02] transition-all duration-300 relative overflow-hidden group reveal-on-scroll"
+                className="bg-brand-dark-card border border-brand-dark-border rounded-3xl p-8 text-center shadow-md hover:shadow-2xl hover:border-brand-pink/30 hover:scale-[1.02] transition-all duration-300 relative overflow-hidden group reveal-on-scroll hover-border-glow"
               >
                 {/* Horizontal Top Accent Line */}
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-pink to-brand-purple opacity-60 group-hover:opacity-100 transition-opacity" />
@@ -118,7 +122,7 @@ const AboutUs = () => {
               <div
                 key={member.id}
                 style={{ transitionDelay: `${index * 150}ms` }}
-                className="bg-brand-dark-card border border-brand-dark-border rounded-3xl overflow-hidden shadow-md hover:shadow-2xl hover:border-brand-pink/30 hover:scale-[1.01] transition-all duration-500 flex flex-col justify-between group reveal-on-scroll"
+                className="bg-brand-dark-card border border-brand-dark-border rounded-3xl overflow-hidden shadow-md hover:shadow-2xl hover:border-brand-pink/30 hover:scale-[1.01] transition-all duration-500 flex flex-col justify-between group reveal-on-scroll hover-border-glow"
               >
                 {/* Image overlay box */}
                 <div className="relative aspect-[4/5] overflow-hidden">

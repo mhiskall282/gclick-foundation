@@ -58,9 +58,11 @@ const ScrollToHash = () => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('active');
+        } else {
+          entry.target.classList.remove('active');
         }
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    }, { threshold: 0.05, rootMargin: '-20px 0px -20px 0px' });
 
     // Wait a brief tick for render updates
     const timer = setTimeout(() => {
