@@ -6,8 +6,8 @@
   html {
     scroll-behavior: smooth;
     font-family: 'Plus Jakarta Sans', sans-serif;
-    background-color: #FCFAF7; /* brand.cream */
-    color: #1A1C23;            /* brand.charcoal */
+    background-color: #0C0C0D; /* brand.dark-obsidian */
+    color: #FCFAF7;            /* brand.cream */
   }
 }
 
@@ -29,14 +29,14 @@
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #FCFAF7;
+  background: #0C0C0D;
 }
 ::-webkit-scrollbar-thumb {
-  background: #EBEAEF;
+  background: #2E2E33;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #D4AF37;
+  background: #DB2777;
 }
 
 /* Supabase-style background dot patterns */
@@ -46,7 +46,7 @@
 }
 
 .supabase-grid-light {
-  background-image: radial-gradient(#E5E5EB 1px, transparent 1px);
+  background-image: radial-gradient(#2E2E33 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
@@ -81,4 +81,3 @@
   opacity: 1;
   transform: translateY(0);
 }
-

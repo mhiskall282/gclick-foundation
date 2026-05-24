@@ -35,19 +35,19 @@ const resources: Resource[] = [
 
 const ResourceHub = () => {
   return (
-    <section id="resources" className="py-24 bg-brand-cream relative overflow-hidden">
+    <section id="resources" className="py-32 bg-brand-dark-obsidian text-white border-b border-brand-dark-border/50 relative overflow-hidden supabase-grid">
       {/* Decorative backdrop glow */}
-      <div className="absolute bottom-12 left-12 w-[350px] h-[350px] bg-brand-purple/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-12 left-12 w-[350px] h-[350px] bg-brand-purple/5 rounded-full blur-[100px] pointer-events-none animate-pulse-glow" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center max-w-2xl mx-auto space-y-4 mb-16 reveal-on-scroll">
+        <div className="text-center max-w-2xl mx-auto space-y-4 mb-20 reveal-on-scroll">
           <span className="inline-block text-xs uppercase tracking-widest text-brand-purple font-bold bg-brand-purple/10 px-4 py-1.5 rounded-full border border-brand-purple/20">
             Developer Toolkit
           </span>
-          <h2 className="text-4xl md:text-5xl font-display font-extrabold text-brand-dark tracking-tight leading-none">
+          <h2 className="text-4xl md:text-5xl font-display font-extrabold text-white tracking-tight leading-none">
             Resource Hub
           </h2>
-          <p className="text-brand-charcoal/70 text-lg">
+          <p className="text-gray-400 text-base md:text-lg">
             Everything you need to accelerate your learning journey and build projects.
           </p>
         </div>
@@ -59,22 +59,28 @@ const ResourceHub = () => {
               <div
                 key={resource.id}
                 style={{ transitionDelay: `${index * 150}ms` }}
-                className="bg-white border border-brand-sand rounded-3xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-1.5 hover:border-brand-pink/30 transition-all duration-300 flex flex-col justify-between reveal-on-scroll"
+                className="bg-brand-dark-card border border-brand-dark-border rounded-[32px] p-8 shadow-md hover:shadow-2xl hover:border-brand-pink/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between relative overflow-hidden group reveal-on-scroll"
               >
-                <div className="space-y-4">
-                  <div className="w-12 h-12 rounded-2xl bg-brand-cream border border-brand-sand flex items-center justify-center">
-                    <Icon className="h-5 w-5 text-brand-purple" />
+                {/* Tech Dotted Blueprint Backdrop */}
+                <div className="absolute inset-0 supabase-grid opacity-[0.12] pointer-events-none group-hover:opacity-[0.22] transition-opacity" />
+
+                <div className="space-y-4 relative z-10 text-left">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-pink/10 to-brand-purple/10 border border-brand-pink/20 flex items-center justify-center group-hover:rotate-3 transition-transform duration-300">
+                    <Icon className="h-5 w-5 text-brand-pink" />
                   </div>
-                  <h3 className="text-xl font-display font-bold text-brand-dark leading-tight">{resource.title}</h3>
-                  <p className="text-brand-charcoal/75 text-sm leading-relaxed">{resource.description}</p>
+                  <h3 className="text-xl font-display font-extrabold text-white leading-tight group-hover:text-brand-pink transition-colors">
+                    {resource.title}
+                  </h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">{resource.description}</p>
                 </div>
-                <div className="pt-6">
+
+                <div className="pt-6 relative z-10 text-left">
                   <button
                     onClick={() => alert(`This resource is preparing for release. Join our newsletter to receive it first!`)}
-                    className="inline-flex items-center text-xs font-bold uppercase tracking-wider text-brand-pink hover:text-brand-purple transition-colors"
+                    className="inline-flex items-center text-xs font-extrabold uppercase tracking-widest text-brand-pink group-hover:text-brand-purple transition-all duration-300"
                   >
                     Access Resource
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </button>
                 </div>
               </div>
@@ -86,4 +92,4 @@ const ResourceHub = () => {
   );
 };
 
-export default ResourceHub;
+export default ResourceHub;

@@ -30,11 +30,11 @@ const Navbar = () => {
   return (
     <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'py-3' : 'py-5'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className={`mx-auto max-w-5xl px-6 h-16 rounded-full flex items-center justify-between border transition-all duration-300 ${scrolled ? 'bg-brand-dark/80 backdrop-blur-md border-white/10 shadow-lg' : 'bg-white/80 backdrop-blur-md border-brand-sand shadow-sm'}`}>
+        <div className={`mx-auto max-w-5xl px-6 h-16 rounded-full flex items-center justify-between border transition-all duration-300 ${scrolled ? 'bg-brand-dark-card/90 backdrop-blur-md border-brand-dark-border shadow-lg shadow-black/20' : 'bg-brand-dark-obsidian/75 backdrop-blur-md border-brand-dark-border/50 shadow-sm'}`}>
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <MousePointerClick className={`h-6 w-6 mr-2 transition-colors ${scrolled ? 'text-brand-pink' : 'text-brand-purple'}`} />
-              <span className={`text-xl font-display font-extrabold tracking-tight transition-colors ${scrolled ? 'text-white' : 'text-brand-dark'}`}>
+              <MousePointerClick className="h-6 w-6 mr-2 text-brand-pink transition-colors" />
+              <span className="text-xl font-display font-extrabold tracking-tight text-white">
                 G-Click<span className="text-brand-pink">.</span>
               </span>
             </Link>
@@ -45,7 +45,7 @@ const Navbar = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`text-sm font-medium tracking-wide transition-colors hover:text-brand-pink ${scrolled ? 'text-gray-300' : 'text-brand-charcoal/80'}`}
+                className="text-sm font-medium tracking-wide transition-colors text-gray-300 hover:text-brand-pink"
               >
                 {item.name}
               </Link>
@@ -61,7 +61,7 @@ const Navbar = () => {
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className={`p-2 rounded-full transition-colors ${scrolled ? 'text-white hover:bg-white/10' : 'text-brand-dark hover:bg-brand-sand'}`}
+              className="p-2 rounded-full transition-colors text-white hover:bg-white/10"
               aria-label="Toggle menu"
             >
               {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}

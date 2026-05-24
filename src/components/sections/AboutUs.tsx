@@ -37,71 +37,78 @@ const stats = [
 
 const AboutUs = () => {
   return (
-    <section id="about" className="py-24 bg-brand-cream relative overflow-hidden">
-      {/* Decorative Blur */}
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-brand-pink/5 rounded-full blur-[100px] pointer-events-none animate-pulse-glow" />
+    <section id="about" className="py-32 bg-brand-dark-obsidian text-white border-b border-brand-dark-border/50 relative overflow-hidden supabase-grid">
+      {/* Decorative pulse blur */}
+      <div className="absolute top-12 right-12 w-[500px] h-[500px] bg-brand-pink/5 rounded-full blur-[140px] pointer-events-none animate-pulse-glow" />
+      <div className="absolute bottom-12 -left-12 w-[350px] h-[350px] bg-brand-purple/5 rounded-full blur-[100px] pointer-events-none animate-pulse-glow" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
-        {/* Mission Statement & Founder Letter */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 mb-20 items-center">
-          <div className="lg:col-span-2 space-y-6 reveal-on-scroll">
-            <span className="inline-block text-xs uppercase tracking-widest text-brand-purple font-bold bg-brand-purple/10 px-4 py-1.5 rounded-full border border-brand-purple/20">
+        {/* Vision & Founder letter */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-24 items-center">
+          <div className="lg:col-span-5 space-y-6 reveal-on-scroll">
+            <span className="inline-block text-xs uppercase tracking-widest text-brand-pink font-bold bg-brand-pink/10 px-4 py-1.5 rounded-full border border-brand-pink/20">
               Our Vision
             </span>
-            <h2 className="text-4xl md:text-5xl font-display font-extrabold text-brand-dark tracking-tight leading-tight">
+            <h2 className="text-4xl md:text-5xl font-display font-extrabold text-white tracking-tight leading-[1.1]">
               Creating Digital <br />
               Opportunities
             </h2>
-            <p className="text-brand-charcoal/80 text-lg leading-relaxed">
+            <p className="text-gray-400 text-base md:text-lg leading-relaxed">
               At G-Click, we're dedicated to transforming lives through innovative web technologies and personalized mentorship, building sustainable pipelines of tech excellence in Ghana.
             </p>
           </div>
 
-          <div className="lg:col-span-3 bg-white border border-brand-sand rounded-3xl p-8 shadow-sm flex flex-col md:flex-row gap-8 items-center reveal-on-scroll" style={{ transitionDelay: '150ms' }}>
+          {/* Glass Founder Card */}
+          <div className="lg:col-span-7 bg-brand-dark-card border border-brand-dark-border rounded-3xl p-8 shadow-2xl flex flex-col md:flex-row gap-8 items-center relative overflow-hidden group reveal-on-scroll" style={{ transitionDelay: '150ms' }}>
+            <div className="absolute -top-12 -left-12 w-40 h-40 bg-brand-pink/10 rounded-full blur-3xl pointer-events-none group-hover:scale-110 transition-transform duration-500" />
             <img 
               src="/images/wintima.png" 
               alt="Founder Wintima Akudugu" 
-              className="w-36 h-36 rounded-full object-cover border-4 border-brand-cream shadow-md"
+              className="w-32 h-32 rounded-2xl object-cover border-2 border-brand-pink/20 shadow-2xl transition-transform duration-500 group-hover:scale-105 z-10"
             />
-            <div className="space-y-4">
-              <span className="text-xs uppercase tracking-wider text-brand-pink font-bold">Founder's Message</span>
-              <blockquote className="text-brand-charcoal/90 italic font-medium">
+            <div className="space-y-5 z-10 text-left">
+              <span className="text-[10px] tracking-widest uppercase text-brand-pink font-bold border border-brand-pink/20 bg-brand-pink/10 px-2.5 py-1 rounded-md">
+                Founder's Message
+              </span>
+              <blockquote className="text-gray-300 italic font-medium leading-relaxed border-l-2 border-brand-pink pl-4 text-sm md:text-base">
                 "Our goal is not just teaching syntax. We teach problem-solving, collaboration, and provide direct pathways to global tech teams."
               </blockquote>
               <div>
-                <p className="text-sm font-bold text-brand-dark">Miss Wintima Akudugu</p>
-                <p className="text-xs text-brand-charcoal/50">Founder & CEO, G-Click</p>
+                <p className="text-sm font-bold text-white">Miss Wintima Akudugu</p>
+                <p className="text-xs text-gray-500">Founder & CEO, G-Click</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Impact Statistics */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 mb-24">
+        {/* Redesigned Stat widgets */}
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 mb-32">
           {stats.map((stat, index) => {
             const Icon = stat.icon;
             return (
               <div
                 key={stat.id}
                 style={{ transitionDelay: `${index * 150}ms` }}
-                className="bg-white border border-brand-sand rounded-3xl p-8 text-center shadow-sm hover:shadow-lg transition-all duration-300 reveal-on-scroll"
+                className="bg-brand-dark-card border border-brand-dark-border rounded-3xl p-8 text-center shadow-md hover:shadow-2xl hover:border-brand-pink/30 hover:scale-[1.02] transition-all duration-300 relative overflow-hidden group reveal-on-scroll"
               >
-                <div className="w-12 h-12 rounded-2xl bg-brand-cream border border-brand-sand flex items-center justify-center mx-auto mb-4">
-                  <Icon className="h-5 w-5 text-brand-purple" />
+                {/* Horizontal Top Accent Line */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-pink to-brand-purple opacity-60 group-hover:opacity-100 transition-opacity" />
+                <div className="w-12 h-12 rounded-2xl bg-brand-dark-obsidian border border-brand-dark-border flex items-center justify-center mx-auto mb-4 group-hover:rotate-6 transition-transform duration-300">
+                  <Icon className="h-5 w-5 text-brand-pink" />
                 </div>
-                <p className="text-4xl font-display font-extrabold text-brand-dark">{stat.value}</p>
-                <p className="text-brand-charcoal/60 font-medium text-sm mt-1">{stat.name}</p>
+                <p className="text-5xl font-display font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-pink to-brand-purple mt-2">{stat.value}</p>
+                <p className="text-gray-400 font-semibold text-xs tracking-wider uppercase mt-2">{stat.name}</p>
               </div>
             );
           })}
         </div>
 
-        {/* Team Section */}
-        <div className="space-y-12">
+        {/* Leadership cards */}
+        <div className="space-y-16">
           <div className="text-center max-w-xl mx-auto space-y-3 reveal-on-scroll">
-            <h3 className="text-3xl font-display font-bold text-brand-dark">Our Leadership</h3>
-            <p className="text-brand-charcoal/70">
+            <h3 className="text-3xl font-display font-extrabold text-white tracking-tight leading-none">Our Leadership</h3>
+            <p className="text-gray-400 text-sm md:text-base">
               Meet the strategic core driving G-Click's educational operations on the ground.
             </p>
           </div>
@@ -111,27 +118,31 @@ const AboutUs = () => {
               <div
                 key={member.id}
                 style={{ transitionDelay: `${index * 150}ms` }}
-                className="bg-white border border-brand-sand rounded-3xl p-8 text-center shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 reveal-on-scroll"
+                className="bg-brand-dark-card border border-brand-dark-border rounded-3xl overflow-hidden shadow-md hover:shadow-2xl hover:border-brand-pink/30 hover:scale-[1.01] transition-all duration-500 flex flex-col justify-between group reveal-on-scroll"
               >
-                <img
-                  className="w-28 h-28 rounded-full mx-auto object-cover border-4 border-brand-cream shadow-md mb-6"
-                  src={member.image}
-                  alt={member.name}
-                />
-                <div className="space-y-1">
-                  <h4 className="text-lg font-bold text-brand-dark">{member.name}</h4>
-                  <p className="text-sm font-semibold text-brand-pink">{member.role}</p>
+                {/* Image overlay box */}
+                <div className="relative aspect-[4/5] overflow-hidden">
+                  <img
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter grayscale group-hover:grayscale-0"
+                    src={member.image}
+                    alt={member.name}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-90 group-hover:opacity-95 transition-opacity" />
+                  <div className="absolute bottom-6 left-6 right-6 text-left">
+                    <h4 className="text-xl font-display font-extrabold text-white">{member.name}</h4>
+                    <p className="text-brand-pink text-xs font-semibold tracking-widest uppercase mt-1">{member.role}</p>
+                  </div>
                 </div>
                 
-                {/* Social Media Icons */}
-                <div className="mt-6 flex justify-center space-x-3">
+                {/* Social links block */}
+                <div className="p-4 bg-brand-dark-card flex justify-center space-x-3.5 border-t border-brand-dark-border/50">
                   {member.linkedin && (
-                    <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="p-2 bg-brand-cream rounded-full text-brand-charcoal/50 hover:text-brand-purple hover:bg-brand-purple/10 transition-colors">
+                    <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="p-2.5 bg-brand-dark-obsidian hover:bg-brand-pink/15 rounded-xl text-gray-400 hover:text-brand-pink border border-brand-dark-border hover:border-brand-pink/30 transition-all" aria-label="LinkedIn Profile">
                       <Linkedin className="h-4 w-4" />
                     </a>
                   )}
                   {member.twitter && (
-                    <a href={member.twitter} target="_blank" rel="noopener noreferrer" className="p-2 bg-brand-cream rounded-full text-brand-charcoal/50 hover:text-brand-purple hover:bg-brand-purple/10 transition-colors">
+                    <a href={member.twitter} target="_blank" rel="noopener noreferrer" className="p-2.5 bg-brand-dark-obsidian hover:bg-brand-pink/15 rounded-xl text-gray-400 hover:text-brand-pink border border-brand-dark-border hover:border-brand-pink/30 transition-all" aria-label="Twitter Profile">
                       <Twitter className="h-4 w-4" />
                     </a>
                   )}

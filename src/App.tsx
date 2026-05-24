@@ -56,7 +56,7 @@ function App() {
   return (
     <Router>
       <ScrollToHash />
-      <div className="min-h-screen bg-[#FCFAF7] flex flex-col font-body">
+      <div className="min-h-screen bg-brand-dark-obsidian text-white flex flex-col font-body">
         <Navbar />
         <main className="flex-grow">
           <Routes>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Quote } from 'lucide-react';
 import type { Testimonial } from '../../types';
 
 const testimonials: Testimonial[] = [
@@ -27,19 +28,19 @@ const testimonials: Testimonial[] = [
 
 const Testimonials = () => {
   return (
-    <section className="py-24 bg-brand-cream relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-brand-purple/5 rounded-full blur-[80px] pointer-events-none" />
+    <section className="py-32 bg-brand-dark-obsidian text-white border-b border-brand-dark-border/50 relative overflow-hidden supabase-grid">
+      {/* Background ambient shape */}
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-brand-purple/5 rounded-full blur-[100px] pointer-events-none animate-pulse-glow" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center max-w-xl mx-auto space-y-4 mb-16 reveal-on-scroll">
+        <div className="text-center max-w-xl mx-auto space-y-4 mb-20 reveal-on-scroll">
           <span className="inline-block text-xs uppercase tracking-widest text-brand-purple font-bold bg-brand-purple/10 px-4 py-1.5 rounded-full border border-brand-purple/20">
             Success Stories
           </span>
-          <h2 className="text-4xl md:text-5xl font-display font-extrabold text-brand-dark tracking-tight">
+          <h2 className="text-4xl md:text-5xl font-display font-extrabold text-white tracking-tight">
             Community Voice
           </h2>
-          <p className="text-brand-charcoal/70">
+          <p className="text-gray-400 text-sm md:text-base">
             Hear from our graduates and project mentors.
           </p>
         </div>
@@ -49,21 +50,24 @@ const Testimonials = () => {
             <div
               key={testimonial.id}
               style={{ transitionDelay: `${index * 150}ms` }}
-              className="bg-white border border-brand-sand rounded-3xl p-8 shadow-sm hover:shadow-xl hover:border-brand-pink/30 hover:scale-[1.02] transition-all duration-300 flex flex-col justify-between reveal-on-scroll"
+              className="bg-brand-dark-card border-l-4 border-y border-r border-y-brand-dark-border border-r-brand-dark-border border-l-brand-pink rounded-r-3xl rounded-l-md p-8 shadow-md hover:shadow-2xl hover:border-brand-pink/35 hover:scale-[1.02] transition-all duration-300 flex flex-col justify-between relative overflow-hidden group reveal-on-scroll"
             >
-              <p className="text-brand-charcoal/80 italic leading-relaxed text-base mb-8">
+              {/* Background large quote symbol */}
+              <Quote className="absolute top-4 right-4 h-16 w-16 text-brand-pink/5 group-hover:text-brand-pink/10 transition-colors pointer-events-none" />
+
+              <p className="text-gray-300 italic leading-relaxed text-sm md:text-base mb-8 relative z-10">
                 "{testimonial.content}"
               </p>
               
-              <div className="flex items-center pt-4 border-t border-brand-sand">
+              <div className="flex items-center pt-5 border-t border-brand-dark-border/50 relative z-10">
                 <img
-                  className="h-11 w-11 rounded-full object-cover border border-brand-sand"
+                  className="h-12 w-12 rounded-2xl object-cover border-2 border-brand-dark-border shadow-md group-hover:scale-105 transition-transform duration-300"
                   src={testimonial.image}
                   alt={testimonial.name}
                 />
-                <div className="ml-3.5">
-                  <h3 className="text-sm font-bold text-brand-dark">{testimonial.name}</h3>
-                  <p className="text-xs font-semibold text-brand-pink">{testimonial.role}</p>
+                <div className="ml-3.5 text-left">
+                  <h3 className="text-sm font-bold text-white">{testimonial.name}</h3>
+                  <p className="text-xs font-semibold text-brand-pink mt-0.5">{testimonial.role}</p>
                 </div>
               </div>
             </div>
@@ -74,4 +78,4 @@ const Testimonials = () => {
   );
 };
 
-export default Testimonials;
+export default Testimonials;
