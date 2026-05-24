@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, MousePointerClick } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,18 +27,6 @@ const Navbar = () => {
     { name: 'Contact', href: '/#contact' },
   ];
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    setIsOpen(false);
-    if (href.startsWith('/#') && location.pathname === '/') {
-      e.preventDefault();
-      const id = href.replace('/#', '');
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  };
-
   return (
     <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'py-3' : 'py-5'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -55,14 +42,13 @@ const Navbar = () => {
 
           <div className="hidden md:flex items-center space-x-6">
             {navigation.map((item) => (
-              <a
+              <Link
                 key={item.name}
-                href={item.href}
-                onClick={(e) => handleLinkClick(e, item.href)}
+                to={item.href}
                 className={`text-sm font-medium tracking-wide transition-colors hover:text-brand-pink ${scrolled ? 'text-gray-300' : 'text-brand-charcoal/80'}`}
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
             <Link
               to="/donate"
@@ -89,14 +75,14 @@ const Navbar = () => {
         <div className="md:hidden px-4 mt-2">
           <div className="bg-brand-dark/95 backdrop-blur-lg border border-white/10 rounded-3xl px-6 py-6 space-y-4 shadow-2xl">
             {navigation.map((item) => (
-              <a
+              <Link
                 key={item.name}
-                href={item.href}
-                onClick={(e) => handleLinkClick(e, item.href)}
+                to={item.href}
+                onClick={() => setIsOpen(false)}
                 className="text-gray-300 hover:text-white block px-3 py-2 rounded-xl text-base font-medium transition-colors"
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
             <Link
               to="/donate"
@@ -113,4 +99,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

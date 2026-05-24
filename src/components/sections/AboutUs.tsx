@@ -39,13 +39,13 @@ const AboutUs = () => {
   return (
     <section id="about" className="py-24 bg-brand-cream relative overflow-hidden">
       {/* Decorative Blur */}
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-brand-pink/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-brand-pink/5 rounded-full blur-[100px] pointer-events-none animate-pulse-glow" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
         {/* Mission Statement & Founder Letter */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 mb-20 items-center">
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-6 reveal-on-scroll">
             <span className="inline-block text-xs uppercase tracking-widest text-brand-purple font-bold bg-brand-purple/10 px-4 py-1.5 rounded-full border border-brand-purple/20">
               Our Vision
             </span>
@@ -58,7 +58,7 @@ const AboutUs = () => {
             </p>
           </div>
 
-          <div className="lg:col-span-3 bg-white border border-brand-sand rounded-3xl p-8 shadow-sm flex flex-col md:flex-row gap-8 items-center">
+          <div className="lg:col-span-3 bg-white border border-brand-sand rounded-3xl p-8 shadow-sm flex flex-col md:flex-row gap-8 items-center reveal-on-scroll" style={{ transitionDelay: '150ms' }}>
             <img 
               src="/images/wintima.png" 
               alt="Founder Wintima Akudugu" 
@@ -79,10 +79,14 @@ const AboutUs = () => {
 
         {/* Impact Statistics */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 mb-24">
-          {stats.map((stat) => {
+          {stats.map((stat, index) => {
             const Icon = stat.icon;
             return (
-              <div key={stat.id} className="bg-white border border-brand-sand rounded-3xl p-8 text-center shadow-sm hover:shadow-lg transition-all duration-300">
+              <div
+                key={stat.id}
+                style={{ transitionDelay: `${index * 150}ms` }}
+                className="bg-white border border-brand-sand rounded-3xl p-8 text-center shadow-sm hover:shadow-lg transition-all duration-300 reveal-on-scroll"
+              >
                 <div className="w-12 h-12 rounded-2xl bg-brand-cream border border-brand-sand flex items-center justify-center mx-auto mb-4">
                   <Icon className="h-5 w-5 text-brand-purple" />
                 </div>
@@ -95,7 +99,7 @@ const AboutUs = () => {
 
         {/* Team Section */}
         <div className="space-y-12">
-          <div className="text-center max-w-xl mx-auto space-y-3">
+          <div className="text-center max-w-xl mx-auto space-y-3 reveal-on-scroll">
             <h3 className="text-3xl font-display font-bold text-brand-dark">Our Leadership</h3>
             <p className="text-brand-charcoal/70">
               Meet the strategic core driving G-Click's educational operations on the ground.
@@ -103,8 +107,12 @@ const AboutUs = () => {
           </div>
 
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {teamMembers.map((member) => (
-              <div key={member.id} className="bg-white border border-brand-sand rounded-3xl p-8 text-center shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300">
+            {teamMembers.map((member, index) => (
+              <div
+                key={member.id}
+                style={{ transitionDelay: `${index * 150}ms` }}
+                className="bg-white border border-brand-sand rounded-3xl p-8 text-center shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 reveal-on-scroll"
+              >
                 <img
                   className="w-28 h-28 rounded-full mx-auto object-cover border-4 border-brand-cream shadow-md mb-6"
                   src={member.image}
@@ -138,4 +146,3 @@ const AboutUs = () => {
 };
 
 export default AboutUs;
-

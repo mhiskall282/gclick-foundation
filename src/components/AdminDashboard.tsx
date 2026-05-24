@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Users, BookOpen, Mail, DollarSign, LogOut, Activity, Database, CheckCircle, AlertCircle, RefreshCw } from 'lucide-react';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState<'overview' | 'submissions' | 'api-logs'>('overview');
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const navigate = useNavigate();
 
   // Check if user is authenticated
   const isAuthenticated = sessionStorage.getItem('isAuthenticated') === 'true';
   
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/admin/login');
+    }
+  }, [isAuthenticated, navigate]);
+
   if (!isAuthenticated) {
-    window.location.href = '/admin/login';
     return null;
   }
 
@@ -56,7 +63,7 @@ const AdminDashboard = () => {
             <button
               onClick={() => {
                 sessionStorage.removeItem('isAuthenticated');
-                window.location.href = '/admin/login';
+                navigate('/admin/login');
               }}
               className="flex items-center px-5 py-2.5 bg-brand-dark-card border border-brand-dark-border hover:bg-[#1E1E21] text-white rounded-xl text-sm font-semibold transition-all"
             >

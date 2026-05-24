@@ -24,10 +24,10 @@ const DonateTeaser = () => {
   return (
     <section id="donate" className="py-24 bg-white relative overflow-hidden">
       {/* Background ambient glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-pink/5 rounded-full blur-[130px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-pink/5 rounded-full blur-[130px] pointer-events-none animate-pulse-glow" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center max-w-2xl mx-auto space-y-4 mb-16">
+        <div className="text-center max-w-2xl mx-auto space-y-4 mb-16 reveal-on-scroll">
           <span className="inline-block text-xs uppercase tracking-widest text-brand-pink font-bold bg-brand-pink/10 px-4 py-1.5 rounded-full border border-brand-pink/20">
             Make an Impact
           </span>
@@ -41,8 +41,12 @@ const DonateTeaser = () => {
 
         {/* Impact Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-12">
-          {impactMetrics.map((item) => (
-            <div key={item.id} className="bg-[#FCFAF7] border border-brand-sand p-8 rounded-3xl text-center shadow-sm hover:shadow-lg transition-all duration-300">
+          {impactMetrics.map((item, index) => (
+            <div
+              key={item.id}
+              style={{ transitionDelay: `${index * 150}ms` }}
+              className="bg-[#FCFAF7] border border-brand-sand p-8 rounded-3xl text-center shadow-sm hover:shadow-xl hover:border-brand-pink/30 hover:scale-[1.02] transition-all duration-300 reveal-on-scroll"
+            >
               <p className="text-4xl font-display font-extrabold text-brand-pink">{item.metric}</p>
               <p className="mt-3 text-brand-charcoal/80 text-sm leading-relaxed">{item.impact}</p>
             </div>
@@ -50,7 +54,7 @@ const DonateTeaser = () => {
         </div>
 
         {/* Call to Action button */}
-        <div className="text-center">
+        <div className="text-center reveal-on-scroll" style={{ transitionDelay: '450ms' }}>
           <Link
             to="/donate"
             className="inline-flex items-center px-8 py-4 bg-brand-pink hover:bg-brand-pink/90 text-white font-semibold rounded-full shadow-xl shadow-brand-pink/15 transition-all duration-300 hover:scale-105"
@@ -64,4 +68,4 @@ const DonateTeaser = () => {
   );
 };
 
-export default DonateTeaser;
+export default DonateTeaser;

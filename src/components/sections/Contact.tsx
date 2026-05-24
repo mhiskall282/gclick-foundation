@@ -110,7 +110,7 @@ const Contact = () => {
       <div className="absolute top-1/3 left-0 w-[400px] h-[400px] bg-brand-purple/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center max-w-2xl mx-auto space-y-4 mb-16">
+        <div className="text-center max-w-2xl mx-auto space-y-4 mb-16 reveal-on-scroll">
           <span className="inline-block text-xs uppercase tracking-widest text-brand-purple font-bold bg-brand-purple/10 px-4 py-1.5 rounded-full border border-brand-purple/20">
             Get In Touch
           </span>
@@ -124,7 +124,7 @@ const Contact = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Contact Information */}
-          <div className="space-y-8 lg:pr-10">
+          <div className="space-y-8 lg:pr-10 reveal-on-scroll">
             <div className="bg-white border border-brand-sand p-8 rounded-3xl space-y-8 shadow-sm">
               <div className="flex items-start">
                 <div className="w-10 h-10 rounded-xl bg-brand-cream flex items-center justify-center mr-4 flex-shrink-0">
@@ -166,7 +166,7 @@ const Contact = () => {
           </div>
 
           {/* Contact Form */}
-          <div className="bg-white border border-brand-sand p-8 rounded-3xl shadow-sm">
+          <div className="bg-white border border-brand-sand p-8 rounded-3xl shadow-sm reveal-on-scroll" style={{ transitionDelay: '150ms' }}>
             <form onSubmit={handleSubmit} className="space-y-5">
               {error && <div className="p-4 bg-red-50 text-red-600 rounded-xl text-sm font-semibold">{error}</div>}
               {success && <div className="p-4 bg-green-50 text-green-600 rounded-xl text-sm font-semibold">{success}</div>}

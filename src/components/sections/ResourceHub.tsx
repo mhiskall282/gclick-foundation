@@ -40,7 +40,7 @@ const ResourceHub = () => {
       <div className="absolute bottom-12 left-12 w-[350px] h-[350px] bg-brand-purple/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center max-w-2xl mx-auto space-y-4 mb-16">
+        <div className="text-center max-w-2xl mx-auto space-y-4 mb-16 reveal-on-scroll">
           <span className="inline-block text-xs uppercase tracking-widest text-brand-purple font-bold bg-brand-purple/10 px-4 py-1.5 rounded-full border border-brand-purple/20">
             Developer Toolkit
           </span>
@@ -53,12 +53,13 @@ const ResourceHub = () => {
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-          {resources.map((resource) => {
+          {resources.map((resource, index) => {
             const Icon = resource.icon;
             return (
               <div
                 key={resource.id}
-                className="bg-white border border-brand-sand rounded-3xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
+                style={{ transitionDelay: `${index * 150}ms` }}
+                className="bg-white border border-brand-sand rounded-3xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-1.5 hover:border-brand-pink/30 transition-all duration-300 flex flex-col justify-between reveal-on-scroll"
               >
                 <div className="space-y-4">
                   <div className="w-12 h-12 rounded-2xl bg-brand-cream border border-brand-sand flex items-center justify-center">
