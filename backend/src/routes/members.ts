@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import { supabase } from '../db/supabaseClient';
+import { verifyToken } from '../middleware/auth';
 
 const router = express.Router();
 
@@ -19,7 +20,7 @@ router.get('/', async (req: Request, res: Response) => {
 });
 
 // Add a single member
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', verifyToken, async (req: Request, res: Response) => {
   const { name, email, phone, location, address, employment_status, student_year, background_info } = req.body;
   try {
     const { data, error } = await supabase
@@ -39,7 +40,7 @@ router.post('/', async (req: Request, res: Response) => {
 });
 
 // Bulk insert members
-router.post('/bulk', async (req: Request, res: Response) => {
+router.post('/bulk', verifyToken, async (req: Request, res: Response) => {
   const members = req.body; // Expects an array of objects
   if (!Array.isArray(members)) {
     return res.status(400).json({ error: 'Expected an array of members' });

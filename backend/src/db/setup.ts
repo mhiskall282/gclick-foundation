@@ -67,6 +67,17 @@ const setupDatabase = async () => {
     `);
     console.log('Created robust members table.');
 
+    // Create admin_users table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS admin_users (
+        id SERIAL PRIMARY KEY,
+        email VARCHAR(255) NOT NULL UNIQUE,
+        password_hash VARCHAR(255) NOT NULL,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+    console.log('Created admin_users table.');
+
     // 5 New Tables for Extended CMS
     
     // 1. Leadership

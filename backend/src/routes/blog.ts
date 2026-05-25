@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { supabase } from '../db/supabaseClient';
+import { verifyToken } from '../middleware/auth';
 
 const router = Router();
 
@@ -18,7 +19,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST new blog post
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
   const { title, date, author, readTime, content, image } = req.body;
   const { data, error } = await supabase.from('blog_posts').insert([{ title, date, author, read_time: readTime, content, image }]).select();
   if (error) return res.status(500).json({ error: error.message });
@@ -26,7 +27,7 @@ router.post('/', async (req, res) => {
 });
 
 // PUT update blog post
-router.put('/:id', async (req, res) => {
+router.put('/:id', verifyToken, async (req, res) => {
   const { title, date, author, readTime, content, image } = req.body;
   const { data, error } = await supabase.from('blog_posts').update({ title, date, author, read_time: readTime, content, image }).eq('id', req.params.id).select();
   if (error) return res.status(500).json({ error: error.message });
@@ -34,7 +35,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // DELETE blog post
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res) => {
   const { error } = await supabase.from('blog_posts').delete().eq('id', req.params.id);
   if (error) return res.status(500).json({ error: error.message });
   res.status(204).send();

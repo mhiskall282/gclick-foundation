@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import { supabase } from '../db/supabaseClient';
+import { verifyToken } from '../middleware/auth';
 
 const router = express.Router();
 
@@ -26,7 +27,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 });
 
 // POST
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', verifyToken, async (req: Request, res: Response) => {
   try {
     const { data, error } = await supabase.from('resources').insert([req.body]).select();
     if (error) throw error;
@@ -37,7 +38,7 @@ router.post('/', async (req: Request, res: Response) => {
 });
 
 // PUT
-router.put('/:id', async (req: Request, res: Response) => {
+router.put('/:id', verifyToken, async (req: Request, res: Response) => {
   try {
     const { data, error } = await supabase.from('resources').update(req.body).eq('id', req.params.id).select();
     if (error) throw error;
@@ -48,7 +49,7 @@ router.put('/:id', async (req: Request, res: Response) => {
 });
 
 // DELETE
-router.delete('/:id', async (req: Request, res: Response) => {
+router.delete('/:id', verifyToken, async (req: Request, res: Response) => {
   try {
     const { error } = await supabase.from('resources').delete().eq('id', req.params.id);
     if (error) throw error;

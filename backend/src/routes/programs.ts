@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { supabase } from '../db/supabaseClient';
+import { verifyToken } from '../middleware/auth';
 
 const router = Router();
 
@@ -18,7 +19,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST new program
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
   const { title, description, details, duration, image, syllabus } = req.body;
   const { data, error } = await supabase.from('programs').insert([{ title, description, details, duration, image, syllabus }]).select();
   if (error) return res.status(500).json({ error: error.message });
@@ -26,7 +27,7 @@ router.post('/', async (req, res) => {
 });
 
 // PUT update program
-router.put('/:id', async (req, res) => {
+router.put('/:id', verifyToken, async (req, res) => {
   const { title, description, details, duration, image, syllabus } = req.body;
   const { data, error } = await supabase.from('programs').update({ title, description, details, duration, image, syllabus }).eq('id', req.params.id).select();
   if (error) return res.status(500).json({ error: error.message });
@@ -34,7 +35,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // DELETE program
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res) => {
   const { error } = await supabase.from('programs').delete().eq('id', req.params.id);
   if (error) return res.status(500).json({ error: error.message });
   res.status(204).send();
