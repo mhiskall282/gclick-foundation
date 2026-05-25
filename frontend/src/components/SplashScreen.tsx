@@ -10,7 +10,8 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
 
   const handleSkip = useCallback(() => {
     setIsSkipping(true);
-    setTimeout(() => onComplete(), 500); // 500ms fade out
+    sessionStorage.setItem('splashShown', 'true');
+    setTimeout(() => onComplete(), 200); // 200ms fade out
   }, [onComplete]);
 
   useEffect(() => {
@@ -35,8 +36,8 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
     wakeBackend();
 
     // 3. Smooth Progress Logic (Fast loading simulation)
-    // We will guarantee the splash screen disappears after 4 seconds MAXIMUM.
-    const maxWaitTime = 4000; 
+    // We will guarantee the splash screen disappears after 1.2 seconds MAXIMUM.
+    const maxWaitTime = 1200; 
     const tickRate = 20;
     const increment = 100 / (maxWaitTime / tickRate);
 
@@ -52,7 +53,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
       });
     }, tickRate);
 
-    // 4. Aggressive backend readiness check (if it wakes up faster than 4s)
+    // 4. Aggressive backend readiness check (if it wakes up faster than 1.2s)
     const checkReadyInterval = setInterval(async () => {
       try {
         const apiUrl = import.meta.env.VITE_API_URL || '';
@@ -65,7 +66,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
       } catch (e) {
         // ignore
       }
-    }, 1000);
+    }, 300);
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
@@ -75,7 +76,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
   }, [handleSkip]);
 
   return (
-    <div className={`fixed inset-0 z-[9999] bg-[#050505] flex flex-col items-center justify-center font-display transition-opacity duration-500 overflow-hidden ${isSkipping ? 'opacity-0' : 'opacity-100'}`}>
+    <div className={`fixed inset-0 z-[9999] bg-[#050505] flex flex-col items-center justify-center font-display transition-opacity duration-200 overflow-hidden ${isSkipping ? 'opacity-0' : 'opacity-100'}`}>
       
       {/* Dynamic Backgrounds */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-pink/10 via-[#050505] to-[#050505] pointer-events-none" />

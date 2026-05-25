@@ -135,12 +135,12 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => (
 import { SplashScreen } from './components/SplashScreen';
 
 function App() {
-  const [isReady, setIsReady] = useState(false);
+  const [isReady, setIsReady] = useState(() => sessionStorage.getItem('splashShown') === 'true');
 
   return (
     <>
       {!isReady && <SplashScreen onComplete={() => setIsReady(true)} />}
-      <div className={`transition-opacity duration-1000 ${isReady ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'}`}>
+      <div className={`transition-opacity duration-200 ${isReady ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'}`}>
         <Router>
           <ScrollToHash />
           <ScrollProgress />
