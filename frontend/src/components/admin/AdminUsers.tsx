@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { UserPlus, Shield, Trash2, Key, Edit } from 'lucide-react';
-import { getApiUrl } from '../../lib/api';
+import { fetchApi } from '../../lib/api';
 
 export const AdminUsers = () => {
   const [users, setUsers] = useState<any[]>([]);
@@ -13,11 +13,7 @@ export const AdminUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch(getApiUrl('/api/auth/users'), {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
+      const res = await fetchApi('/api/auth/users');
       if (!res.ok) throw new Error('Failed to fetch users');
       const data = await res.json();
       setUsers(data);
@@ -37,15 +33,11 @@ export const AdminUsers = () => {
     setSuccess('');
 
     try {
-      const url = editingUser ? getApiUrl(`/api/auth/users/${editingUser.id}`) : getApiUrl('/api/auth/users');
+      const path = editingUser ? `/api/auth/users/${editingUser.id}` : '/api/auth/users';
       const method = editingUser ? 'PUT' : 'POST';
 
-      const res = await fetch(url, {
+      const res = await fetchApi(path, {
         method,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
         body: JSON.stringify({ 
           email, 
           // Only send password if we're creating OR if it's filled in when editing
@@ -74,11 +66,8 @@ export const AdminUsers = () => {
     setSuccess('');
 
     try {
-      const res = await fetch(getApiUrl(`/api/auth/users/${id}`), {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
+      const res = await fetchApi(`/api/auth/users/${id}`, {
+        method: 'DELETE'
       });
 
       const data = await res.json();
