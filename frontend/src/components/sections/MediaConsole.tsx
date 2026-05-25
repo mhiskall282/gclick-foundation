@@ -18,8 +18,9 @@ const MediaConsole = () => {
     fetch('/api/labs')
       .then(res => res.json())
       .then(data => {
-        setVideos(data);
-        if (data.length > 0) setSelectedVideo(data[0]);
+        const arr = Array.isArray(data) ? data : [];
+        setVideos(arr);
+        if (arr.length > 0) setSelectedVideo(arr[0]);
       })
       .catch(err => console.error('Error fetching labs:', err));
   }, []);

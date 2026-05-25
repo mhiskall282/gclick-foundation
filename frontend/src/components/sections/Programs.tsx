@@ -8,7 +8,7 @@ const Programs = () => {
   useEffect(() => {
     fetch('/api/programs')
       .then(res => res.json())
-      .then(data => setProgramsData(data))
+      .then(data => setProgramsData(Array.isArray(data) ? data : []))
       .catch(err => console.error('Error fetching programs:', err));
   }, []);
 

@@ -18,7 +18,7 @@ const ResourceHub = () => {
   useEffect(() => {
     fetch('/api/resources')
       .then(res => res.json())
-      .then(data => setResources(data))
+      .then(data => setResources(Array.isArray(data) ? data : []))
       .catch(err => console.error('Error fetching resources:', err));
   }, []);
 

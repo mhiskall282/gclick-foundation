@@ -13,7 +13,7 @@ const AboutUs = () => {
   useEffect(() => {
     fetch('/api/leadership')
       .then(res => res.json())
-      .then(data => setTeamMembers(data))
+      .then(data => setTeamMembers(Array.isArray(data) ? data : []))
       .catch(err => console.error('Error fetching leadership:', err));
   }, []);
 
