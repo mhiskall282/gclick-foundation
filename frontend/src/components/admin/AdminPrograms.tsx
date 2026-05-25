@@ -164,7 +164,7 @@ export const AdminPrograms = () => {
                 <button 
                   onClick={async () => {
                     if (window.confirm('Delete this program?')) {
-                      await fetch(`/api/programs/${p.id}`, { method: 'DELETE' });
+                      await fetchApi(`/api/programs/${p.id}`, { method: 'DELETE' });
                       fetchPrograms();
                     }
                   }} 

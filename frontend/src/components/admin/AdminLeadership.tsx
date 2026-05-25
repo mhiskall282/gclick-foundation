@@ -64,7 +64,7 @@ export const AdminLeadership = () => {
       
       const method = currentLeader ? 'PUT' : 'POST';
 
-      await fetch(url, {
+      await fetchApi(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -91,7 +91,7 @@ export const AdminLeadership = () => {
 
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this leader?')) {
-      await fetch(`/api/leadership/${id}`, { method: 'DELETE' });
+      await fetchApi(`/api/leadership/${id}`, { method: 'DELETE' });
       fetchLeaders();
     }
   };

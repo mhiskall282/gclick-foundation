@@ -29,7 +29,7 @@ export const AdminLabs = () => {
     try {
       const url = currentItem ? `/api/labs/${currentItem.id}` : '/api/labs';
       const method = currentItem ? 'PUT' : 'POST';
-      await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) });
+      await fetchApi(url, { method, body: JSON.stringify(formData) });
       setIsModalOpen(false); setCurrentItem(null); setFormData({ title: '', video_url: '', description: '' }); fetchItems();
     } catch (err) { console.error(err); }
   };
@@ -51,7 +51,7 @@ export const AdminLabs = () => {
               <p className="text-sm text-gray-400 mt-1">{item.description}</p>
               <div className="flex gap-2 mt-3">
                 <button onClick={() => { setCurrentItem(item); setFormData({ title: item.title, video_url: item.video_url || '', description: item.description }); setIsModalOpen(true); }} className="p-1.5 text-blue-400 hover:bg-blue-400/10 rounded-md"><Edit2 className="h-4 w-4" /></button>
-                <button onClick={async () => { if(confirm('Delete?')){ await fetch(`/api/labs/${item.id}`, { method: 'DELETE' }); fetchItems(); } }} className="p-1.5 text-red-400 hover:bg-red-400/10 rounded-md"><Trash2 className="h-4 w-4" /></button>
+                <button onClick={async () => { if(confirm('Delete?')){ await fetchApi(`/api/labs/${item.id}`, { method: 'DELETE' }); fetchItems(); } }} className="p-1.5 text-red-400 hover:bg-red-400/10 rounded-md"><Trash2 className="h-4 w-4" /></button>
               </div>
             </div>
           ))}

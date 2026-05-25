@@ -59,7 +59,7 @@ export const AdminBlog = () => {
         : '/api/blog';
       const method = currentPost.id ? 'PUT' : 'POST';
       
-      const res = await fetch(url, {
+      const res = await fetchApi(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(currentPost)
@@ -143,7 +143,7 @@ export const AdminBlog = () => {
                 <button 
                   onClick={async () => {
                     if (window.confirm('Delete this post?')) {
-                      await fetch(`/api/blog/${p.id}`, { method: 'DELETE' });
+                      await fetchApi(`/api/blog/${p.id}`, { method: 'DELETE' });
                       fetchPosts();
                     }
                   }} 
