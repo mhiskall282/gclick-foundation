@@ -50,18 +50,55 @@ const AdminDashboard = () => {
         adminsCount: Array.isArray(admins) ? admins.length : 0,
       });
 
-      // Construct live "Activity Logs" based on real members in database
-      if (Array.isArray(members) && members.length > 0) {
-        const sortedMembers = [...members]
-          .sort((a, b) => new Date(b.joined_at).getTime() - new Date(a.joined_at).getTime())
-          .slice(0, 3);
-        
-        const constructedLogs = sortedMembers.map((m: any) => ({
-          desc: `New member registered: ${m.name} (${m.email})`,
-          node: m.location || 'Ghana Node',
-          status: 'REGISTERED'
-        }));
-        setRecentLogs(constructedLogs);
+      // Construct live audit logs based on real records across database
+      const logs: any[] = [];
+      if (Array.isArray(members)) {
+        members.forEach((m: any) => {
+          logs.push({
+            desc: `New member registered: ${m.name} (${m.email})`,
+            node: m.location || 'Ghana Node',
+            status: 'MEMBER',
+            time: new Date(m.joined_at).getTime()
+          });
+        });
+      }
+      if (Array.isArray(programs)) {
+        programs.forEach((p: any) => {
+          logs.push({
+            desc: `Syllabus program module added: "${p.title}"`,
+            node: 'CMS-Engine',
+            status: 'PROGRAM',
+            time: new Date(p.created_at).getTime()
+          });
+        });
+      }
+      if (Array.isArray(blogs)) {
+        blogs.forEach((b: any) => {
+          logs.push({
+            desc: `Blog publication published: "${b.title}"`,
+            node: 'Blog-Pub',
+            status: 'BLOG',
+            time: new Date(b.created_at).getTime()
+          });
+        });
+      }
+      if (Array.isArray(admins)) {
+        admins.forEach((a: any) => {
+          logs.push({
+            desc: `Sub-administrator access configured: ${a.email}`,
+            node: 'Security-Core',
+            status: 'ADMIN',
+            time: new Date(a.created_at).getTime()
+          });
+        });
+      }
+
+      const sortedLogs = logs
+        .sort((a, b) => b.time - a.time)
+        .slice(0, 5);
+
+      if (sortedLogs.length > 0) {
+        setRecentLogs(sortedLogs);
       } else {
         setRecentLogs([
           { desc: 'Waiting for database events...', node: 'System-Core', status: 'IDLE' }
@@ -228,11 +265,7 @@ const AdminDashboard = () => {
                 Live Node Log
               </h2>
               <div className="space-y-4">
-                {[
-                  { desc: 'MTN MoMo validation payload compiled - transaction ID: tx_89172', node: 'Node-West-02', status: 'SUCCESS' },
-                  { desc: 'Form submission received via Web3Forms API endpoint', node: 'Node-Web-01', status: 'SUCCESS' },
-                  { desc: 'Cache purge completed for syllabus resource collections', node: 'Node-Cache-01', status: 'COMPLETED' },
-                ].map((log, index) => (
+                {recentLogs.map((log, index) => (
                   <div key={index} className="flex justify-between items-center text-xs p-4 bg-brand-dark-obsidian border border-brand-dark-border rounded-xl">
                     <div className="flex items-center gap-3">
                       <span className="w-2 h-2 rounded-full bg-brand-pink animate-pulse" />
@@ -260,43 +293,20 @@ const AdminDashboard = () => {
         {activeTab === 'users' && <AdminUsers />}
 
         {activeTab === 'submissions' && (
-          <div className="bg-brand-dark-card border border-brand-dark-border rounded-3xl overflow-hidden shadow-2xl">
-            <div className="p-6 border-b border-brand-dark-border flex justify-between items-center">
-              <h3 className="text-lg font-display font-bold text-white">Recent Transactions</h3>
-              <span className="text-xs text-gray-500 font-semibold">Latest 4 checkouts</span>
+          <div className="bg-brand-dark-card border border-brand-dark-border rounded-3xl p-8 shadow-2xl max-w-2xl mx-auto text-center space-y-6">
+            <div className="w-16 h-16 mx-auto bg-brand-pink/10 border border-brand-pink/30 rounded-2xl flex items-center justify-center">
+              <DollarSign className="h-8 w-8 text-brand-pink" />
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse text-sm">
-                <thead>
-                  <tr className="bg-brand-dark-obsidian/50 text-gray-400 font-semibold border-b border-brand-dark-border text-xs uppercase tracking-wider">
-                    <th className="p-4 pl-6">Donor / Student</th>
-                    <th className="p-4">Value</th>
-                    <th className="p-4">Provider</th>
-                    <th className="p-4">Date</th>
-                    <th className="p-4 pr-6">Status</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-brand-dark-border/50">
-                  {[
-                    { name: 'Kofi Owusu', amount: 'GH₵1,400', type: 'MTN Mobile Money', date: 'May 24, 2026', status: 'PAID' },
-                    { name: 'Ama Serwaa', amount: '$100', type: 'Credit Card', date: 'May 24, 2026', status: 'PAID' },
-                    { name: 'John Miller', amount: '$500', type: 'Credit Card', date: 'May 23, 2026', status: 'PAID' },
-                    { name: 'Ekow Mensah', amount: 'GH₵350', type: 'Telecel Cash', date: 'May 22, 2026', status: 'PAID' },
-                  ].map((row, i) => (
-                    <tr key={i} className="hover:bg-brand-dark-obsidian/30 transition-colors">
-                      <td className="p-4 pl-6 font-semibold">{row.name}</td>
-                      <td className="p-4 text-brand-pink font-bold">{row.amount}</td>
-                      <td className="p-4 text-gray-400 font-mono text-xs">{row.type}</td>
-                      <td className="p-4 text-gray-400 text-xs">{row.date}</td>
-                      <td className="p-4 pr-6">
-                        <span className="text-[10px] font-bold text-brand-pink bg-brand-pink/10 border border-brand-pink/20 px-2 py-0.5 rounded-full">
-                          {row.status}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="space-y-2">
+              <h3 className="text-xl font-display font-bold text-white">Sponsorship Transactions</h3>
+              <p className="text-sm text-gray-400 max-w-md mx-auto">
+                The Paystack gateway integration is currently in configuration. Live checkout transactions and sponsorship registrations will populate here once the webhook environment keys are activated.
+              </p>
+            </div>
+            <div className="p-4 bg-brand-dark-obsidian border border-brand-dark-border rounded-xl inline-flex flex-col gap-1 items-start text-left w-full max-w-md mx-auto">
+              <span className="text-[10px] font-bold text-brand-pink uppercase tracking-wider">Gateway Status</span>
+              <span className="text-xs text-gray-300 font-mono">Sandbox Mode: Configured</span>
+              <span className="text-xs text-gray-500">Live webhook endpoint: `/api/webhooks/paystack` (Awaiting production keys)</span>
             </div>
           </div>
         )}
