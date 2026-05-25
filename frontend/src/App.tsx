@@ -8,6 +8,7 @@ import AdminDashboard from './components/AdminDashboard';
 import ProgramDetailPage from './pages/ProgramDetailPage';
 import BlogDetailPage from './pages/BlogDetailPage';
 import DonatePage from './pages/DonatePage';
+import JoinPage from './pages/JoinPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 const ScrollProgress = () => {
@@ -64,7 +65,7 @@ const ScrollToHash = () => {
           entry.target.classList.remove('active');
         }
       });
-    }, { threshold: 0.05, rootMargin: '0px 0px -50px 0px' });
+    }, { threshold: 0.05, rootMargin: '0px 0px 0px 0px' });
 
     // Initial observation
     const elements = document.querySelectorAll('.reveal-on-scroll');
@@ -113,6 +114,7 @@ function App() {
             <Route path="/programs/:id" element={<ProgramDetailPage />} />
             <Route path="/blog/:id" element={<BlogDetailPage />} />
             <Route path="/donate" element={<DonatePage />} />
+            <Route path="/join" element={<JoinPage />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="*" element={<NotFoundPage />} />

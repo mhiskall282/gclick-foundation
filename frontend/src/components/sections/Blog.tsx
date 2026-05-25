@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar, ArrowRight } from 'lucide-react';
-import { blogData } from '../../data/blogData';
 import { Link } from 'react-router-dom';
 
 const Blog = () => {
+  const [blogData, setBlogData] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/api/blog')
+      .then(res => res.json())
+      .then(data => setBlogData(data))
+      .catch(err => console.error('Error fetching blog posts:', err));
+  }, []);
+
   return (
     <section id="blog" className="py-32 bg-brand-dark-obsidian text-white border-b border-brand-dark-border/50 relative overflow-hidden supabase-grid">
       {/* Background decoration */}

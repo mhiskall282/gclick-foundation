@@ -1,16 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { programsData } from '../data/programsData';
-import { Clock, BookOpen, ArrowLeft, Send } from 'lucide-react';
+import { Clock, BookOpen, ArrowLeft, Send, CheckCircle } from 'lucide-react';
 
 const ProgramDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const programId = parseInt(id || '', 10);
-  const program = programsData.find(p => p.id === programId);
+  const [program, setProgram] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [status, setStatus] = useState('idle');
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+    fetch(`http://localhost:3000/api/programs/${id}`)
+      .then(res => {
+        if (!res.ok) throw new Error('Not found');
+        return res.json();
+      })
+      .then(data => {
+        setProgram(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-brand-dark-obsidian flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-pink"></div>
+      </div>
+    );
+  }
 
   if (!program) {
     return (
@@ -94,20 +115,35 @@ const ProgramDetailPage = () => {
 
               <div className="border-t border-brand-dark-border pt-6">
                 <h4 className="text-lg font-display font-bold text-white mb-4">Register Interest</h4>
-                <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); alert('Thank you for registering interest! Our team will contact you shortly.'); }}>
-                  <div>
-                    <label htmlFor="name" className="block text-xs font-semibold text-gray-400 mb-1">Full Name</label>
-                    <input type="text" id="name" required className="w-full px-4 py-2 border border-brand-dark-border rounded-xl bg-brand-dark-obsidian text-white text-sm focus:outline-none focus:border-brand-pink" />
+                {status === 'success' ? (
+                  <div className="bg-green-500/10 border border-green-500/20 text-green-400 p-6 rounded-2xl flex flex-col items-center justify-center text-center animate-fade-in">
+                    <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center mb-3">
+                      <CheckCircle className="w-6 h-6" />
+                    </div>
+                    <h4 className="font-bold text-lg mb-1">Interest Registered!</h4>
+                    <p className="text-sm">Our admissions team will contact you shortly.</p>
                   </div>
-                  <div>
-                    <label htmlFor="email" className="block text-xs font-semibold text-gray-400 mb-1">Email Address</label>
-                    <input type="email" id="email" required className="w-full px-4 py-2 border border-brand-dark-border rounded-xl bg-brand-dark-obsidian text-white text-sm focus:outline-none focus:border-brand-pink" />
-                  </div>
-                  <button type="submit" className="w-full flex items-center justify-center py-3 bg-brand-pink text-white rounded-xl font-semibold hover:bg-brand-pink/95 transition-all text-sm">
-                    Submit Application
-                    <Send className="h-4 w-4 ml-2" />
-                  </button>
-                </form>
+                ) : (
+                  <form 
+                    className="space-y-4" 
+                    onSubmit={(e) => { 
+                      e.preventDefault(); 
+                      setStatus('success');
+                    }}
+                  >
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-400 mb-1">Full Name</label>
+                      <input type="text" required className="w-full bg-brand-dark-obsidian border border-brand-dark-border rounded-xl px-4 py-3 text-sm focus:border-brand-pink focus:ring-1 focus:ring-brand-pink outline-none transition-all placeholder:text-gray-600" placeholder="Jane Doe" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-400 mb-1">Email Address</label>
+                      <input type="email" required className="w-full bg-brand-dark-obsidian border border-brand-dark-border rounded-xl px-4 py-3 text-sm focus:border-brand-pink focus:ring-1 focus:ring-brand-pink outline-none transition-all placeholder:text-gray-600" placeholder="jane@example.com" />
+                    </div>
+                    <button type="submit" className="w-full py-3 bg-brand-pink hover:bg-brand-pink/90 text-white rounded-xl text-sm font-bold uppercase tracking-wider transition-all shadow-md shadow-brand-pink/20 hover:shadow-brand-pink/40 hover:-translate-y-0.5">
+                      Submit Application
+                    </button>
+                  </form>
+                )}
               </div>
             </div>
           </div>

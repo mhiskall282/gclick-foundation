@@ -34,6 +34,13 @@ const resources: Resource[] = [
 ];
 
 const ResourceHub = () => {
+  const [toastMsg, setToastMsg] = React.useState('');
+
+  const showToast = (msg: string) => {
+    setToastMsg(msg);
+    setTimeout(() => setToastMsg(''), 3000);
+  };
+
   return (
     <section id="resources" className="py-32 bg-brand-dark-obsidian text-white border-b border-brand-dark-border/50 relative overflow-hidden supabase-grid">
       {/* Decorative backdrop glow */}
@@ -76,7 +83,7 @@ const ResourceHub = () => {
 
                 <div className="pt-6 relative z-10 text-left">
                   <button
-                    onClick={() => alert(`This resource is preparing for release. Join our newsletter to receive it first!`)}
+                    onClick={() => showToast('This resource is preparing for release. Join our newsletter to receive it first!')}
                     className="inline-flex items-center text-xs font-extrabold uppercase tracking-widest text-brand-pink group-hover:text-brand-purple transition-all duration-300"
                   >
                     Access Resource
@@ -87,6 +94,11 @@ const ResourceHub = () => {
             );
           })}
         </div>
+      </div>
+      
+      {/* Toast Notification */}
+      <div className={`fixed bottom-8 left-1/2 -translate-x-1/2 bg-brand-pink text-white px-6 py-3 rounded-full font-bold shadow-lg shadow-brand-pink/20 transition-all duration-300 z-50 pointer-events-none ${toastMsg ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+        {toastMsg}
       </div>
     </section>
   );

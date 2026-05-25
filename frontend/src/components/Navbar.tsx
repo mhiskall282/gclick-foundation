@@ -45,11 +45,26 @@ const Navbar = () => {
               <Link
                 key={item.name}
                 to={item.href}
+                onClick={(e) => {
+                  if (item.href.startsWith('/#')) {
+                    const id = item.href.replace('/#', '');
+                    const element = document.getElementById(id);
+                    if (element) {
+                      element.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }
+                }}
                 className="text-sm font-medium tracking-wide transition-colors text-gray-300 hover:text-brand-pink"
               >
                 {item.name}
               </Link>
             ))}
+            <Link
+              to="/join"
+              className="text-sm font-bold tracking-wide text-brand-pink hover:text-white transition-colors"
+            >
+              Become a Member
+            </Link>
             <Link
               to="/donate"
               className="px-5 py-2.5 bg-brand-pink hover:bg-brand-pink/90 text-white rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-md shadow-brand-pink/15 hover:shadow-brand-pink/30 hover:scale-105"
@@ -73,17 +88,33 @@ const Navbar = () => {
       {/* Mobile Drawer */}
       {isOpen && (
         <div className="md:hidden px-4 mt-2">
-          <div className="bg-brand-dark/95 backdrop-blur-lg border border-white/10 rounded-3xl px-6 py-6 space-y-4 shadow-2xl">
+          <div className="bg-brand-dark-obsidian/95 backdrop-blur-lg border border-white/10 rounded-3xl px-6 py-6 space-y-4 shadow-2xl">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
-                onClick={() => setIsOpen(false)}
+                onClick={(e) => {
+                  setIsOpen(false);
+                  if (item.href.startsWith('/#')) {
+                    const id = item.href.replace('/#', '');
+                    const element = document.getElementById(id);
+                    if (element) {
+                      element.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }
+                }}
                 className="text-gray-300 hover:text-white block px-3 py-2 rounded-xl text-base font-medium transition-colors"
               >
                 {item.name}
               </Link>
             ))}
+            <Link
+              to="/join"
+              onClick={() => setIsOpen(false)}
+              className="w-full text-center block px-5 py-3 border border-brand-pink/50 text-brand-pink hover:bg-brand-pink/10 rounded-full text-sm font-bold uppercase tracking-wider transition-all"
+            >
+              Become a Member
+            </Link>
             <Link
               to="/donate"
               onClick={() => setIsOpen(false)}

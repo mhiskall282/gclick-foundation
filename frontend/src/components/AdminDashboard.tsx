@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Users, BookOpen, Mail, DollarSign, LogOut, Activity, Database, CheckCircle, RefreshCw } from 'lucide-react';
+import { Users, BookOpen, Mail, DollarSign, LogOut, Activity, Database, CheckCircle, RefreshCw, PenTool, LayoutTemplate } from 'lucide-react';
+import { AdminPrograms } from './admin/AdminPrograms';
+import { AdminBlog } from './admin/AdminBlog';
+import { AdminMembers } from './admin/AdminMembers';
 
 const AdminDashboard = () => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'submissions' | 'api-logs'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'programs' | 'blog' | 'members' | 'submissions' | 'api-logs'>('overview');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const navigate = useNavigate();
 
@@ -33,67 +36,99 @@ const AdminDashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-brand-dark-obsidian text-white pt-32 pb-20 supabase-grid font-body">
-      <div className="max-w-7xl mx-auto px-6">
-        
-        {/* Console Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 pb-6 border-b border-brand-dark-border">
-          <div className="space-y-2">
-            <div className="flex items-center gap-3">
-              <span className="text-xs uppercase tracking-wider text-brand-pink font-bold bg-brand-pink/10 px-3 py-1 rounded-full border border-brand-pink/20 flex items-center">
-                <Database className="h-3 w-3 mr-1.5" />
-                Cluster-01
-              </span>
-              <span className="flex items-center text-xs text-emerald-400 font-semibold bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
-                <CheckCircle className="h-3.5 w-3.5 mr-1" />
-                Database: Healthy
-              </span>
-            </div>
-            <h1 className="text-3xl font-display font-extrabold text-white">G-Click Cloud Console</h1>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <button
-              onClick={triggerRefresh}
-              className={`p-2.5 bg-brand-dark-card border border-brand-dark-border hover:bg-[#1E1E21] text-gray-400 hover:text-white rounded-xl transition-all ${isRefreshing ? 'animate-spin text-brand-pink' : ''}`}
-              aria-label="Refresh database"
-            >
-              <RefreshCw className="h-4 w-4" />
-            </button>
-            <button
-              onClick={() => {
-                sessionStorage.removeItem('isAuthenticated');
-                navigate('/admin/login');
-              }}
-              className="flex items-center px-5 py-2.5 bg-brand-dark-card border border-brand-dark-border hover:bg-[#1E1E21] text-white rounded-xl text-sm font-semibold transition-all"
-            >
-              <LogOut className="h-4 w-4 mr-2" />
-              Disconnect
-            </button>
+    <div className="min-h-screen bg-brand-dark-obsidian text-white flex font-body overflow-hidden">
+      
+      {/* Left Sidebar */}
+      <aside className="w-72 bg-[#121214] border-r border-brand-dark-border flex flex-col shrink-0">
+        <div className="p-6 border-b border-brand-dark-border">
+          <h1 className="text-xl font-display font-extrabold text-white mb-2">G-Click Console</h1>
+          <div className="flex flex-col gap-2">
+            <span className="text-[10px] uppercase tracking-wider text-brand-pink font-bold bg-brand-pink/10 px-2 py-1 rounded-full border border-brand-pink/20 inline-flex items-center w-fit">
+              <Database className="h-3 w-3 mr-1.5" /> Cluster-01
+            </span>
+            <span className="text-[10px] text-emerald-400 font-semibold bg-emerald-500/10 px-2 py-1 rounded-full border border-emerald-500/20 inline-flex items-center w-fit">
+              <CheckCircle className="h-3 w-3 mr-1" /> Database: Healthy
+            </span>
           </div>
         </div>
 
-        {/* Tab Controls */}
-        <div className="flex border-b border-brand-dark-border mb-8 gap-6 text-sm">
+        <nav className="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+          <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-3">Main Menu</p>
+          
           <button
             onClick={() => setActiveTab('overview')}
-            className={`pb-4 font-bold border-b-2 transition-all ${activeTab === 'overview' ? 'border-brand-pink text-brand-pink' : 'border-transparent text-gray-400 hover:text-white'}`}
+            className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'overview' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
           >
-            Overview
+            <Activity className="h-4 w-4 mr-3" /> Overview
           </button>
           <button
-            onClick={() => setActiveTab('submissions')}
-            className={`pb-4 font-bold border-b-2 transition-all ${activeTab === 'submissions' ? 'border-brand-pink text-brand-pink' : 'border-transparent text-gray-400 hover:text-white'}`}
+            onClick={() => setActiveTab('programs')}
+            className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'programs' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
           >
-            Sponsorship Log
+            <LayoutTemplate className="h-4 w-4 mr-3" /> Programs CMS
+          </button>
+          <button
+            onClick={() => setActiveTab('blog')}
+            className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'blog' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+          >
+            <PenTool className="h-4 w-4 mr-3" /> Blog CMS
+          </button>
+          <button
+            onClick={() => setActiveTab('members')}
+            className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'members' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+          >
+            <Users className="h-4 w-4 mr-3" /> Members Directory
+          </button>
+          
+          <div className="pt-6 pb-2">
+            <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-3">Logs & Data</p>
+          </div>
+          <button
+            onClick={() => setActiveTab('submissions')}
+            className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'submissions' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+          >
+            <DollarSign className="h-4 w-4 mr-3" /> Sponsorship Log
           </button>
           <button
             onClick={() => setActiveTab('api-logs')}
-            className={`pb-4 font-bold border-b-2 transition-all ${activeTab === 'api-logs' ? 'border-brand-pink text-brand-pink' : 'border-transparent text-gray-400 hover:text-white'}`}
+            className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'api-logs' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
           >
-            API Webhooks
+            <Activity className="h-4 w-4 mr-3" /> API Webhooks
+          </button>
+        </nav>
+
+        <div className="p-4 border-t border-brand-dark-border">
+          <button
+            onClick={() => {
+              sessionStorage.removeItem('isAuthenticated');
+              navigate('/admin/login');
+            }}
+            className="w-full flex items-center justify-center px-4 py-2.5 bg-white/5 hover:bg-red-500/10 text-gray-400 hover:text-red-400 rounded-xl text-sm font-semibold transition-all"
+          >
+            <LogOut className="h-4 w-4 mr-2" />
+            Disconnect
           </button>
         </div>
+      </aside>
+
+      {/* Main Content Area */}
+      <main className="flex-1 h-screen overflow-y-auto relative supabase-grid">
+        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-brand-pink/5 rounded-full blur-[140px] pointer-events-none" />
+        
+        <div className="p-8 lg:p-12 max-w-7xl mx-auto relative z-10">
+          
+          <div className="flex justify-between items-center mb-8 pb-6 border-b border-brand-dark-border">
+            <h2 className="text-2xl font-display font-bold text-white capitalize">
+              {activeTab.replace('-', ' ')}
+            </h2>
+            <button
+              onClick={triggerRefresh}
+              className={`p-2.5 bg-brand-dark-card border border-brand-dark-border hover:bg-[#1E1E21] text-gray-400 hover:text-white rounded-xl transition-all shadow-sm ${isRefreshing ? 'animate-spin text-brand-pink' : ''}`}
+              title="Refresh Data"
+            >
+              <RefreshCw className="h-4 w-4" />
+            </button>
+          </div>
 
         {activeTab === 'overview' && (
           <div className="space-y-8">
@@ -151,6 +186,18 @@ const AdminDashboard = () => {
               </div>
             </div>
           </div>
+        )}
+
+        {activeTab === 'programs' && (
+          <AdminPrograms />
+        )}
+
+        {activeTab === 'blog' && (
+          <AdminBlog />
+        )}
+
+        {activeTab === 'members' && (
+          <AdminMembers />
         )}
 
         {activeTab === 'submissions' && (
@@ -221,7 +268,8 @@ const AdminDashboard = () => {
           </div>
         )}
 
-      </div>
+        </div>
+      </main>
     </div>
   );
 };

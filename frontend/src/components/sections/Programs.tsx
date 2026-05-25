@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowRight, Sparkles } from 'lucide-react';
-import { programsData } from '../../data/programsData';
 import { Link } from 'react-router-dom';
 
 const Programs = () => {
+  const [programsData, setProgramsData] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/api/programs')
+      .then(res => res.json())
+      .then(data => setProgramsData(data))
+      .catch(err => console.error('Error fetching programs:', err));
+  }, []);
+
   return (
     <section id="programs" className="py-28 bg-brand-dark-obsidian text-white border-y border-brand-dark-border relative overflow-hidden supabase-grid">
       {/* Decorative Radial Glows */}
