@@ -8,6 +8,7 @@ import AdminDashboard from './components/AdminDashboard';
 import ProgramDetailPage from './pages/ProgramDetailPage';
 import BlogDetailPage from './pages/BlogDetailPage';
 import DonatePage from './pages/DonatePage';
+import NotFoundPage from './pages/NotFoundPage';
 
 const ScrollProgress = () => {
   const [scrollWidth, setScrollWidth] = useState(0);
@@ -114,6 +115,7 @@ function App() {
             <Route path="/donate" element={<DonatePage />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
         <Footer />
