@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Users, BookOpen, Mail, DollarSign, LogOut, Activity, Database, CheckCircle, RefreshCw, PenTool, LayoutTemplate, Star, Video, Newspaper, Archive } from 'lucide-react';
+import { Users, BookOpen, Mail, DollarSign, LogOut, Activity, Database, CheckCircle, RefreshCw, PenTool, LayoutTemplate, Star, Video, Newspaper, Archive, Shield } from 'lucide-react';
 import { AdminPrograms } from './admin/AdminPrograms';
 import { AdminBlog } from './admin/AdminBlog';
 import { AdminMembers } from './admin/AdminMembers';
