@@ -85,4 +85,59 @@ router.post('/users', verifyToken, async (req: Request, res: Response) => {
   }
 });
 
+// Protected: Update a sub-admin
+router.put('/users/:id', verifyToken, async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { email, password } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ error: 'Email is required' });
+  }
+
+  try {
+    const updateData: any = { email };
+    
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      const password_hash = await bcrypt.hash(password, salt);
+      updateData.password_hash = password_hash;
+    }
+
+    const { data, error } = await supabase
+      .from('admin_users')
+      .update(updateData)
+      .eq('id', id)
+      .select('id, email, created_at');
+
+    if (error) {
+      if (error.code === '23505') return res.status(400).json({ error: 'Email already exists' });
+      throw error;
+    }
+
+    if (!data || data.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json(data[0]);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Protected: Revoke/Delete a sub-admin
+router.delete('/users/:id', verifyToken, async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const { error } = await supabase
+      .from('admin_users')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+    res.json({ message: 'Sub-admin revoked successfully' });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 export default router;
