@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { UserPlus, Shield, Trash2, Key } from 'lucide-react';
+import { UserPlus, Shield, Trash2, Key, Edit } from 'lucide-react';
 import { getApiUrl } from '../../lib/api';
-import { fetchApi } from '../../lib/api';
 
 export const AdminUsers = () => {
   const [users, setUsers] = useState<any[]>([]);
@@ -10,6 +9,7 @@ export const AdminUsers = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [editingUser, setEditingUser] = useState<any>(null);
 
   const fetchUsers = async () => {
     try {
@@ -30,33 +30,64 @@ export const AdminUsers = () => {
     fetchUsers();
   }, []);
 
-  const handleCreateUser = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
     setSuccess('');
 
     try {
-      const res = await fetch(getApiUrl('/api/auth/users'), {
-        method: 'POST',
+      const url = editingUser ? getApiUrl(`/api/auth/users/${editingUser.id}`) : getApiUrl('/api/auth/users');
+      const method = editingUser ? 'PUT' : 'POST';
+
+      const res = await fetch(url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ 
+          email, 
+          // Only send password if we're creating OR if it's filled in when editing
+          password: (!editingUser || password.trim() !== '') ? password : undefined 
+        })
       });
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
 
-      setSuccess('User created successfully!');
+      setSuccess(editingUser ? 'Admin updated successfully!' : 'Admin created successfully!');
       setEmail('');
       setPassword('');
+      setEditingUser(null);
       fetchUsers();
     } catch (err: any) {
       setError(err.message);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleRevoke = async (id: string) => {
+    if (!confirm('Are you sure you want to revoke this administrator\'s access?')) return;
+    setError('');
+    setSuccess('');
+
+    try {
+      const res = await fetch(getApiUrl(`/api/auth/users/${id}`), {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to revoke access');
+
+      setSuccess('Administrator access has been successfully revoked.');
+      fetchUsers();
+    } catch (err: any) {
+      setError(err.message);
     }
   };
 
@@ -71,10 +102,12 @@ export const AdminUsers = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        {/* Create User Form */}
+        {/* Create / Edit User Form */}
         <div className="lg:col-span-1 bg-brand-dark-card border border-brand-dark-border rounded-2xl p-6 shadow-xl h-fit">
-          <h4 className="text-sm font-bold text-white mb-4 uppercase tracking-wider">Create Sub-Admin</h4>
-          <form onSubmit={handleCreateUser} className="space-y-4">
+          <h4 className="text-sm font-bold text-white mb-4 uppercase tracking-wider">
+            {editingUser ? 'Edit Administrator' : 'Create Sub-Admin'}
+          </h4>
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-xs font-semibold text-gray-400 mb-1">Email</label>
               <input 
@@ -86,10 +119,12 @@ export const AdminUsers = () => {
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-1">Temporary Password</label>
+              <label className="block text-xs font-semibold text-gray-400 mb-1">
+                {editingUser ? 'New Password (leave empty to keep current)' : 'Temporary Password'}
+              </label>
               <input 
                 type="password" 
-                required
+                required={!editingUser}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-3 py-2 bg-brand-dark-obsidian border border-brand-dark-border rounded-lg text-sm text-white focus:outline-none focus:border-brand-pink" 
@@ -99,14 +134,31 @@ export const AdminUsers = () => {
             {error && <div className="text-xs text-red-400 font-semibold p-2 bg-red-500/10 rounded-md">{error}</div>}
             {success && <div className="text-xs text-green-400 font-semibold p-2 bg-green-500/10 rounded-md">{success}</div>}
 
-            <button 
-              type="submit" 
-              disabled={isLoading}
-              className="w-full py-2 bg-brand-pink text-white rounded-lg text-sm font-bold flex items-center justify-center transition-all hover:bg-brand-pink/90 disabled:opacity-50"
-            >
-              <UserPlus className="h-4 w-4 mr-2" />
-              {isLoading ? 'Creating...' : 'Create Account'}
-            </button>
+            <div className="flex gap-2">
+              {editingUser && (
+                <button 
+                  type="button" 
+                  onClick={() => {
+                    setEditingUser(null);
+                    setEmail('');
+                    setPassword('');
+                    setError('');
+                    setSuccess('');
+                  }}
+                  className="w-1/2 py-2 bg-white/5 hover:bg-white/10 text-white rounded-lg text-sm font-bold transition-all"
+                >
+                  Cancel
+                </button>
+              )}
+              <button 
+                type="submit" 
+                disabled={isLoading}
+                className={`py-2 text-white rounded-lg text-sm font-bold flex items-center justify-center transition-all disabled:opacity-50 ${editingUser ? 'w-1/2 bg-blue-600 hover:bg-blue-500' : 'w-full bg-brand-pink hover:bg-brand-pink/90'}`}
+              >
+                {editingUser ? <Edit className="h-4 w-4 mr-2" /> : <UserPlus className="h-4 w-4 mr-2" />}
+                {isLoading ? 'Saving...' : (editingUser ? 'Save' : 'Create Account')}
+              </button>
+            </div>
           </form>
         </div>
 
@@ -134,9 +186,28 @@ export const AdminUsers = () => {
                   <div className="text-sm font-semibold text-white">{u.email}</div>
                   <div className="text-xs text-gray-500 mt-1">Created: {new Date(u.created_at).toLocaleDateString()}</div>
                 </div>
-                <span className="px-2.5 py-1 bg-white/5 text-gray-400 border border-white/10 rounded-md text-[10px] font-bold uppercase tracking-widest">
-                  Sub-Admin
-                </span>
+                <div className="flex items-center gap-2">
+                  <button 
+                    onClick={() => {
+                      setEditingUser(u);
+                      setEmail(u.email);
+                      setPassword('');
+                      setError('');
+                      setSuccess('');
+                    }}
+                    className="p-2 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white rounded-lg transition-colors"
+                    title="Edit Administrator"
+                  >
+                    <Edit className="h-4 w-4" />
+                  </button>
+                  <button 
+                    onClick={() => handleRevoke(u.id)}
+                    className="p-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 rounded-lg transition-colors"
+                    title="Revoke Administrator Access"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
               </div>
             ))}
             
