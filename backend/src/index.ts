@@ -11,6 +11,8 @@ import tracksRoutes from './routes/tracks';
 import labsRoutes from './routes/labs';
 import newsRoutes from './routes/news';
 import resourcesRoutes from './routes/resources';
+import authRoutes from './routes/auth';
+import uploadRoutes from './routes/upload';
 
 dotenv.config();
 
@@ -32,6 +34,8 @@ app.use('/api/tracks', tracksRoutes);
 app.use('/api/labs', labsRoutes);
 app.use('/api/news', newsRoutes);
 app.use('/api/resources', resourcesRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Health check
 app.get('/', (req, res) => {
