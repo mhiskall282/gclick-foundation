@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { getApiUrl } from '../../lib/api';
 
 const Programs = () => {
   const [programsData, setProgramsData] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch('/api/programs')
+    fetch(getApiUrl('/api/programs'))
       .then(res => res.json())
       .then(data => setProgramsData(Array.isArray(data) ? data : []))
       .catch(err => console.error('Error fetching programs:', err));

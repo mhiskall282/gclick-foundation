@@ -139,15 +139,15 @@ const AdminDashboard = () => {
                     className="bg-brand-dark-card border border-brand-dark-border p-6 rounded-2xl shadow-2xl flex flex-col justify-between"
                   >
                     <div className="flex justify-between items-start">
-                      <div>
-                        <dt className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                      <div className="flex-1 min-w-0 pr-4">
+                        <dt className="text-xs font-bold text-gray-500 uppercase tracking-wider truncate">
                           {stat.name}
                         </dt>
-                        <dd className="text-3xl font-display font-extrabold text-white mt-1">
+                        <dd className="text-2xl xl:text-3xl font-display font-extrabold text-white mt-1 truncate" title={stat.value}>
                           {stat.value}
                         </dd>
                       </div>
-                      <div className="w-10 h-10 rounded-xl bg-brand-dark-obsidian border border-brand-dark-border flex items-center justify-center">
+                      <div className="w-10 h-10 shrink-0 rounded-xl bg-brand-dark-obsidian border border-brand-dark-border flex items-center justify-center">
                         <Icon className="h-5 w-5 text-brand-pink" />
                       </div>
                     </div>
