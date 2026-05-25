@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://YOUR-BACKEND-URL-HERE.onrender.com/api/:path*"
+      "destination": "https://gclick-foundation.onrender.com/api/:path*"
     },
     {
       "source": "/(.*)",

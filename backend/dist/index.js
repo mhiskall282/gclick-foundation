@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const helmet_1 = __importDefault(require("helmet"));
+const morgan_1 = __importDefault(require("morgan"));
 const programs_1 = __importDefault(require("./routes/programs"));
 const blog_1 = __importDefault(require("./routes/blog"));
 const members_1 = __importDefault(require("./routes/members"));
@@ -17,6 +19,9 @@ const resources_1 = __importDefault(require("./routes/resources"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3000;
+// Security and Logging Middlewares
+app.use((0, helmet_1.default)());
+app.use((0, morgan_1.default)('dev'));
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 // API Routes
@@ -31,6 +36,13 @@ app.use('/api/resources', resources_1.default);
 // Health check
 app.get('/health', (req, res) => {
     res.status(200).json({ status: 'OK', message: 'Backend is running' });
+});
+// Global Error Handler Middleware
+app.use((err, req, res, next) => {
+    console.error('[Error]:', err.message);
+    res.status(err.status || 500).json({
+        error: err.message || 'Internal Server Error'
+    });
 });
 if (process.env.NODE_ENV !== 'test') {
     app.listen(PORT, () => {
