@@ -9,14 +9,15 @@ import { AdminTracks } from './admin/AdminTracks';
 import { AdminLabs } from './admin/AdminLabs';
 import { AdminNews } from './admin/AdminNews';
 import { AdminResources } from './admin/AdminResources';
+import { AdminUsers } from './admin/AdminUsers';
 
 const AdminDashboard = () => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'programs' | 'blog' | 'members' | 'leadership' | 'tracks' | 'labs' | 'news' | 'resources' | 'submissions' | 'api-logs'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'programs' | 'blog' | 'members' | 'leadership' | 'tracks' | 'labs' | 'news' | 'resources' | 'submissions' | 'api-logs' | 'users'>('overview');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const navigate = useNavigate();
 
-  // Check if user is authenticated
-  const isAuthenticated = sessionStorage.getItem('isAuthenticated') === 'true';
+  // Check if user is authenticated (using local storage token)
+  const isAuthenticated = localStorage.getItem('token') !== null;
   
   useEffect(() => {
     if (!isAuthenticated) {
@@ -99,10 +100,15 @@ const AdminDashboard = () => {
           <button onClick={() => setActiveTab('api-logs')} className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'api-logs' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}>
             <Activity className="h-4 w-4 mr-3" /> API Webhooks
           </button>
+          <div className="pt-4 pb-2"><p className="px-3 text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">System Administration</p></div>
+
+          <button onClick={() => setActiveTab('users')} className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'users' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}>
+            <Shield className="h-4 w-4 mr-3" /> Admin Users
+          </button>
         </nav>
 
         <div className="p-4 border-t border-brand-dark-border">
-          <button onClick={() => { sessionStorage.removeItem('isAuthenticated'); navigate('/admin/login'); }} className="w-full flex items-center justify-center px-4 py-2.5 bg-white/5 hover:bg-red-500/10 text-gray-400 hover:text-red-400 rounded-xl text-sm font-semibold transition-all">
+          <button onClick={() => { localStorage.removeItem('token'); sessionStorage.removeItem('isAuthenticated'); navigate('/admin/login'); }} className="w-full flex items-center justify-center px-4 py-2.5 bg-white/5 hover:bg-red-500/10 text-gray-400 hover:text-red-400 rounded-xl text-sm font-semibold transition-all">
             <LogOut className="h-4 w-4 mr-2" /> Disconnect
           </button>
         </div>
@@ -193,6 +199,7 @@ const AdminDashboard = () => {
         {activeTab === 'labs' && <AdminLabs />}
         {activeTab === 'news' && <AdminNews />}
         {activeTab === 'resources' && <AdminResources />}
+        {activeTab === 'users' && <AdminUsers />}
 
         {activeTab === 'submissions' && (
           <div className="bg-brand-dark-card border border-brand-dark-border rounded-3xl overflow-hidden shadow-2xl">

@@ -8,13 +8,34 @@ const AdminLogin = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (username === 'admin' && password === 'admin') {
+    setIsLoading(true);
+    setError('');
+
+    try {
+      // Use the helper if available, or just use the proxied path
+      const apiUrl = import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api/auth/login` : '/api/auth/login';
+      const res = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: username, password })
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Invalid credentials');
+      }
+
+      localStorage.setItem('token', data.token);
       sessionStorage.setItem('isAuthenticated', 'true');
       navigate('/admin/dashboard');
-    } else {
-      setError('Invalid credentials');
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -42,7 +63,7 @@ const AdminLogin = () => {
             <div className="space-y-4">
               <div>
                 <label htmlFor="username" className="block text-xs font-semibold text-gray-400 mb-1.5">
-                  Username
+                  Email Address
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
@@ -54,7 +75,7 @@ const AdminLogin = () => {
                     type="text"
                     required
                     className="w-full px-4 py-3 pl-10 border border-brand-dark-border rounded-xl bg-brand-dark-obsidian text-sm text-white focus:outline-none focus:border-brand-pink"
-                    placeholder="Username"
+                    placeholder="name@company.com"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                   />
