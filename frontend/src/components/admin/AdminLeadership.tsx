@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Trash2, Edit2 } from 'lucide-react';
+import { fetchApi } from '../../lib/api';
 
 export const AdminLeadership = () => {
   const [leaders, setLeaders] = useState<any[]>([]);
@@ -20,7 +21,7 @@ export const AdminLeadership = () => {
 
   const fetchLeaders = async () => {
     try {
-      const res = await fetch('/api/leadership');
+      const res = await fetchApi('/api/leadership');
       const data = await res.json();
       setLeaders(Array.isArray(data) ? data : []);
     } catch (err) {

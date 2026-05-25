@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Trash2, Edit2 } from 'lucide-react';
+import { fetchApi } from '../../lib/api';
 
 export const AdminNews = () => {
   const [items, setItems] = useState<any[]>([]);
@@ -18,7 +19,7 @@ export const AdminNews = () => {
 
   const fetchItems = async () => {
     try {
-      const res = await fetch('/api/news');
+      const res = await fetchApi('/api/news');
       const data = await res.json();
       setItems(Array.isArray(data) ? data : []);
     } catch (err) { console.error(err); } finally { setIsLoading(false); }

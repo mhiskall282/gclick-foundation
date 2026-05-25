@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Save, X } from 'lucide-react';
+import { fetchApi } from '../../lib/api';
 
 export const AdminPrograms = () => {
   const [programs, setPrograms] = useState<any[]>([]);
@@ -14,7 +15,7 @@ export const AdminPrograms = () => {
   const fetchPrograms = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/programs');
+      const res = await fetchApi('/api/programs');
       if (!res.ok) throw new Error('Failed to fetch programs');
       const data = await res.json();
       setPrograms(data);

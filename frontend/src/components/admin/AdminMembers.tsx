@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Users, Upload, Download, Trash2, Check, AlertCircle } from 'lucide-react';
 import * as XLSX from 'xlsx';
+import { fetchApi } from '../../lib/api';
 
 export const AdminMembers = () => {
   const [members, setMembers] = useState<any[]>([]);
@@ -12,7 +13,7 @@ export const AdminMembers = () => {
   const fetchMembers = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/members');
+      const res = await fetchApi('/api/members');
       if (!res.ok) throw new Error('Failed to fetch members');
       const data = await res.json();
       setMembers(data);
@@ -58,7 +59,7 @@ export const AdminMembers = () => {
           throw new Error('No valid members found in Excel file. Ensure columns Name and Email exist.');
         }
 
-        const res = await fetch('/api/members/bulk', {
+        const res = await fetchApi('/api/members/bulk', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formattedData)

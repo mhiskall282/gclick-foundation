@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { UserPlus, Shield, Trash2, Key } from 'lucide-react';
 import { getApiUrl } from '../../lib/api';
+import { fetchApi } from '../../lib/api';
 
 export const AdminUsers = () => {
   const [users, setUsers] = useState<any[]>([]);

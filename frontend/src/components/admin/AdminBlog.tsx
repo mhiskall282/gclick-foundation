@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Save } from 'lucide-react';
+import { fetchApi } from '../../lib/api';
 
 export const AdminBlog = () => {
   const [posts, setPosts] = useState<any[]>([]);
@@ -12,7 +13,7 @@ export const AdminBlog = () => {
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/blog');
+      const res = await fetchApi('/api/blog');
       if (!res.ok) throw new Error('Failed to fetch posts');
       const data = await res.json();
       setPosts(data);
