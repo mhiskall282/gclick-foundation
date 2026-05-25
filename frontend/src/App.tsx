@@ -65,11 +65,10 @@ const ScrollToHash = () => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('active');
-        } else {
-          entry.target.classList.remove('active');
+          observer.unobserve(entry.target); // Once active, stop observing
         }
       });
-    }, { threshold: 0.05, rootMargin: '0px 0px 0px 0px' });
+    }, { threshold: 0.01, rootMargin: '50px 0px 50px 0px' });
 
     // Initial observation
     const elements = document.querySelectorAll('.reveal-on-scroll');
@@ -95,8 +94,26 @@ const ScrollToHash = () => {
 
     mutationObserver.observe(document.body, { childList: true, subtree: true });
 
+    // Failsafe & layout settling timers
+    const layoutTimer = setTimeout(() => {
+      window.dispatchEvent(new Event('scroll'));
+    }, 500);
+
+    const layoutTimer2 = setTimeout(() => {
+      window.dispatchEvent(new Event('scroll'));
+    }, 1500);
+
+    const safetyTimer = setTimeout(() => {
+      document.querySelectorAll('.reveal-on-scroll:not(.active)').forEach(el => {
+        el.classList.add('active');
+      });
+    }, 3000);
+
     return () => {
       if (timeoutId) clearTimeout(timeoutId);
+      clearTimeout(layoutTimer);
+      clearTimeout(layoutTimer2);
+      clearTimeout(safetyTimer);
       mutationObserver.disconnect();
       observer.disconnect();
     };

@@ -30,7 +30,8 @@ const Blog = () => {
           </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-3">
+        {/* Desktop Grid Layout */}
+        <div className="hidden md:grid gap-8 md:grid-cols-3">
           {blogData.map((post, index) => (
             <article 
               key={post.id} 
@@ -76,6 +77,57 @@ const Blog = () => {
                 >
                   Read Article
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {/* Mobile Swipeable Carousel Layout */}
+        <div className="md:hidden flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory scrollbar-none px-4 -mx-4">
+          {blogData.map((post) => (
+            <article 
+              key={post.id} 
+              className="min-w-[82vw] snap-center bg-brand-dark-card border border-brand-dark-border rounded-[32px] overflow-hidden shadow-2xl transition-all duration-300 flex flex-col justify-between group"
+            >
+              <div>
+                <div className="relative h-44 overflow-hidden">
+                  <img
+                    className="w-full h-full object-cover"
+                    src={post.image}
+                    alt={post.title}
+                    loading="lazy"
+                  />
+                  <div className="absolute top-3 left-3 z-20">
+                    <span className="bg-brand-pink/90 backdrop-blur-sm text-white text-[9px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-md">
+                      Article
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="p-6 space-y-3 text-left">
+                  <div className="flex items-center text-[9px] font-bold text-gray-400 uppercase tracking-widest gap-2">
+                    <span className="flex items-center">
+                      <Calendar className="h-3 w-3 mr-1 text-brand-pink" />
+                      {new Date(post.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
+                    </span>
+                    <span>•</span>
+                    <span>{post.readTime}</span>
+                  </div>
+                  <h3 className="text-base font-display font-extrabold text-white leading-snug">
+                    {post.title}
+                  </h3>
+                  <p className="text-gray-400 text-xs leading-relaxed line-clamp-3">{post.excerpt}</p>
+                </div>
+              </div>
+              
+              <div className="p-6 pt-0 text-left">
+                <Link
+                  to={`/blog/${post.id}`}
+                  className="inline-flex items-center text-xs font-extrabold uppercase tracking-widest text-brand-pink"
+                >
+                  Read Article
+                  <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
                 </Link>
               </div>
             </article>

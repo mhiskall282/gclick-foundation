@@ -33,7 +33,8 @@ const Programs = () => {
           </p>
         </div>
 
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Desktop Grid Layout */}
+        <div className="hidden md:grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {programsData.map((program, index) => (
             <div
               key={program.id}
@@ -66,6 +67,45 @@ const Programs = () => {
                 >
                   Configure Stack
                   <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Mobile Swipeable Carousel Layout */}
+        <div className="md:hidden flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory scrollbar-none px-4 -mx-4">
+          {programsData.map((program) => (
+            <div
+              key={program.id}
+              className="min-w-[82vw] snap-center bg-brand-dark-card border border-brand-dark-border rounded-3xl overflow-hidden shadow-2xl hover:border-brand-pink/40 transition-all duration-300 flex flex-col justify-between group"
+            >
+              <div>
+                <div className="relative h-40 overflow-hidden border-b border-brand-dark-border">
+                  <img
+                    src={program.image}
+                    alt={program.title}
+                    className="w-full h-full object-cover opacity-90"
+                    loading="lazy"
+                  />
+                  <div className="absolute top-3 right-3 bg-brand-dark-obsidian/85 backdrop-blur-md px-2.5 py-0.5 rounded-full text-brand-pink text-[10px] font-bold border border-brand-dark-border">
+                    {program.duration || 'Flexible'}
+                  </div>
+                </div>
+                <div className="p-5 space-y-2 text-left">
+                  <h3 className="text-base font-display font-bold text-white group-hover:text-brand-pink transition-colors">
+                    {program.title}
+                  </h3>
+                  <p className="text-gray-400 text-xs leading-relaxed line-clamp-3">{program.description}</p>
+                </div>
+              </div>
+              <div className="p-5 pt-0 text-left">
+                <Link
+                  to={`/programs/${program.id}`}
+                  className="inline-flex items-center text-xs font-bold uppercase tracking-wider text-brand-pink"
+                >
+                  Configure Stack
+                  <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
                 </Link>
               </div>
             </div>

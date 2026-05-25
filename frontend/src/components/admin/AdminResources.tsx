@@ -30,7 +30,7 @@ export const AdminResources = () => {
     try {
       const url = currentItem ? `/api/resources/${currentItem.id}` : '/api/resources';
       const method = currentItem ? 'PUT' : 'POST';
-      await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) });
+      await fetchApi(url, { method, body: JSON.stringify(formData) });
       setIsModalOpen(false); setCurrentItem(null); setFormData({ title: '', type: 'PDF', file_url: '', description: '' }); fetchItems();
     } catch (err) { console.error(err); }
   };
@@ -55,7 +55,7 @@ export const AdminResources = () => {
               </div>
               <div className="flex gap-2">
                 <button onClick={() => { setCurrentItem(item); setFormData({ title: item.title, type: item.type, file_url: item.file_url || '', description: item.description }); setIsModalOpen(true); }} className="p-1.5 text-blue-400 hover:bg-blue-400/10 rounded-md"><Edit2 className="h-4 w-4" /></button>
-                <button onClick={async () => { if(confirm('Delete?')){ await fetch(`/api/resources/${item.id}`, { method: 'DELETE' }); fetchItems(); } }} className="p-1.5 text-red-400 hover:bg-red-400/10 rounded-md"><Trash2 className="h-4 w-4" /></button>
+                <button onClick={async () => { if(confirm('Delete?')){ await fetchApi(`/api/resources/${item.id}`, { method: 'DELETE' }); fetchItems(); } }} className="p-1.5 text-red-400 hover:bg-red-400/10 rounded-md"><Trash2 className="h-4 w-4" /></button>
               </div>
             </div>
           ))}

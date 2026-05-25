@@ -124,7 +124,7 @@ const TerminalConsole = () => {
       </div>
 
       {/* Console log content */}
-      <div className="p-6 font-mono text-[10px] sm:text-xs leading-relaxed text-gray-400 h-64 overflow-y-auto space-y-2 text-left">
+      <div className="p-4 sm:p-6 font-mono text-[10px] sm:text-xs leading-relaxed text-gray-400 h-52 sm:h-64 overflow-y-auto space-y-2 text-left">
         {logs.map((log, i) => {
           const isCommand = log.startsWith('$');
           return (

@@ -98,7 +98,8 @@ const AboutUs = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Desktop Layout */}
+          <div className="hidden md:grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {teamMembers.map((member, index) => (
               <div
                 key={member.id}
@@ -129,6 +130,44 @@ const AboutUs = () => {
                   {member.twitter && (
                     <a href={member.twitter} target="_blank" rel="noopener noreferrer" className="p-2.5 bg-brand-dark-obsidian hover:bg-brand-pink/15 rounded-xl text-gray-400 hover:text-brand-pink border border-brand-dark-border hover:border-brand-pink/30 transition-all" aria-label="Twitter Profile">
                       <Twitter className="h-4 w-4" />
+                    </a>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Mobile Swipeable Carousel Layout */}
+          <div className="md:hidden flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory scrollbar-none px-4 -mx-4">
+            {teamMembers.map((member) => (
+              <div
+                key={member.id}
+                className="min-w-[78vw] snap-center bg-brand-dark-card border border-brand-dark-border rounded-3xl overflow-hidden shadow-2xl flex flex-col justify-between group"
+              >
+                {/* Image overlay box */}
+                <div className="relative aspect-[4/5] overflow-hidden">
+                  <img
+                    className="w-full h-full object-cover"
+                    src={member.image}
+                    alt={member.name}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/95 via-brand-dark/30 to-transparent opacity-95" />
+                  <div className="absolute bottom-5 left-5 right-5 text-left">
+                    <h4 className="text-lg font-display font-extrabold text-white">{member.name}</h4>
+                    <p className="text-brand-pink text-xs font-semibold tracking-widest uppercase mt-0.5">{member.role}</p>
+                  </div>
+                </div>
+                
+                {/* Social links block */}
+                <div className="p-3 bg-brand-dark-card flex justify-center space-x-3 border-t border-brand-dark-border/50">
+                  {member.linkedin && (
+                    <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="p-2 bg-brand-dark-obsidian hover:bg-brand-pink/15 rounded-xl text-gray-400 hover:text-brand-pink border border-brand-dark-border transition-all" aria-label="LinkedIn Profile">
+                      <Linkedin className="h-3.5 w-3.5" />
+                    </a>
+                  )}
+                  {member.twitter && (
+                    <a href={member.twitter} target="_blank" rel="noopener noreferrer" className="p-2 bg-brand-dark-obsidian hover:bg-brand-pink/15 rounded-xl text-gray-400 hover:text-brand-pink border border-brand-dark-border transition-all" aria-label="Twitter Profile">
+                      <Twitter className="h-3.5 w-3.5" />
                     </a>
                   )}
                 </div>

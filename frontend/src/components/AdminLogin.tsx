@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Lock, User, ArrowLeft } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
+import { getApiUrl } from '../lib/api';
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
@@ -16,8 +17,7 @@ const AdminLogin = () => {
     setError('');
 
     try {
-      // Use the helper if available, or just use the proxied path
-      const apiUrl = import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api/auth/login` : '/api/auth/login';
+      const apiUrl = getApiUrl('/api/auth/login');
       const res = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
