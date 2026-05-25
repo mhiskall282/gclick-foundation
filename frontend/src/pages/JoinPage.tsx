@@ -34,7 +34,7 @@ const JoinPage = () => {
     setErrorMessage('');
     
     try {
-      const res = await fetch('http://localhost:3000/api/members', {
+      const res = await fetch('/api/members', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

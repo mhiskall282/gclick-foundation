@@ -10,7 +10,7 @@ const ProgramDetailPage = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    fetch(`http://localhost:3000/api/programs/${id}`)
+    fetch(`/api/programs/${id}`)
       .then(res => {
         if (!res.ok) throw new Error('Not found');
         return res.json();

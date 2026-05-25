@@ -9,7 +9,7 @@ const BlogDetailPage = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    fetch(`http://localhost:3000/api/blog/${id}`)
+    fetch(`/api/blog/${id}`)
       .then(res => {
         if (!res.ok) throw new Error('Not found');
         return res.json();

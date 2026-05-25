@@ -10,6 +10,10 @@ import BlogDetailPage from './pages/BlogDetailPage';
 import DonatePage from './pages/DonatePage';
 import JoinPage from './pages/JoinPage';
 import NotFoundPage from './pages/NotFoundPage';
+import LeadershipDetailPage from './pages/LeadershipDetailPage';
+import TracksDetailPage from './pages/TracksDetailPage';
+import LabsDetailPage from './pages/LabsDetailPage';
+import NewsDetailPage from './pages/NewsDetailPage';
 
 const ScrollProgress = () => {
   const [scrollWidth, setScrollWidth] = useState(0);
@@ -101,29 +105,43 @@ const ScrollToHash = () => {
   return null;
 };
 
+const MainLayout = ({ children }: { children: React.ReactNode }) => (
+  <>
+    <Navbar />
+    <main className="flex-grow">
+      {children}
+    </main>
+    <Footer />
+  </>
+);
+
 function App() {
   return (
     <Router>
       <ScrollToHash />
       <ScrollProgress />
       <div className="min-h-screen bg-brand-dark-obsidian text-white flex flex-col font-body">
-        <Navbar />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/programs/:id" element={<ProgramDetailPage />} />
-            <Route path="/blog/:id" element={<BlogDetailPage />} />
-            <Route path="/donate" element={<DonatePage />} />
-            <Route path="/join" element={<JoinPage />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin/dashboard" element={<AdminDashboard />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </main>
-        <Footer />
+        <Routes>
+          {/* Public Routes with Navbar and Footer */}
+          <Route path="/" element={<MainLayout><HomePage /></MainLayout>} />
+          <Route path="/programs/:id" element={<MainLayout><ProgramDetailPage /></MainLayout>} />
+          <Route path="/blog/:id" element={<MainLayout><BlogDetailPage /></MainLayout>} />
+          <Route path="/leadership/:id" element={<MainLayout><LeadershipDetailPage /></MainLayout>} />
+          <Route path="/tracks/:id" element={<MainLayout><TracksDetailPage /></MainLayout>} />
+          <Route path="/labs/:id" element={<MainLayout><LabsDetailPage /></MainLayout>} />
+          <Route path="/news/:id" element={<MainLayout><NewsDetailPage /></MainLayout>} />
+          <Route path="/donate" element={<MainLayout><DonatePage /></MainLayout>} />
+          <Route path="/join" element={<MainLayout><JoinPage /></MainLayout>} />
+          
+          {/* Admin Routes without Navbar and Footer */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          
+          <Route path="*" element={<MainLayout><NotFoundPage /></MainLayout>} />
+        </Routes>
       </div>
     </Router>
   );
 }
 
-export default App;
+export default App;

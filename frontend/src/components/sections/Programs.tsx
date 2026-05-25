@@ -6,7 +6,7 @@ const Programs = () => {
   const [programsData, setProgramsData] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/programs')
+    fetch('/api/programs')
       .then(res => res.json())
       .then(data => setProgramsData(data))
       .catch(err => console.error('Error fetching programs:', err));

@@ -12,7 +12,7 @@ export const AdminBlog = () => {
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:3000/api/blog');
+      const res = await fetch('/api/blog');
       if (!res.ok) throw new Error('Failed to fetch posts');
       const data = await res.json();
       setPosts(data);
@@ -30,8 +30,8 @@ export const AdminBlog = () => {
     e.preventDefault();
     try {
       const url = currentPost.id 
-        ? `http://localhost:3000/api/blog/${currentPost.id}` 
-        : 'http://localhost:3000/api/blog';
+        ? `/api/blog/${currentPost.id}` 
+        : '/api/blog';
       const method = currentPost.id ? 'PUT' : 'POST';
       
       const res = await fetch(url, {
@@ -110,7 +110,7 @@ export const AdminBlog = () => {
                 <button 
                   onClick={async () => {
                     if (window.confirm('Delete this post?')) {
-                      await fetch(`http://localhost:3000/api/blog/${p.id}`, { method: 'DELETE' });
+                      await fetch(`/api/blog/${p.id}`, { method: 'DELETE' });
                       fetchPosts();
                     }
                   }} 

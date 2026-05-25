@@ -71,6 +71,13 @@ const Navbar = () => {
             >
               Donate
             </Link>
+            <button
+              onClick={() => document.documentElement.classList.toggle('light-mode')}
+              className="p-2 rounded-full border border-brand-dark-border hover:border-brand-pink text-gray-400 hover:text-brand-pink transition-all shadow-sm"
+              title="Toggle Theme"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+            </button>
           </div>
 
           <div className="md:hidden flex items-center">

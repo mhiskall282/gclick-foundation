@@ -67,6 +67,71 @@ const setupDatabase = async () => {
     `);
     console.log('Created robust members table.');
 
+    // 5 New Tables for Extended CMS
+    
+    // 1. Leadership
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS leadership (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        role VARCHAR(255) NOT NULL,
+        bio TEXT,
+        image TEXT,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+    console.log('Created leadership table.');
+
+    // 2. Educational Tracks
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS educational_tracks (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        description TEXT NOT NULL,
+        details TEXT,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+    console.log('Created educational_tracks table.');
+
+    // 3. Interactive Labs
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS interactive_labs (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        video_url TEXT,
+        description TEXT,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+    console.log('Created interactive_labs table.');
+
+    // 4. News
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS news (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        content TEXT NOT NULL,
+        date DATE NOT NULL,
+        image TEXT,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+    console.log('Created news table.');
+
+    // 5. Resources
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS resources (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        type VARCHAR(100),
+        file_url TEXT,
+        description TEXT,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+    console.log('Created resources table.');
+
     // Seed Initial Data (Programs)
     const { rowCount: programCount } = await client.query(`SELECT COUNT(*) FROM programs`);
     if (!programCount || programCount === 0) {

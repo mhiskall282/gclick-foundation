@@ -4,6 +4,11 @@ import dotenv from 'dotenv';
 import programRoutes from './routes/programs';
 import blogRoutes from './routes/blog';
 import membersRoutes from './routes/members';
+import leadershipRoutes from './routes/leadership';
+import tracksRoutes from './routes/tracks';
+import labsRoutes from './routes/labs';
+import newsRoutes from './routes/news';
+import resourcesRoutes from './routes/resources';
 
 dotenv.config();
 
@@ -17,6 +22,11 @@ app.use(express.json());
 app.use('/api/programs', programRoutes);
 app.use('/api/blog', blogRoutes);
 app.use('/api/members', membersRoutes);
+app.use('/api/leadership', leadershipRoutes);
+app.use('/api/tracks', tracksRoutes);
+app.use('/api/labs', labsRoutes);
+app.use('/api/news', newsRoutes);
+app.use('/api/resources', resourcesRoutes);
 
 // Health check
 app.get('/health', (req, res) => {

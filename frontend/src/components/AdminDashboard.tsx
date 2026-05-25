@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Users, BookOpen, Mail, DollarSign, LogOut, Activity, Database, CheckCircle, RefreshCw, PenTool, LayoutTemplate } from 'lucide-react';
+import { Users, BookOpen, Mail, DollarSign, LogOut, Activity, Database, CheckCircle, RefreshCw, PenTool, LayoutTemplate, Star, Video, Newspaper, Archive } from 'lucide-react';
 import { AdminPrograms } from './admin/AdminPrograms';
 import { AdminBlog } from './admin/AdminBlog';
 import { AdminMembers } from './admin/AdminMembers';
+import { AdminLeadership } from './admin/AdminLeadership';
+import { AdminTracks } from './admin/AdminTracks';
+import { AdminLabs } from './admin/AdminLabs';
+import { AdminNews } from './admin/AdminNews';
+import { AdminResources } from './admin/AdminResources';
 
 const AdminDashboard = () => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'programs' | 'blog' | 'members' | 'submissions' | 'api-logs'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'programs' | 'blog' | 'members' | 'leadership' | 'tracks' | 'labs' | 'news' | 'resources' | 'submissions' | 'api-logs'>('overview');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const navigate = useNavigate();
 
@@ -52,61 +57,53 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <nav className="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+        <nav className="flex-1 overflow-y-auto py-6 px-4 space-y-1 scrollbar-hide">
           <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-3">Main Menu</p>
           
-          <button
-            onClick={() => setActiveTab('overview')}
-            className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'overview' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
-          >
+          <button onClick={() => setActiveTab('overview')} className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'overview' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}>
             <Activity className="h-4 w-4 mr-3" /> Overview
           </button>
-          <button
-            onClick={() => setActiveTab('programs')}
-            className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'programs' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
-          >
-            <LayoutTemplate className="h-4 w-4 mr-3" /> Programs CMS
+          
+          <div className="pt-4 pb-2"><p className="px-3 text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">Content Management</p></div>
+          
+          <button onClick={() => setActiveTab('programs')} className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'programs' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}>
+            <LayoutTemplate className="h-4 w-4 mr-3" /> Programs
           </button>
-          <button
-            onClick={() => setActiveTab('blog')}
-            className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'blog' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
-          >
-            <PenTool className="h-4 w-4 mr-3" /> Blog CMS
+          <button onClick={() => setActiveTab('blog')} className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'blog' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}>
+            <PenTool className="h-4 w-4 mr-3" /> Blog
           </button>
-          <button
-            onClick={() => setActiveTab('members')}
-            className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'members' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
-          >
-            <Users className="h-4 w-4 mr-3" /> Members Directory
+          <button onClick={() => setActiveTab('news')} className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'news' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}>
+            <Newspaper className="h-4 w-4 mr-3" /> News & Insights
+          </button>
+          <button onClick={() => setActiveTab('leadership')} className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'leadership' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}>
+            <Star className="h-4 w-4 mr-3" /> Leadership
+          </button>
+          <button onClick={() => setActiveTab('tracks')} className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'tracks' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}>
+            <BookOpen className="h-4 w-4 mr-3" /> Educational Tracks
+          </button>
+          <button onClick={() => setActiveTab('labs')} className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'labs' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}>
+            <Video className="h-4 w-4 mr-3" /> Interactive Labs
+          </button>
+          <button onClick={() => setActiveTab('resources')} className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'resources' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}>
+            <Archive className="h-4 w-4 mr-3" /> Resources Hub
           </button>
           
-          <div className="pt-6 pb-2">
-            <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-3">Logs & Data</p>
-          </div>
-          <button
-            onClick={() => setActiveTab('submissions')}
-            className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'submissions' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
-          >
+          <div className="pt-4 pb-2"><p className="px-3 text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-1">User Data & Logs</p></div>
+
+          <button onClick={() => setActiveTab('members')} className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'members' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}>
+            <Users className="h-4 w-4 mr-3" /> Members Directory
+          </button>
+          <button onClick={() => setActiveTab('submissions')} className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'submissions' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}>
             <DollarSign className="h-4 w-4 mr-3" /> Sponsorship Log
           </button>
-          <button
-            onClick={() => setActiveTab('api-logs')}
-            className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'api-logs' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
-          >
+          <button onClick={() => setActiveTab('api-logs')} className={`w-full flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeTab === 'api-logs' ? 'bg-brand-pink/10 text-brand-pink' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}>
             <Activity className="h-4 w-4 mr-3" /> API Webhooks
           </button>
         </nav>
 
         <div className="p-4 border-t border-brand-dark-border">
-          <button
-            onClick={() => {
-              sessionStorage.removeItem('isAuthenticated');
-              navigate('/admin/login');
-            }}
-            className="w-full flex items-center justify-center px-4 py-2.5 bg-white/5 hover:bg-red-500/10 text-gray-400 hover:text-red-400 rounded-xl text-sm font-semibold transition-all"
-          >
-            <LogOut className="h-4 w-4 mr-2" />
-            Disconnect
+          <button onClick={() => { sessionStorage.removeItem('isAuthenticated'); navigate('/admin/login'); }} className="w-full flex items-center justify-center px-4 py-2.5 bg-white/5 hover:bg-red-500/10 text-gray-400 hover:text-red-400 rounded-xl text-sm font-semibold transition-all">
+            <LogOut className="h-4 w-4 mr-2" /> Disconnect
           </button>
         </div>
       </aside>
@@ -188,17 +185,14 @@ const AdminDashboard = () => {
           </div>
         )}
 
-        {activeTab === 'programs' && (
-          <AdminPrograms />
-        )}
-
-        {activeTab === 'blog' && (
-          <AdminBlog />
-        )}
-
-        {activeTab === 'members' && (
-          <AdminMembers />
-        )}
+        {activeTab === 'programs' && <AdminPrograms />}
+        {activeTab === 'blog' && <AdminBlog />}
+        {activeTab === 'members' && <AdminMembers />}
+        {activeTab === 'leadership' && <AdminLeadership />}
+        {activeTab === 'tracks' && <AdminTracks />}
+        {activeTab === 'labs' && <AdminLabs />}
+        {activeTab === 'news' && <AdminNews />}
+        {activeTab === 'resources' && <AdminResources />}
 
         {activeTab === 'submissions' && (
           <div className="bg-brand-dark-card border border-brand-dark-border rounded-3xl overflow-hidden shadow-2xl">

@@ -14,7 +14,7 @@ export const AdminPrograms = () => {
   const fetchPrograms = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:3000/api/programs');
+      const res = await fetch('/api/programs');
       if (!res.ok) throw new Error('Failed to fetch programs');
       const data = await res.json();
       setPrograms(data);
@@ -32,8 +32,8 @@ export const AdminPrograms = () => {
     e.preventDefault();
     try {
       const url = currentProgram.id 
-        ? `http://localhost:3000/api/programs/${currentProgram.id}` 
-        : 'http://localhost:3000/api/programs';
+        ? `/api/programs/${currentProgram.id}` 
+        : '/api/programs';
       const method = currentProgram.id ? 'PUT' : 'POST';
       
       const res = await fetch(url, {
@@ -131,7 +131,7 @@ export const AdminPrograms = () => {
                 <button 
                   onClick={async () => {
                     if (window.confirm('Delete this program?')) {
-                      await fetch(`http://localhost:3000/api/programs/${p.id}`, { method: 'DELETE' });
+                      await fetch(`/api/programs/${p.id}`, { method: 'DELETE' });
                       fetchPrograms();
                     }
                   }} 

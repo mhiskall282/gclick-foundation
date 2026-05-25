@@ -12,7 +12,7 @@ export const AdminMembers = () => {
   const fetchMembers = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:3000/api/members');
+      const res = await fetch('/api/members');
       if (!res.ok) throw new Error('Failed to fetch members');
       const data = await res.json();
       setMembers(data);
@@ -58,7 +58,7 @@ export const AdminMembers = () => {
           throw new Error('No valid members found in Excel file. Ensure columns Name and Email exist.');
         }
 
-        const res = await fetch('http://localhost:3000/api/members/bulk', {
+        const res = await fetch('/api/members/bulk', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formattedData)

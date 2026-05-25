@@ -6,7 +6,7 @@ const Blog = () => {
   const [blogData, setBlogData] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/blog')
+    fetch('/api/blog')
       .then(res => res.json())
       .then(data => setBlogData(data))
       .catch(err => console.error('Error fetching blog posts:', err));
