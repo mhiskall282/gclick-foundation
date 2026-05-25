@@ -7,13 +7,38 @@ const stats = [
   { id: 3, name: 'Awards Won', value: '15+', icon: Award },
 ];
 
+const fallbackLeaders = [
+  {
+    id: 'wintima',
+    name: 'Miss Wintima Akudugu',
+    role: 'Founder & CEO',
+    image: '/images/wintima.png',
+    bio: 'Wintima leads the strategic vision of G-Click, connecting local talents with global mentors.',
+    linkedin: '#',
+    twitter: '#'
+  },
+  {
+    id: 'esther',
+    name: 'Ms. Esther Gyimah',
+    role: 'Operations Director',
+    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800',
+    bio: 'Esther coordinates the mentorship cohorts and local workshop logistics.',
+    linkedin: '#',
+    twitter: '#'
+  }
+];
+
 const AboutUs = () => {
-  const [teamMembers, setTeamMembers] = useState<any[]>([]);
+  const [teamMembers, setTeamMembers] = useState<any[]>(fallbackLeaders);
 
   useEffect(() => {
     fetch('/api/leadership')
       .then(res => res.json())
-      .then(data => setTeamMembers(Array.isArray(data) ? data : []))
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setTeamMembers(data);
+        }
+      })
       .catch(err => console.error('Error fetching leadership:', err));
   }, []);
 

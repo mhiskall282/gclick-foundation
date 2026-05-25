@@ -1,67 +1,84 @@
 # Technical Guide & Documentation
 
-This guide provides technical insights into the architecture, deployment strategies, and pending features of the G-Click Foundation platform.
-
-## 🏗 Architecture & Design Decisions
-
-### 1. Monorepo Strategy
-We chose a pseudo-monorepo structure using a root `package.json` with `concurrently` to run both the frontend and backend simultaneously in development. This keeps the codebase unified while allowing independent deployments for production (Vercel for Frontend, Render for Backend).
-
-### 2. The API Proxy (Vercel Rewrites vs. Vite Proxy)
-To avoid CORS issues and hardcoding full URLs in the frontend code, we utilize a proxy pattern:
-*   **Local Development:** `frontend/vite.config.ts` proxies all `/api/*` requests to `http://localhost:4000`.
-*   **Production Deployment:** `frontend/vercel.json` intercepts all `/api/*` requests and rewrites them to your live Render backend URL.
-*   **Frontend Helper:** We also implemented an optional `frontend/src/lib/api.ts` utility that reads `VITE_API_URL` from the `.env` file for highly customized API targeting.
-
-### 3. Backend Resiliency
-The Node.js Express server is built for production environments:
-*   **Helmet:** Injected into `index.ts` to automatically secure HTTP headers against XSS and sniffing attacks.
-*   **Morgan:** Configured for request logging, which is essential for diagnosing live traffic issues on Render.
-*   **Global Error Handler:** A catch-all middleware intercepts untrapped errors and returns a sanitized `500 Internal Server Error` JSON object, preventing the Node process from crashing and leaking stack traces.
-
-### 4. Database Setup & Seeding
-We migrated away from static React arrays to a live PostgreSQL database.
-*   **No ORM Overhead:** We utilized the raw `pg` client and `@supabase/supabase-js` for lightweight, fast queries.
-*   **Row Level Security (RLS):** By default, Supabase enabled RLS on table creation, which blocked public API reads. We successfully bypassed this by executing an explicit script to disable RLS for the public-facing content tables (Programs, Blog, etc.) so that unauthenticated visitors can view the site data.
+This guide provides deep technical insights into the architecture, database configurations, optimization settings, and administrative operations of the G-Click Foundation platform.
 
 ---
 
-## 🚀 Deployment Instructions
+## 🏗️ Architecture & Core Components
 
-### Deploying the Backend (Render)
-1. Connect your GitHub repository to Render.
-2. Create a new **Web Service**.
-3. **Root Directory:** Set this strictly to `backend`.
-4. **Build Command:** `npm install && npm run build` (This ensures TypeScript compiles to JavaScript).
-5. **Start Command:** `npm start`
-6. **Environment Variables:** Ensure you add your `SUPABASE_URL` and `SUPABASE_SERVICE_KEY` in the Render dashboard.
+### 1. Monorepo & Dev Server Structure
+The repository is structured as a full-stack monorepo:
+*   **Root Folder:** Holds configuration files and runs a combined development environment (`npm run dev`) via the `concurrently` package.
+*   **`/frontend`:** A standalone React 18, Vite, and TypeScript SPA styled with a custom dark obsidian and neon pink theme.
+*   **`/backend`:** A standalone Node.js and Express API server written in TypeScript that connects to Supabase.
 
-### Deploying the Frontend (Vercel)
-1. Connect your GitHub repository to Vercel.
-2. **Root Directory:** Set this strictly to `frontend`.
-3. Vercel will automatically detect Vite and run `npm run build`.
-4. **Environment Variables:** No variables are strictly required since `vercel.json` handles the routing, but you MUST update `frontend/vercel.json` with your live Render backend URL before deploying!
+### 2. API Proxy Routing & Deployments
+To handle CORS and route requests clean of absolute domains, we deploy a proxy pattern:
+*   **Local Development:** Vite's dev server (`/frontend/vite.config.ts`) proxies `/api/*` directly to `http://localhost:4000`.
+*   **Production Deployment:** Both `frontend/vercel.json` and the root `vercel.json` rewrite `/api/:path*` directly to your live Render backend URL (`https://gclick-foundation.onrender.com/api/:path*`). All other SPA routes fall back to `/index.html`.
+*   **URL Path Sanitizer:** To avoid double slash route mismatches (which result in `404 Not Found` HTML responses), the helper `getApiUrl` (`/frontend/src/lib/api.ts`) strips trailing slashes from the environment's `VITE_API_URL` and normalizes paths.
 
 ---
 
-## 📋 What's Left? (Pending Features & Roadmap)
+## 🔒 Security & Authentication
 
-While the core functionality and CMS are fully operational, the following modules require attention in the next iteration:
+### 1. JWT Middleware & Authorization Headers
+Every modifying action (`POST`, `PUT`, `DELETE`) on the backend is protected by the `verifyToken` middleware (`/backend/src/middleware/auth.ts`). 
+*   **Authentication Flow:** Administrators log in at `/admin/login`, which returns a signed JSON Web Token (JWT) on success.
+*   **Headers:** The frontend stores this token in `localStorage`. Every CMS component executes queries using the `fetchApi` wrapper, which automatically injects the token as an `Authorization: Bearer <token>` header.
+*   **Root Credentials:** Root access credentials are configured in the backend `.env` file under `ADMIN_EMAIL` and `ADMIN_PASSWORD` (currently set to your requested `Mhiskall9090`).
 
-### 1. The Donation Module
-*   **Status:** Pending.
-*   **Details:** We postponed the donation integration to prioritize core features. This will require setting up Paystack or a similar payment gateway webhook endpoint (`/api/webhooks/paystack`) to record successful donations into the `sponsorship_log` table.
+### 2. Administrative User Management (Sub-Admins)
+The Root Admin can create additional sub-admin accounts dynamically via the **Admin Users** console.
+*   New accounts are stored in the `admin_users` table in your Supabase database.
+*   Passwords are hashed securely with a 10-round `bcrypt` salt before insertion.
 
-### 2. Admin Authentication (JWT Authorization)
-*   **Status:** Partially Implemented.
-*   **Details:** The `AdminDashboard` currently relies on frontend `sessionStorage` for login protection. While this hides the UI, the backend API endpoints (e.g., `POST /api/programs`, `DELETE /api/tracks`) are fully open. 
-*   **Action Required:** We need to implement a JWT (JSON Web Token) middleware in Express. When the admin logs in, the backend should issue a token, and the frontend must attach this token as a `Bearer` header to all `POST/PUT/DELETE` requests.
+---
 
-### 3. Image Upload System
-*   **Status:** Needs Enhancement.
-*   **Details:** Currently, adding images via the Admin Dashboard requires pasting an external URL (e.g., an Unsplash link). 
-*   **Action Required:** Implement Multer in the Express backend and configure a Supabase Storage bucket so administrators can directly upload images from their computer to the server.
+## 💾 Database Configuration & RLS
 
-### 4. Bulk User Upload via Excel/CSV
-*   **Status:** Pending.
-*   **Details:** You requested the ability to upload an Excel sheet to bulk-add members, and to export them as PDF/Excel. The `xlsx` library is installed in the frontend, but the UI component and parser logic need to be built to feed the existing `POST /api/members/bulk` endpoint.
+We connect directly to your PostgreSQL database hosted on Supabase:
+*   **pg client & pooler:** Raw client connections are established using the pooler URL.
+*   **Row Level Security (RLS):** Because the backend environment is configured with a Supabase public publishable key (`sb_publishable_...`), Supabase RLS is enforced.
+*   **Disabled RLS Tables:** To allow database mutations (such as member registration and sub-admin creation) to succeed without violating RLS rules, Row Level Security has been explicitly disabled on the following tables using root PostgreSQL commands:
+    ```sql
+    ALTER TABLE programs DISABLE ROW LEVEL SECURITY;
+    ALTER TABLE blog_posts DISABLE ROW LEVEL SECURITY;
+    ALTER TABLE leadership DISABLE ROW LEVEL SECURITY;
+    ALTER TABLE educational_tracks DISABLE ROW LEVEL SECURITY;
+    ALTER TABLE interactive_labs DISABLE ROW LEVEL SECURITY;
+    ALTER TABLE news DISABLE ROW LEVEL SECURITY;
+    ALTER TABLE resources DISABLE ROW LEVEL SECURITY;
+    ALTER TABLE admin_users DISABLE ROW LEVEL SECURITY;
+    ALTER TABLE members DISABLE ROW LEVEL SECURITY;
+    ```
+
+---
+
+## ⚡ Performance & Page-Speed Settings
+
+To guarantee lightning-fast visual loads and prevent page rendering freezes on mobile devices, we implemented the following optimizations:
+
+### 1. Session-Caching Splash Screen
+*   The Cyberpunk Splash Screen checks the browser's `sessionStorage` for a `'splashShown'` flag. 
+*   First-time visitors see a fast `1200ms` branding animation that actively wakes up the Render backend in the background.
+*   Repeat page clicks, internal routing, or refreshes bypass the splash screen completely (`0ms` load block).
+
+### 2. GPU-Optimized CSS Transitions
+*   Removed heavy `filter: blur(6px)` and `scale(0.97)` styling from scroll-reveal animations (`reveal-on-scroll`). GPU rendering of blurs causes significant frame-rate lag on mobile viewports.
+*   Shortened scroll reveal durations from `0.65s` to `0.3s` for a faster, snappy animation response.
+*   Added a layout-settling scroll dispatcher and a **3-second safety failsafe** in `ScrollToHash` to force-reveal all page elements even if the browser's native `IntersectionObserver` halts.
+
+---
+
+## 📝 Administrative Features
+
+### 1. Direct Image Uploads (Multer to Supabase Storage)
+Administrators do not need to paste external image links. They can upload files directly from their machine:
+*   Backend endpoint `POST /api/upload` intercepts file uploads using `multer`.
+*   Uploads are stored in your Supabase bucket named `images` and return a public access URL.
+
+### 2. Excel Import/Export & PDF Reports
+*   **Import:** Excel and CSV rosters can be uploaded on the **Members Directory** tab, parsed on the client using `xlsx`, and bulk-saved to `/api/members/bulk`.
+*   **Export:** Roster databases can be downloaded instantly as structured Excel spreadsheets.
+*   **PDF Roster:** Beautiful, printable PDF member summaries are compiled on-demand using `jsPDF` and `jspdf-autotable`.

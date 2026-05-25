@@ -2,14 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getApiUrl } from '../../lib/api';
+import { programsData as staticPrograms } from '../../data/programsData';
 
 const Programs = () => {
-  const [programsData, setProgramsData] = useState<any[]>([]);
+  const [programsData, setProgramsData] = useState<any[]>(staticPrograms);
 
   useEffect(() => {
     fetch(getApiUrl('/api/programs'))
       .then(res => res.json())
-      .then(data => setProgramsData(Array.isArray(data) ? data : []))
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setProgramsData(data);
+        }
+      })
       .catch(err => console.error('Error fetching programs:', err));
   }, []);
 

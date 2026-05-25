@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { blogData as staticBlogs } from '../../data/blogData';
 
 const Blog = () => {
-  const [blogData, setBlogData] = useState<any[]>([]);
+  const [blogData, setBlogData] = useState<any[]>(staticBlogs);
 
   useEffect(() => {
     fetch('/api/blog')
       .then(res => res.json())
-      .then(data => setBlogData(Array.isArray(data) ? data : []))
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setBlogData(data);
+        }
+      })
       .catch(err => console.error('Error fetching blog posts:', err));
   }, []);
 
