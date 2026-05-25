@@ -61,7 +61,7 @@ export const AdminPrograms = () => {
         : '/api/programs';
       const method = currentProgram.id ? 'PUT' : 'POST';
       
-      const res = await fetch(url, {
+      const res = await fetchApi(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(currentProgram)
