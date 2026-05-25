@@ -34,6 +34,10 @@ app.use('/api/news', newsRoutes);
 app.use('/api/resources', resourcesRoutes);
 
 // Health check
+app.get('/', (req, res) => {
+  res.status(200).json({ status: 'OK', message: 'G-Click API is live!' });
+});
+
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK', message: 'Backend is running' });
 });
