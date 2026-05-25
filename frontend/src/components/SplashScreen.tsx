@@ -34,27 +34,25 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
     };
     wakeBackend();
 
-    // 3. Fake Progress Logic (Fast loading simulation)
-    // We will guarantee the splash screen disappears after 5 seconds MAXIMUM
-    // so mobile users aren't stuck waiting 50s for Render.
-    let currentProgress = 0;
-    const maxWaitTime = 5000; 
-    const tickRate = 50;
+    // 3. Smooth Progress Logic (Fast loading simulation)
+    // We will guarantee the splash screen disappears after 4 seconds MAXIMUM.
+    const maxWaitTime = 4000; 
+    const tickRate = 20;
     const increment = 100 / (maxWaitTime / tickRate);
 
     const progressInterval = setInterval(() => {
-      currentProgress += increment + (Math.random() * 2);
-      if (currentProgress > 99) currentProgress = 99;
-      setProgress(currentProgress);
+      setProgress(prev => {
+        const next = prev + increment;
+        if (next >= 100) {
+          clearInterval(progressInterval);
+          handleSkip();
+          return 100;
+        }
+        return next;
+      });
     }, tickRate);
 
-    // 4. Force complete after max wait time
-    const maxTimeout = setTimeout(() => {
-      setProgress(100);
-      handleSkip();
-    }, maxWaitTime);
-
-    // 5. Aggressive backend readiness check
+    // 4. Aggressive backend readiness check (if it wakes up faster than 4s)
     const checkReadyInterval = setInterval(async () => {
       try {
         const apiUrl = import.meta.env.VITE_API_URL || '';
@@ -67,13 +65,12 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
       } catch (e) {
         // ignore
       }
-    }, 1500);
+    }, 1000);
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       clearInterval(progressInterval);
       clearInterval(checkReadyInterval);
-      clearTimeout(maxTimeout);
     };
   }, [handleSkip]);
 
