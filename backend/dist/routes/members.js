@@ -4,12 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const supabaseClient_1 = __importDefault(require("../db/supabaseClient"));
+const supabaseClient_1 = require("../db/supabaseClient");
 const router = express_1.default.Router();
 // Get all members
 router.get('/', async (req, res) => {
     try {
-        const { data, error } = await supabaseClient_1.default
+        const { data, error } = await supabaseClient_1.supabase
             .from('members')
             .select('*')
             .order('joined_at', { ascending: false });
@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     const { name, email, phone, location, address, employment_status, student_year, background_info } = req.body;
     try {
-        const { data, error } = await supabaseClient_1.default
+        const { data, error } = await supabaseClient_1.supabase
             .from('members')
             .insert([{ name, email, phone, location, address, employment_status, student_year, background_info }])
             .select();
@@ -49,7 +49,7 @@ router.post('/bulk', async (req, res) => {
         return res.status(400).json({ error: 'Expected an array of members' });
     }
     try {
-        const { data, error } = await supabaseClient_1.default
+        const { data, error } = await supabaseClient_1.supabase
             .from('members')
             .insert(members)
             .select();
