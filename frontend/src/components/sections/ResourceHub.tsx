@@ -1,40 +1,26 @@
-import React from 'react';
-import { BookOpen, Video, Users, Download, ArrowRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { BookOpen, Video, Users, Download, ArrowRight, FileText, Archive } from 'lucide-react';
 import type { Resource } from '../../types/resource';
 
-const resources: Resource[] = [
-  {
-    id: 1,
-    title: "Learning Materials",
-    description: "Access our comprehensive library of educational slides, guides, and checklists.",
-    icon: BookOpen,
-    link: "#"
-  },
-  {
-    id: 2,
-    title: "Workshop Videos",
-    description: "Watch full recordings of our past software development workshops and panels.",
-    icon: Video,
-    link: "#"
-  },
-  {
-    id: 3,
-    title: "Mentorship Guides",
-    description: "Learn how to establish relationships and set roadmap goals with your mentors.",
-    icon: Users,
-    link: "#"
-  },
-  {
-    id: 4,
-    title: "Developer Kits",
-    description: "Get started quickly with structured CV templates, Git guides, and IDE setups.",
-    icon: Download,
-    link: "#"
-  }
-];
+const getIconForType = (type: string) => {
+  if (!type) return BookOpen;
+  const t = type.toLowerCase();
+  if (t.includes('video')) return Video;
+  if (t.includes('document')) return FileText;
+  if (t.includes('archive')) return Archive;
+  return BookOpen;
+};
 
 const ResourceHub = () => {
-  const [toastMsg, setToastMsg] = React.useState('');
+  const [toastMsg, setToastMsg] = useState('');
+  const [resources, setResources] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch('/api/resources')
+      .then(res => res.json())
+      .then(data => setResources(data))
+      .catch(err => console.error('Error fetching resources:', err));
+  }, []);
 
   const showToast = (msg: string) => {
     setToastMsg(msg);
@@ -61,7 +47,7 @@ const ResourceHub = () => {
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {resources.map((resource, index) => {
-            const Icon = resource.icon;
+            const Icon = getIconForType(resource.type);
             return (
               <div
                 key={resource.id}
@@ -82,13 +68,21 @@ const ResourceHub = () => {
                 </div>
 
                 <div className="pt-6 relative z-10 text-left">
-                  <button
-                    onClick={() => showToast('This resource is preparing for release. Join our newsletter to receive it first!')}
+                  <a
+                    href={resource.file_url}
+                    onClick={(e) => {
+                      if (!resource.file_url || resource.file_url === '#') {
+                        e.preventDefault();
+                        showToast('This resource is preparing for release. Join our newsletter to receive it first!');
+                      }
+                    }}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center text-xs font-extrabold uppercase tracking-widest text-brand-pink group-hover:text-brand-purple transition-all duration-300"
                   >
                     Access Resource
                     <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </button>
+                  </a>
                 </div>
               </div>
             );

@@ -2,53 +2,33 @@ import React, { useState, useEffect } from 'react';
 import { Terminal, Play, Folder, FileVideo, Activity, Sparkles, Monitor, Info } from 'lucide-react';
 
 interface VideoNode {
-  id: string;
-  name: string;
+  id: string | number;
   title: string;
-  url: string;
+  video_url: string;
   description: string;
 }
 
-const videos: VideoNode[] = [
-  {
-    id: 'react',
-    name: 'react_core.mp4',
-    title: 'React in 100 Seconds',
-    url: 'https://www.youtube.com/embed/SqcY0GlETPk',
-    description: 'A rapid-fire introduction to components, state, props, and standard rendering cycles in React.'
-  },
-  {
-    id: 'nextjs',
-    name: 'nextjs_app_router.sh',
-    title: 'Next.js in 100 Seconds',
-    url: 'https://www.youtube.com/embed/jMy4pVZ7upE',
-    description: 'Learn file-system routing, Server Components, client-side rendering boundaries, and API routes.'
-  },
-  {
-    id: 'git',
-    name: 'version_control.log',
-    title: 'Git & GitHub in 100 Seconds',
-    url: 'https://www.youtube.com/embed/RGOj5yH7evk',
-    description: 'Understand commits, branching structures, pulling changes, and managing developer repositories.'
-  },
-  {
-    id: 'cli',
-    name: 'terminal_shortcuts.env',
-    title: 'Terminal in 100 Seconds',
-    url: 'https://www.youtube.com/embed/5Xg1Sp65x_0',
-    description: 'Get comfortable with files, paths, environment operations, and piping CLI commands.'
-  }
-];
-
 const MediaConsole = () => {
-  const [selectedVideo, setSelectedVideo] = useState<VideoNode>(videos[0]);
+  const [videos, setVideos] = useState<VideoNode[]>([]);
+  const [selectedVideo, setSelectedVideo] = useState<VideoNode | null>(null);
   const [consoleLogs, setConsoleLogs] = useState<string[]>([]);
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
+    fetch('/api/labs')
+      .then(res => res.json())
+      .then(data => {
+        setVideos(data);
+        if (data.length > 0) setSelectedVideo(data[0]);
+      })
+      .catch(err => console.error('Error fetching labs:', err));
+  }, []);
+
+  useEffect(() => {
+    if (!selectedVideo) return;
     // Generate simulated terminal logs for video node mounting
     const newLogs = [
-      `[CONSOLE] Fetching node resource: ${selectedVideo.name}...`,
+      `[CONSOLE] Fetching node resource: ${selectedVideo.title}...`,
       `[PEER] Connecting to global CDN cluster: active-02`,
       `[BUFFER] Initializing direct audio/video streaming buffer`,
       `[READY] Payload size checked. Stream status: ONLINE (1080p, 60fps)`,
@@ -100,7 +80,7 @@ const MediaConsole = () => {
 
               <div className="pl-4 space-y-1.5 border-l border-brand-dark-border/60 ml-2">
                 {videos.map((vid) => {
-                  const isActive = vid.id === selectedVideo.id;
+                  const isActive = selectedVideo && vid.id === selectedVideo.id;
                   return (
                     <button
                       key={vid.id}
@@ -112,7 +92,7 @@ const MediaConsole = () => {
                       }`}
                     >
                       <FileVideo className={`h-3.5 w-3.5 flex-shrink-0 ${isActive ? 'text-brand-pink' : 'text-gray-500'}`} />
-                      <span className="truncate">{vid.name}</span>
+                      <span className="truncate">{vid.title}</span>
                     </button>
                   );
                 })}
@@ -120,15 +100,17 @@ const MediaConsole = () => {
             </div>
 
             {/* Selected File Meta Card */}
-            <div className="mt-auto bg-brand-dark-obsidian border border-brand-dark-border p-4 rounded-2xl space-y-3">
-              <div className="flex items-center gap-1.5 text-brand-pink font-bold text-[10px] uppercase tracking-wider">
-                <Info className="h-3.5 w-3.5" />
-                Description
+            {selectedVideo && (
+              <div className="mt-auto bg-brand-dark-obsidian border border-brand-dark-border p-4 rounded-2xl space-y-3">
+                <div className="flex items-center gap-1.5 text-brand-pink font-bold text-[10px] uppercase tracking-wider">
+                  <Info className="h-3.5 w-3.5" />
+                  Description
+                </div>
+                <p className="text-[11px] text-gray-400 leading-relaxed font-medium">
+                  {selectedVideo.description}
+                </p>
               </div>
-              <p className="text-[11px] text-gray-400 leading-relaxed font-medium">
-                {selectedVideo.description}
-              </p>
-            </div>
+            )}
           </div>
 
           {/* Right Column: Code Editor & Frame Player */}
@@ -144,7 +126,7 @@ const MediaConsole = () => {
               {/* Tab Node Title */}
               <div className="bg-brand-dark-card border-x border-t border-brand-dark-border rounded-t-xl px-4 py-2 text-xs font-mono font-bold text-white flex items-center gap-2 -mb-2 mt-2">
                 <FileVideo className="h-3.5 w-3.5 text-brand-pink" />
-                {selectedVideo.name}
+                {selectedVideo?.title || 'Loading...'}
               </div>
 
               <div className="text-[10px] text-gray-500 font-mono font-bold">
@@ -154,7 +136,7 @@ const MediaConsole = () => {
 
             {/* Video Player Display */}
             <div className="flex-grow bg-black relative flex items-center justify-center group/player">
-              {!isPlaying ? (
+              {!isPlaying && selectedVideo ? (
                 <div className="absolute inset-0 z-20 bg-brand-dark-obsidian/75 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center space-y-4">
                   <button
                     onClick={() => setIsPlaying(true)}
@@ -169,10 +151,10 @@ const MediaConsole = () => {
                 </div>
               ) : null}
 
-              {isPlaying && (
+              {isPlaying && selectedVideo && (
                 <iframe
                   className="w-full h-full absolute inset-0 z-10 border-0"
-                  src={`${selectedVideo.url}?autoplay=1&rel=0&modestbranding=1`}
+                  src={`${selectedVideo.video_url}?autoplay=1&rel=0&modestbranding=1`}
                   title={selectedVideo.title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen

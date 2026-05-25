@@ -1,33 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Award, Users, TrendingUp, Linkedin, Twitter } from 'lucide-react';
-import type { TeamMember } from '../../types';
-
-const teamMembers: TeamMember[] = [
-  {
-    id: 1,
-    name: "Miss Wintima Akudugu",
-    role: "Founder & CEO",
-    image: "/images/wintima.png",
-    linkedin: "https://www.linkedin.com",
-    twitter: "https://x.com/"
-  },
-  {
-    id: 2,
-    name: "Ms. Esther Gyimah",
-    role: "Head of Programs and Operations",
-    image: "/images/EG.png",
-    linkedin: "https://www.linkedin.com",
-    twitter: "https://x.com/"
-  },
-  {
-    id: 3,
-    name: "Sofia Rodriguez",
-    role: "Community Manager",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400",
-    linkedin: "https://www.linkedin.com",
-    twitter: "https://x.com/"
-  }
-];
 
 const stats = [
   { id: 1, name: 'Students Impacted', value: '10,000+', icon: Users },
@@ -36,6 +8,15 @@ const stats = [
 ];
 
 const AboutUs = () => {
+  const [teamMembers, setTeamMembers] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch('/api/leadership')
+      .then(res => res.json())
+      .then(data => setTeamMembers(data))
+      .catch(err => console.error('Error fetching leadership:', err));
+  }, []);
+
   return (
     <section id="about" className="py-32 bg-brand-dark-obsidian text-white border-b border-brand-dark-border/50 relative overflow-hidden supabase-grid">
       {/* Supabase-style Neon Grid Beams */}
