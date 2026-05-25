@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Users, Upload, Download, Trash2, Check, AlertCircle } from 'lucide-react';
 import * as XLSX from 'xlsx';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
 import { fetchApi } from '../../lib/api';
 
 export const AdminMembers = () => {
@@ -112,8 +110,8 @@ export const AdminMembers = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h3 className="text-xl font-display font-bold text-white flex items-center">
-          <Users className="h-5 w-5 mr-2 text-brand-pink" />
+        <h3 className="text-lg font-semibold text-zinc-50 flex items-center">
+          <Users className="h-5 w-5 mr-2 text-zinc-400" />
           Member Directory
         </h3>
         <div className="flex space-x-3">
@@ -126,13 +124,13 @@ export const AdminMembers = () => {
           />
           <button 
             onClick={() => fileInputRef.current?.click()}
-            className="px-4 py-2 border border-brand-dark-border text-gray-300 rounded-lg flex items-center text-sm font-semibold hover:bg-white/5 transition-colors"
+            className="px-4 py-2 border border-zinc-800 text-zinc-300 rounded-lg flex items-center text-sm font-semibold hover:bg-zinc-850 transition-colors"
           >
             <Upload className="h-4 w-4 mr-2" /> Import Excel
           </button>
           <button 
             onClick={handleExport}
-            className="px-4 py-2 bg-brand-pink text-white rounded-lg flex items-center text-sm font-semibold hover:bg-brand-pink/90 transition-colors shadow-lg shadow-brand-pink/20"
+            className="px-4 py-2 bg-zinc-50 hover:bg-zinc-200 text-zinc-950 rounded-lg flex items-center text-sm font-semibold transition-colors"
           >
             <Download className="h-4 w-4 mr-2" /> Export to Excel
           </button>
@@ -140,20 +138,20 @@ export const AdminMembers = () => {
       </div>
 
       {error && (
-        <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm flex items-center">
+        <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm flex items-center">
           <AlertCircle className="h-4 w-4 mr-2" /> {error}
         </div>
       )}
       {success && (
-        <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 text-sm flex items-center">
+        <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg text-green-400 text-sm flex items-center">
           <Check className="h-4 w-4 mr-2" /> {success}
         </div>
       )}
 
-      <div className="bg-brand-dark-card border border-brand-dark-border rounded-2xl overflow-hidden shadow-xl">
+      <div className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden shadow-xl">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-gray-400">
-            <thead className="bg-brand-dark-obsidian/50 text-xs uppercase text-gray-500 border-b border-brand-dark-border">
+          <table className="w-full text-left text-sm text-zinc-450">
+            <thead className="bg-zinc-950 text-xs uppercase text-zinc-500 border-b border-zinc-800">
               <tr>
                 <th className="px-6 py-4 font-semibold">Name & Contact</th>
                 <th className="px-6 py-4 font-semibold">Location</th>
@@ -161,34 +159,34 @@ export const AdminMembers = () => {
                 <th className="px-6 py-4 font-semibold">Joined At</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-brand-dark-border">
+            <tbody className="divide-y divide-zinc-850">
               {loading ? (
                 <tr>
-                  <td colSpan={4} className="px-6 py-8 text-center text-gray-500">Loading members...</td>
+                  <td colSpan={4} className="px-6 py-8 text-center text-zinc-500">Loading members...</td>
                 </tr>
               ) : members.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="px-6 py-8 text-center text-gray-500 italic">No members found. Add some or import an Excel sheet.</td>
+                  <td colSpan={4} className="px-6 py-8 text-center text-zinc-500 italic">No members found. Add some or import an Excel sheet.</td>
                 </tr>
               ) : (
                 members.map((member) => (
-                  <tr key={member.id} className="hover:bg-white/[0.02] transition-colors">
+                  <tr key={member.id} className="hover:bg-zinc-800/20 transition-colors">
                     <td className="px-6 py-4">
-                      <div className="font-medium text-white">{member.name}</div>
-                      <div className="text-gray-300 text-xs mt-1">{member.email}</div>
-                      {member.phone && <div className="text-xs text-gray-500">{member.phone}</div>}
+                      <div className="font-semibold text-zinc-100">{member.name}</div>
+                      <div className="text-zinc-400 text-xs mt-1">{member.email}</div>
+                      {member.phone && <div className="text-xs text-zinc-500">{member.phone}</div>}
                     </td>
                     <td className="px-6 py-4">
-                      <div className="text-gray-300">{member.location || 'N/A'}</div>
-                      <div className="text-xs text-gray-500 truncate max-w-[150px]">{member.address}</div>
+                      <div className="text-zinc-300">{member.location || 'N/A'}</div>
+                      <div className="text-xs text-zinc-500 truncate max-w-[150px]">{member.address}</div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="inline-block px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg text-xs capitalize text-brand-pink">
+                      <span className="inline-block px-2.5 py-0.5 bg-zinc-850 border border-zinc-700 rounded text-xs capitalize text-zinc-300">
                         {member.employment_status || 'Unknown'}
                       </span>
-                      {member.student_year && <div className="text-[10px] text-gray-500 mt-1 uppercase tracking-wider">{member.student_year}</div>}
+                      {member.student_year && <div className="text-[10px] text-zinc-500 mt-1 uppercase tracking-wider">{member.student_year}</div>}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-400 text-xs">
+                    <td className="px-6 py-4 whitespace-nowrap text-zinc-400 text-xs">
                       {new Date(member.joined_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
                     </td>
                   </tr>

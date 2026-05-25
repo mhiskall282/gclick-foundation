@@ -5,18 +5,18 @@ import { fetchApi } from '../../lib/api';
 export const AdminBlog = () => {
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [currentPost, setCurrentPost] = useState<any>({
     title: '', date: '', author: '', readTime: '', image: '', content: ''
   });
-
-  
   const [isUploading, setIsUploading] = useState(false);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setIsUploading(true);
+    setError('');
     const formData = new FormData();
     formData.append('image', file);
     try {
@@ -41,8 +41,8 @@ export const AdminBlog = () => {
       if (!res.ok) throw new Error('Failed to fetch posts');
       const data = await res.json();
       setPosts(data);
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      setError(err.message);
     }
     setLoading(false);
   };
@@ -68,63 +68,65 @@ export const AdminBlog = () => {
       if (!res.ok) throw new Error('Failed to save post');
       setIsEditing(false);
       fetchPosts();
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      setError(err.message);
     }
   };
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h3 className="text-xl font-display font-bold text-white">Manage Blog Posts</h3>
+        <h3 className="text-lg font-semibold text-zinc-50">Manage Blog Posts</h3>
         {!isEditing && (
-          <button onClick={() => { setCurrentPost({ title: '', date: '', author: '', readTime: '', image: '', content: '' }); setIsEditing(true); }} className="px-4 py-2 bg-brand-pink text-white rounded-lg flex items-center text-sm font-semibold hover:bg-brand-pink/90">
+          <button onClick={() => { setCurrentPost({ title: '', date: '', author: '', readTime: '', image: '', content: '' }); setIsEditing(true); }} className="px-4 py-2 bg-zinc-50 hover:bg-zinc-200 text-zinc-950 rounded-lg flex items-center text-sm font-semibold transition-colors">
             <Plus className="h-4 w-4 mr-2" /> New Post
           </button>
         )}
       </div>
 
+      {error && <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">{error}</div>}
+
       {isEditing ? (
-        <div className="bg-brand-dark-card border border-brand-dark-border rounded-2xl p-6">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
           <form onSubmit={handleSave} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="md:col-span-2">
-                <label className="block text-xs font-semibold text-gray-400 mb-1">Title</label>
-                <input required type="text" value={currentPost.title} onChange={e => setCurrentPost({...currentPost, title: e.target.value})} className="w-full bg-brand-dark-obsidian border border-brand-dark-border rounded-lg px-3 py-2 text-sm focus:border-brand-pink outline-none" />
+                <label className="block text-xs font-medium text-zinc-400 mb-1.5">Title</label>
+                <input required type="text" value={currentPost.title} onChange={e => setCurrentPost({...currentPost, title: e.target.value})} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-100 focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600 outline-none" />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-400 mb-1">Author</label>
-                <input required type="text" value={currentPost.author} onChange={e => setCurrentPost({...currentPost, author: e.target.value})} className="w-full bg-brand-dark-obsidian border border-brand-dark-border rounded-lg px-3 py-2 text-sm focus:border-brand-pink outline-none" />
+                <label className="block text-xs font-medium text-zinc-400 mb-1.5">Author</label>
+                <input required type="text" value={currentPost.author} onChange={e => setCurrentPost({...currentPost, author: e.target.value})} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-100 focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600 outline-none" />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-400 mb-1">Read Time</label>
-                <input required type="text" value={currentPost.readTime} onChange={e => setCurrentPost({...currentPost, readTime: e.target.value})} className="w-full bg-brand-dark-obsidian border border-brand-dark-border rounded-lg px-3 py-2 text-sm focus:border-brand-pink outline-none" placeholder="e.g. 5 min read" />
+                <label className="block text-xs font-medium text-zinc-400 mb-1.5">Read Time</label>
+                <input required type="text" value={currentPost.readTime} onChange={e => setCurrentPost({...currentPost, readTime: e.target.value})} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-100 focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600 outline-none" placeholder="e.g. 5 min read" />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-400 mb-1">Date</label>
-                <input required type="date" value={currentPost.date} onChange={e => setCurrentPost({...currentPost, date: e.target.value})} className="w-full bg-brand-dark-obsidian border border-brand-dark-border rounded-lg px-3 py-2 text-sm focus:border-brand-pink outline-none" />
+                <label className="block text-xs font-medium text-zinc-400 mb-1.5">Date</label>
+                <input required type="date" value={currentPost.date} onChange={e => setCurrentPost({...currentPost, date: e.target.value})} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-100 focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600 outline-none" />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-400 mb-1">Image Upload</label>
-              <div className="flex items-center gap-4">
-                <input type="file" accept="image/*" onChange={handleImageUpload} className="w-full bg-brand-dark-obsidian border border-brand-dark-border rounded-lg px-3 py-2 text-sm focus:border-brand-pink outline-none" />
-                {isUploading && <span className="text-xs text-brand-pink animate-pulse">Uploading...</span>}
-              </div>
-              {currentPost.image && (
-                <div className="mt-2 text-xs text-gray-400 truncate">
-                  Current: <a href={currentPost.image} target="_blank" rel="noreferrer" className="text-brand-pink hover:underline">{currentPost.image}</a>
+                <label className="block text-xs font-medium text-zinc-400 mb-1.5">Image Upload</label>
+                <div className="flex items-center gap-4">
+                  <input type="file" accept="image/*" onChange={handleImageUpload} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-100 focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600 outline-none" />
+                  {isUploading && <span className="text-xs text-zinc-450 animate-pulse">Uploading...</span>}
                 </div>
-              )}
+                {currentPost.image && (
+                  <div className="mt-2 text-xs text-zinc-500 truncate">
+                    Current: <a href={currentPost.image} target="_blank" rel="noreferrer" className="text-zinc-450 hover:underline">{currentPost.image}</a>
+                  </div>
+                )}
               </div>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-1">Content (Use \n for paragraphs)</label>
-              <textarea required rows={6} value={currentPost.content} onChange={e => setCurrentPost({...currentPost, content: e.target.value})} className="w-full bg-brand-dark-obsidian border border-brand-dark-border rounded-lg px-3 py-2 text-sm focus:border-brand-pink outline-none"></textarea>
+              <label className="block text-xs font-medium text-zinc-400 mb-1.5">Content (Use \n for paragraphs)</label>
+              <textarea required rows={6} value={currentPost.content} onChange={e => setCurrentPost({...currentPost, content: e.target.value})} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-100 focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600 outline-none"></textarea>
             </div>
             
             <div className="flex justify-end gap-3 pt-4">
-              <button type="button" onClick={() => setIsEditing(false)} className="px-4 py-2 border border-brand-dark-border text-gray-400 rounded-lg text-sm font-semibold hover:bg-white/5">Cancel</button>
-              <button type="submit" className="px-4 py-2 bg-brand-pink text-white rounded-lg flex items-center text-sm font-semibold hover:bg-brand-pink/90">
+              <button type="button" onClick={() => setIsEditing(false)} className="px-4 py-2 border border-zinc-800 text-zinc-400 rounded-lg text-sm font-medium hover:bg-zinc-800">Cancel</button>
+              <button type="submit" className="px-4 py-2 bg-zinc-50 hover:bg-zinc-200 text-zinc-950 rounded-lg flex items-center text-sm font-medium transition-colors">
                 <Save className="h-4 w-4 mr-2" /> Save Post
               </button>
             </div>
@@ -132,14 +134,14 @@ export const AdminBlog = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-4">
-          {loading ? <p className="text-gray-400">Loading posts...</p> : posts.map(p => (
-            <div key={p.id} className="bg-brand-dark-card border border-brand-dark-border p-4 rounded-xl flex justify-between items-center hover:border-brand-pink/50 transition-colors">
+          {loading ? <p className="text-zinc-500 text-sm">Loading posts...</p> : posts.map(p => (
+            <div key={p.id} className="bg-zinc-900 border border-zinc-800 p-4 rounded-xl flex justify-between items-center transition-colors">
               <div>
-                <h4 className="font-bold text-white text-lg">{p.title}</h4>
-                <p className="text-gray-400 text-xs mt-1">By {p.author} • {p.date}</p>
+                <h4 className="font-semibold text-zinc-100 text-base">{p.title}</h4>
+                <p className="text-zinc-500 text-xs mt-1">By {p.author} • {p.date}</p>
               </div>
               <div className="flex gap-2">
-                <button onClick={() => { setCurrentPost(p); setIsEditing(true); }} className="p-2 bg-brand-dark-obsidian border border-brand-dark-border rounded-lg text-gray-400 hover:text-brand-pink"><Edit2 className="h-4 w-4" /></button>
+                <button onClick={() => { setCurrentPost(p); setIsEditing(true); }} className="p-2 bg-zinc-950 border border-zinc-850 rounded-lg text-zinc-400 hover:text-zinc-100"><Edit2 className="h-4 w-4" /></button>
                 <button 
                   onClick={async () => {
                     if (window.confirm('Delete this post?')) {
@@ -147,14 +149,14 @@ export const AdminBlog = () => {
                       fetchPosts();
                     }
                   }} 
-                  className="p-2 bg-brand-dark-obsidian border border-brand-dark-border rounded-lg text-gray-400 hover:text-red-400"
+                  className="p-2 bg-zinc-950 border border-zinc-850 rounded-lg text-zinc-450 hover:text-red-400"
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>
               </div>
             </div>
           ))}
-          {!loading && posts.length === 0 && <p className="text-gray-500 italic text-sm">No posts found.</p>}
+          {!loading && posts.length === 0 && <p className="text-zinc-500 italic text-sm">No posts found.</p>}
         </div>
       )}
     </div>

@@ -40,41 +40,37 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-brand-dark-obsidian text-white py-12 px-6 relative overflow-hidden ambient-grain supabase-grid">
-      {/* Decorative backdrop glows */}
-      <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-brand-purple/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-brand-pink/5 rounded-full blur-[100px] pointer-events-none" />
-
-      <div className="max-w-md w-full relative z-10 space-y-8">
-        <Link to="/" className="inline-flex items-center text-sm font-semibold text-gray-400 hover:text-brand-pink transition-colors">
+    <div className="min-h-screen flex items-center justify-center bg-zinc-950 text-zinc-50 py-12 px-6 relative overflow-hidden">
+      <div className="max-w-md w-full relative z-10 space-y-6">
+        <Link to="/" className="inline-flex items-center text-sm font-medium text-zinc-400 hover:text-zinc-200 transition-colors">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to site
         </Link>
 
-        <div className="bg-brand-dark-card border border-brand-dark-border rounded-3xl p-8 shadow-2xl">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-8 shadow-xl">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-display font-extrabold text-white">
+            <h2 className="text-2xl font-semibold tracking-tight text-zinc-50">
               Admin Login
             </h2>
-            <p className="text-gray-400 text-xs font-semibold uppercase tracking-wider mt-2">G-Click Console Access</p>
+            <p className="text-zinc-500 text-xs font-medium tracking-wide mt-1">G-Click Console Access</p>
           </div>
 
           <form className="space-y-5" onSubmit={handleLogin}>
             <div className="space-y-4">
               <div>
-                <label htmlFor="username" className="block text-xs font-semibold text-gray-400 mb-1.5">
+                <label htmlFor="username" className="block text-xs font-medium text-zinc-400 mb-1.5">
                   Email Address
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                    <User className="h-4 w-4 text-gray-500" />
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <User className="h-4 w-4 text-zinc-500" />
                   </div>
                   <input
                     id="username"
                     name="username"
                     type="text"
                     required
-                    className="w-full px-4 py-3 pl-10 border border-brand-dark-border rounded-xl bg-brand-dark-obsidian text-sm text-white focus:outline-none focus:border-brand-pink"
+                    className="w-full px-3 py-2 pl-9 border border-zinc-800 rounded-lg bg-zinc-950 text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600"
                     placeholder="name@company.com"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
@@ -83,19 +79,19 @@ const AdminLogin = () => {
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-xs font-semibold text-gray-400 mb-1.5">
+                <label htmlFor="password" className="block text-xs font-medium text-zinc-400 mb-1.5">
                   Password
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                    <Lock className="h-4 w-4 text-gray-500" />
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Lock className="h-4 w-4 text-zinc-500" />
                   </div>
                   <input
                     id="password"
                     name="password"
                     type="password"
                     required
-                    className="w-full px-4 py-3 pl-10 border border-brand-dark-border rounded-xl bg-brand-dark-obsidian text-sm text-white focus:outline-none focus:border-brand-pink"
+                    className="w-full px-3 py-2 pl-9 border border-zinc-800 rounded-lg bg-zinc-950 text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -105,12 +101,12 @@ const AdminLogin = () => {
             </div>
 
             {error && (
-              <div className="text-red-400 text-xs font-semibold text-center bg-red-500/10 border border-red-500/20 p-3 rounded-xl">{error}</div>
+              <div className="text-red-400 text-xs font-medium text-center bg-red-500/10 border border-red-500/20 p-3 rounded-lg">{error}</div>
             )}
 
             <button
               type="submit"
-              className="w-full py-4 bg-brand-pink text-white rounded-xl text-sm font-bold flex items-center justify-center transition-all shadow-lg shadow-brand-pink/15 hover:bg-brand-pink/90"
+              className="w-full py-2 bg-zinc-50 hover:bg-zinc-200 text-zinc-900 rounded-lg text-sm font-medium flex items-center justify-center transition-colors h-10"
             >
               Sign in
             </button>

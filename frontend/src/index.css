@@ -6,37 +6,25 @@
   html {
     scroll-behavior: smooth;
     font-family: 'Plus Jakarta Sans', sans-serif;
-    background-color: #0C0C0D; /* brand.dark-obsidian */
-    color: #FCFAF7;            /* brand.cream */
+    background-color: #09090b; /* zinc-950 */
+    color: #fafafa;            /* zinc-50 */
   }
-}
-
-/* Custom Grain Backdrop Texture */
-.ambient-grain {
-  position: relative;
-}
-.ambient-grain::after {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  opacity: 0.015;
-  pointer-events: none;
 }
 
 /* Custom scroll bar style */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0C0C0D;
+  background: #09090b; /* zinc-950 */
 }
 ::-webkit-scrollbar-thumb {
-  background: #2E2E33;
+  background: #27272a; /* zinc-800 */
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #DB2777;
+  background: #3f3f46; /* zinc-700 */
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -49,115 +37,25 @@
   scrollbar-width: none;  /* Firefox */
 }
 
-/* Supabase-style background dot patterns */
-.supabase-grid {
-  background-image: radial-gradient(#2E2E33 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-
-.supabase-grid-light {
-  background-image: radial-gradient(#2E2E33 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-
-/* Custom keyframe animations for floating/pulsing components */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 0.85; }
-}
-
-.animate-float-slow {
-  animation: float 6s ease-in-out infinite;
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 4s ease-in-out infinite;
-}
-
-/* Scroll reveal physics */
+/* Disabled scroll reveal animations - render instantly */
 .reveal-on-scroll {
-  opacity: 0;
-  transform: translateY(12px);
-  will-change: transform, opacity;
-  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
 }
 
 .reveal-on-scroll.active {
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 1 !important;
+  transform: none !important;
 }
 
-/* Geeky terminal scanline overlay */
-.crt-overlay {
-  position: relative;
-}
-.crt-overlay::before {
-  content: " ";
-  display: block;
-  position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.18) 50%);
-  background-size: 100% 4px;
-  z-index: 10;
-  pointer-events: none;
-  border-radius: inherit;
-}
-
-/* Simulated terminal blinking cursor */
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: #DB2777 } /* brand-pink */
-}
-.animate-cursor-blink {
-  border-right: 2px solid #DB2777;
-  animation: blink-caret 0.75s step-end infinite;
-}
-
-/* Premium Vercel-style 1px hover border sweep */
+/* Clean, flat visual states instead of glows */
 .hover-border-glow {
-  position: relative;
-  transition: border-color 0.3s ease;
+  border-color: #27272a; /* zinc-800 */
+  transition: border-color 0.2s ease;
 }
-.hover-border-glow::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(135deg, transparent 0%, transparent 100%);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  transition: background 0.4s ease, opacity 0.4s ease;
-  opacity: 0;
-  z-index: 5;
-}
-.hover-border-glow:hover::before {
-  background: linear-gradient(135deg, #DB2777 0%, #7C3AED 50%, transparent 100%);
-  opacity: 1;
-}
-
-/* Supabase-style dynamic laser lines */
-@keyframes beam-flow {
-  0% { transform: translateY(-150%); }
-  100% { transform: translateY(150%); }
-}
-.grid-beam-vertical {
-  position: absolute;
-  width: 1px;
-  height: 250px;
-  background: linear-gradient(to bottom, transparent, #DB2777, #7C3AED, transparent);
-  animation: beam-flow 12s linear infinite;
-  opacity: 0.18;
-  pointer-events: none;
-  z-index: 1;
+.hover-border-glow:hover {
+  border-color: #52525b; /* zinc-600 */
 }
 
 html.light-mode { filter: invert(1) hue-rotate(180deg); }

@@ -35,23 +35,23 @@ export const AdminTracks = () => {
   };
 
   return (
-    <div className="bg-brand-dark-card border border-brand-dark-border rounded-3xl p-8 shadow-2xl">
+    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 shadow-xl">
       <div className="flex justify-between items-center mb-6">
-        <h3 className="text-xl font-display font-bold">Educational Tracks</h3>
-        <button onClick={() => { setCurrentItem(null); setFormData({ title: '', description: '', details: '' }); setIsModalOpen(true); }} className="flex items-center px-4 py-2 bg-brand-pink text-white rounded-xl text-sm font-bold">
+        <h3 className="text-lg font-semibold text-zinc-50">Educational Tracks</h3>
+        <button onClick={() => { setCurrentItem(null); setFormData({ title: '', description: '', details: '' }); setIsModalOpen(true); }} className="flex items-center px-4 py-2 bg-zinc-50 hover:bg-zinc-200 text-zinc-950 rounded-lg text-sm font-semibold transition-colors">
           <Plus className="h-4 w-4 mr-2" /> Add Track
         </button>
       </div>
 
-      {isLoading ? <div>Loading...</div> : (
+      {isLoading ? <div className="text-zinc-550 text-sm">Loading...</div> : (
         <div className="space-y-4">
           {items.map((item) => (
-            <div key={item.id} className="bg-brand-dark-obsidian border border-brand-dark-border rounded-xl p-4">
-              <h4 className="font-bold text-lg">{item.title}</h4>
-              <p className="text-sm text-gray-400 mt-1">{item.description}</p>
+            <div key={item.id} className="bg-zinc-950 border border-zinc-850 rounded-lg p-4">
+              <h4 className="font-semibold text-zinc-100 text-base">{item.title}</h4>
+              <p className="text-xs text-zinc-400 mt-1">{item.description}</p>
               <div className="flex gap-2 mt-3">
-                <button onClick={() => { setCurrentItem(item); setFormData({ title: item.title, description: item.description, details: item.details || '' }); setIsModalOpen(true); }} className="p-1.5 text-blue-400 hover:bg-blue-400/10 rounded-md"><Edit2 className="h-4 w-4" /></button>
-                <button onClick={async () => { if(confirm('Delete?')){ await fetchApi(`/api/tracks/${item.id}`, { method: 'DELETE' }); fetchItems(); } }} className="p-1.5 text-red-400 hover:bg-red-400/10 rounded-md"><Trash2 className="h-4 w-4" /></button>
+                <button onClick={() => { setCurrentItem(item); setFormData({ title: item.title, description: item.description, details: item.details || '' }); setIsModalOpen(true); }} className="p-1.5 text-zinc-400 border border-zinc-800 bg-zinc-900 hover:bg-zinc-800 rounded-lg"><Edit2 className="h-3.5 w-3.5" /></button>
+                <button onClick={async () => { if(confirm('Delete?')){ await fetchApi(`/api/tracks/${item.id}`, { method: 'DELETE' }); fetchItems(); } }} className="p-1.5 text-red-400 border border-zinc-800 bg-zinc-900 hover:bg-zinc-800 rounded-lg"><Trash2 className="h-3.5 w-3.5" /></button>
               </div>
             </div>
           ))}
@@ -59,16 +59,25 @@ export const AdminTracks = () => {
       )}
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4">
-          <div className="bg-brand-dark-card border border-brand-dark-border rounded-2xl w-full max-w-xl p-6">
-            <h2 className="text-xl font-bold mb-4">{currentItem ? 'Edit' : 'Add'}</h2>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-xl w-full max-w-xl p-6 shadow-2xl">
+            <h2 className="text-lg font-semibold text-zinc-50 mb-4">{currentItem ? 'Edit Track' : 'Add Track'}</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <input required placeholder="Title" value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="w-full bg-brand-dark-obsidian rounded-xl px-4 py-3 border border-brand-dark-border" />
-              <textarea required placeholder="Description" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full bg-brand-dark-obsidian rounded-xl px-4 py-3 border border-brand-dark-border" />
-              <textarea placeholder="Details" value={formData.details} onChange={e => setFormData({...formData, details: e.target.value})} className="w-full bg-brand-dark-obsidian rounded-xl px-4 py-3 border border-brand-dark-border" />
+              <div>
+                <label className="block text-xs font-medium text-zinc-400 mb-1.5">Title</label>
+                <input required placeholder="Title" value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-zinc-100 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600" />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-zinc-400 mb-1.5">Description</label>
+                <textarea required placeholder="Description" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-zinc-100 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600" />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-zinc-400 mb-1.5">Details</label>
+                <textarea placeholder="Details" value={formData.details} onChange={e => setFormData({...formData, details: e.target.value})} className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-zinc-100 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600" />
+              </div>
               <div className="flex justify-end gap-3 pt-4">
-                <button type="button" onClick={() => setIsModalOpen(false)} className="px-5 py-2.5 bg-white/5 rounded-xl">Cancel</button>
-                <button type="submit" className="px-5 py-2.5 bg-brand-pink text-white rounded-xl">Save</button>
+                <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 border border-zinc-800 text-zinc-400 rounded-lg text-sm font-medium hover:bg-zinc-800">Cancel</button>
+                <button type="submit" className="px-4 py-2 bg-zinc-50 hover:bg-zinc-200 text-zinc-950 rounded-lg text-sm font-medium transition-colors">Save</button>
               </div>
             </form>
           </div>

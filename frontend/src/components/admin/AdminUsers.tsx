@@ -92,23 +92,23 @@ export const AdminUsers = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* Create / Edit User Form */}
-        <div className="lg:col-span-1 bg-brand-dark-card border border-brand-dark-border rounded-2xl p-6 shadow-xl h-fit">
-          <h4 className="text-sm font-bold text-white mb-4 uppercase tracking-wider">
+        <div className="lg:col-span-1 bg-zinc-900 border border-zinc-800 rounded-xl p-6 shadow-xl h-fit">
+          <h4 className="text-xs font-semibold text-zinc-400 mb-4 uppercase tracking-wider">
             {editingUser ? 'Edit Administrator' : 'Create Sub-Admin'}
           </h4>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-1">Email</label>
+              <label className="block text-xs font-medium text-zinc-400 mb-1.5">Email</label>
               <input 
                 type="email" 
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-2 bg-brand-dark-obsidian border border-brand-dark-border rounded-lg text-sm text-white focus:outline-none focus:border-brand-pink" 
+                className="w-full px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-lg text-sm text-zinc-100 placeholder:text-zinc-650 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600" 
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-1">
+              <label className="block text-xs font-medium text-zinc-400 mb-1.5">
                 {editingUser ? 'New Password (leave empty to keep current)' : 'Temporary Password'}
               </label>
               <input 
@@ -116,12 +116,12 @@ export const AdminUsers = () => {
                 required={!editingUser}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 bg-brand-dark-obsidian border border-brand-dark-border rounded-lg text-sm text-white focus:outline-none focus:border-brand-pink" 
+                className="w-full px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-lg text-sm text-zinc-100 placeholder:text-zinc-650 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-zinc-600" 
               />
             </div>
 
-            {error && <div className="text-xs text-red-400 font-semibold p-2 bg-red-500/10 rounded-md">{error}</div>}
-            {success && <div className="text-xs text-green-400 font-semibold p-2 bg-green-500/10 rounded-md">{success}</div>}
+            {error && <div className="text-xs text-red-400 font-semibold p-2 bg-red-500/10 rounded-lg">{error}</div>}
+            {success && <div className="text-xs text-green-400 font-semibold p-2 bg-green-500/10 rounded-lg">{success}</div>}
 
             <div className="flex gap-2">
               {editingUser && (
@@ -134,7 +134,7 @@ export const AdminUsers = () => {
                     setError('');
                     setSuccess('');
                   }}
-                  className="w-1/2 py-2 bg-white/5 hover:bg-white/10 text-white rounded-lg text-sm font-bold transition-all"
+                  className="w-1/2 py-2 bg-zinc-950 border border-zinc-800 text-zinc-300 hover:bg-zinc-800 rounded-lg text-sm font-medium transition-colors"
                 >
                   Cancel
                 </button>
@@ -142,7 +142,7 @@ export const AdminUsers = () => {
               <button 
                 type="submit" 
                 disabled={isLoading}
-                className={`py-2 text-white rounded-lg text-sm font-bold flex items-center justify-center transition-all disabled:opacity-50 ${editingUser ? 'w-1/2 bg-blue-600 hover:bg-blue-500' : 'w-full bg-brand-pink hover:bg-brand-pink/90'}`}
+                className={`py-2 text-zinc-900 rounded-lg text-sm font-medium flex items-center justify-center transition-colors disabled:opacity-50 ${editingUser ? 'w-1/2 bg-zinc-50 hover:bg-zinc-200' : 'w-full bg-zinc-50 hover:bg-zinc-200'}`}
               >
                 {editingUser ? <Edit className="h-4 w-4 mr-2" /> : <UserPlus className="h-4 w-4 mr-2" />}
                 {isLoading ? 'Saving...' : (editingUser ? 'Save' : 'Create Account')}
@@ -152,28 +152,28 @@ export const AdminUsers = () => {
         </div>
 
         {/* Users List */}
-        <div className="lg:col-span-2 bg-brand-dark-card border border-brand-dark-border rounded-2xl p-6 shadow-xl">
-          <h4 className="text-sm font-bold text-white mb-4 uppercase tracking-wider">Active Administrators</h4>
+        <div className="lg:col-span-2 bg-zinc-900 border border-zinc-800 rounded-xl p-6 shadow-xl">
+          <h4 className="text-xs font-semibold text-zinc-400 mb-4 uppercase tracking-wider">Active Administrators</h4>
           
           <div className="space-y-3">
             {/* Root Admin Placeholder */}
-            <div className="p-4 bg-brand-dark-obsidian border border-brand-pink/30 rounded-xl flex justify-between items-center relative overflow-hidden">
-              <div className="absolute left-0 top-0 bottom-0 w-1 bg-brand-pink" />
+            <div className="p-4 bg-zinc-950 border border-zinc-800 rounded-lg flex justify-between items-center relative overflow-hidden">
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-zinc-500" />
               <div>
-                <div className="text-sm font-semibold text-white">Root Master Admin</div>
-                <div className="text-xs text-brand-pink mt-1 font-mono">Managed via .env file</div>
+                <div className="text-sm font-semibold text-zinc-50">Root Master Admin</div>
+                <div className="text-xs text-zinc-500 mt-1 font-mono">Managed via .env file</div>
               </div>
-              <span className="px-2.5 py-1 bg-brand-pink/10 text-brand-pink border border-brand-pink/20 rounded-md text-[10px] font-bold uppercase tracking-widest">
+              <span className="px-2 py-0.5 bg-zinc-850 text-zinc-400 border border-zinc-700 rounded text-[9px] font-semibold uppercase tracking-wider">
                 System
               </span>
             </div>
 
             {/* Sub Admins */}
             {users.map(u => (
-              <div key={u.id} className="p-4 bg-brand-dark-obsidian border border-brand-dark-border rounded-xl flex justify-between items-center">
+              <div key={u.id} className="p-4 bg-zinc-950 border border-zinc-800 rounded-lg flex justify-between items-center">
                 <div>
-                  <div className="text-sm font-semibold text-white">{u.email}</div>
-                  <div className="text-xs text-gray-500 mt-1">Created: {new Date(u.created_at).toLocaleDateString()}</div>
+                  <div className="text-sm font-semibold text-zinc-50">{u.email}</div>
+                  <div className="text-xs text-zinc-500 mt-1">Created: {new Date(u.created_at).toLocaleDateString()}</div>
                 </div>
                 <div className="flex items-center gap-2">
                   <button 
@@ -184,14 +184,14 @@ export const AdminUsers = () => {
                       setError('');
                       setSuccess('');
                     }}
-                    className="p-2 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white rounded-lg transition-colors"
+                    className="p-2 bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 rounded-lg transition-colors"
                     title="Edit Administrator"
                   >
                     <Edit className="h-4 w-4" />
                   </button>
                   <button 
                     onClick={() => handleRevoke(u.id)}
-                    className="p-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 rounded-lg transition-colors"
+                    className="p-2 bg-zinc-900 border border-zinc-800 text-red-400 hover:text-red-300 hover:bg-red-950/20 rounded-lg transition-colors"
                     title="Revoke Administrator Access"
                   >
                     <Trash2 className="h-4 w-4" />
@@ -201,7 +201,7 @@ export const AdminUsers = () => {
             ))}
             
             {users.length === 0 && (
-              <div className="text-center p-6 text-sm text-gray-500 italic">
+              <div className="text-center p-6 text-sm text-zinc-500 italic">
                 No sub-admins created yet.
               </div>
             )}
