@@ -1,0 +1,132 @@
+import React, { useState, useEffect } from 'react';
+import { Menu, X, MousePointerClick } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navigation = [
+    { name: 'Programs', href: '/#programs' },
+    { name: 'About', href: '/#about' },
+    { name: 'Blog', href: '/#blog' },
+    { name: 'Resources', href: '/#resources' },
+    { name: 'Contact', href: '/#contact' },
+  ];
+
+  return (
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'py-3' : 'py-5'}`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className={`mx-auto max-w-5xl px-6 h-16 rounded-full flex items-center justify-between border transition-all duration-300 ${scrolled ? 'bg-brand-dark-card/90 backdrop-blur-md border-brand-dark-border shadow-lg shadow-black/20' : 'bg-brand-dark-obsidian/75 backdrop-blur-md border-brand-dark-border/50 shadow-sm'}`}>
+          <div className="flex items-center">
+            <Link to="/" className="flex items-center">
+              <MousePointerClick className="h-6 w-6 mr-2 text-brand-pink transition-colors" />
+              <span className="text-xl font-display font-extrabold tracking-tight text-white">
+                G-Click<span className="text-brand-pink">.</span>
+              </span>
+            </Link>
+          </div>
+
+          <div className="hidden md:flex items-center space-x-6">
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                onClick={(e) => {
+                  if (item.href.startsWith('/#')) {
+                    const id = item.href.replace('/#', '');
+                    const element = document.getElementById(id);
+                    if (element) {
+                      element.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }
+                }}
+                className="text-sm font-medium tracking-wide transition-colors text-gray-300 hover:text-brand-pink"
+              >
+                {item.name}
+              </Link>
+            ))}
+            <Link
+              to="/join"
+              className="text-sm font-bold tracking-wide text-brand-pink hover:text-white transition-colors"
+            >
+              Become a Member
+            </Link>
+            <Link
+              to="/donate"
+              className="px-5 py-2.5 bg-brand-pink hover:bg-brand-pink/90 text-white rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-md shadow-brand-pink/15 hover:shadow-brand-pink/30 hover:scale-105"
+            >
+              Donate
+            </Link>
+          </div>
+
+          <div className="md:hidden flex items-center">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 rounded-full transition-colors text-white hover:bg-white/10"
+              aria-label="Toggle menu"
+            >
+              {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Drawer */}
+      {isOpen && (
+        <div className="md:hidden px-4 mt-2">
+          <div className="bg-brand-dark-obsidian/95 backdrop-blur-lg border border-white/10 rounded-3xl px-6 py-6 space-y-4 shadow-2xl">
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                onClick={(e) => {
+                  setIsOpen(false);
+                  if (item.href.startsWith('/#')) {
+                    const id = item.href.replace('/#', '');
+                    const element = document.getElementById(id);
+                    if (element) {
+                      element.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }
+                }}
+                className="text-gray-300 hover:text-white block px-3 py-2 rounded-xl text-base font-medium transition-colors"
+              >
+                {item.name}
+              </Link>
+            ))}
+            <Link
+              to="/join"
+              onClick={() => setIsOpen(false)}
+              className="w-full text-center block px-5 py-3 border border-brand-pink/50 text-brand-pink hover:bg-brand-pink/10 rounded-full text-sm font-bold uppercase tracking-wider transition-all"
+            >
+              Become a Member
+            </Link>
+            <Link
+              to="/donate"
+              onClick={() => setIsOpen(false)}
+              className="w-full text-center block px-5 py-3 bg-brand-pink hover:bg-brand-pink/90 text-white rounded-full text-sm font-bold uppercase tracking-wider transition-all shadow-md shadow-brand-pink/15"
+            >
+              Donate Now
+            </Link>
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+};
+
+export default Navbar;
