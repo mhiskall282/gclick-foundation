@@ -87,7 +87,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
           <div className="h-1.5 w-full bg-brand-dark-obsidian border border-brand-dark-border rounded-full overflow-hidden relative">
             <div 
               className="absolute top-0 left-0 h-full bg-brand-pink transition-all duration-300 ease-out shadow-[0_0_15px_rgba(236,72,153,0.8)]"
-              style={{ width: \`\${progress}%\` }}
+              style={{ width: `${progress}%` }}
             />
           </div>
 
