@@ -115,32 +115,41 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => (
   </>
 );
 
+import { SplashScreen } from './components/SplashScreen';
+
 function App() {
+  const [isReady, setIsReady] = useState(false);
+
   return (
-    <Router>
-      <ScrollToHash />
-      <ScrollProgress />
-      <div className="min-h-screen bg-brand-dark-obsidian text-white flex flex-col font-body">
-        <Routes>
-          {/* Public Routes with Navbar and Footer */}
-          <Route path="/" element={<MainLayout><HomePage /></MainLayout>} />
-          <Route path="/programs/:id" element={<MainLayout><ProgramDetailPage /></MainLayout>} />
-          <Route path="/blog/:id" element={<MainLayout><BlogDetailPage /></MainLayout>} />
-          <Route path="/leadership/:id" element={<MainLayout><LeadershipDetailPage /></MainLayout>} />
-          <Route path="/tracks/:id" element={<MainLayout><TracksDetailPage /></MainLayout>} />
-          <Route path="/labs/:id" element={<MainLayout><LabsDetailPage /></MainLayout>} />
-          <Route path="/news/:id" element={<MainLayout><NewsDetailPage /></MainLayout>} />
-          <Route path="/donate" element={<MainLayout><DonatePage /></MainLayout>} />
-          <Route path="/join" element={<MainLayout><JoinPage /></MainLayout>} />
-          
-          {/* Admin Routes without Navbar and Footer */}
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          
-          <Route path="*" element={<MainLayout><NotFoundPage /></MainLayout>} />
-        </Routes>
+    <>
+      {!isReady && <SplashScreen onComplete={() => setIsReady(true)} />}
+      <div className={`transition-opacity duration-1000 ${isReady ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'}`}>
+        <Router>
+          <ScrollToHash />
+          <ScrollProgress />
+          <div className="min-h-screen bg-brand-dark-obsidian text-white flex flex-col font-body">
+            <Routes>
+              {/* Public Routes with Navbar and Footer */}
+              <Route path="/" element={<MainLayout><HomePage /></MainLayout>} />
+              <Route path="/programs/:id" element={<MainLayout><ProgramDetailPage /></MainLayout>} />
+              <Route path="/blog/:id" element={<MainLayout><BlogDetailPage /></MainLayout>} />
+              <Route path="/leadership/:id" element={<MainLayout><LeadershipDetailPage /></MainLayout>} />
+              <Route path="/tracks/:id" element={<MainLayout><TracksDetailPage /></MainLayout>} />
+              <Route path="/labs/:id" element={<MainLayout><LabsDetailPage /></MainLayout>} />
+              <Route path="/news/:id" element={<MainLayout><NewsDetailPage /></MainLayout>} />
+              <Route path="/donate" element={<MainLayout><DonatePage /></MainLayout>} />
+              <Route path="/join" element={<MainLayout><JoinPage /></MainLayout>} />
+              
+              {/* Admin Routes without Navbar and Footer */}
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              
+              <Route path="*" element={<MainLayout><NotFoundPage /></MainLayout>} />
+            </Routes>
+          </div>
+        </Router>
       </div>
-    </Router>
+    </>
   );
 }
 
