@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, Save, X } from 'lucide-react';
+import { Plus, Edit2, Trash2, Save, X , Upload } from 'lucide-react';
 import { fetchApi } from '../../lib/api';
 
 export const AdminPrograms = () => {
@@ -11,6 +11,30 @@ export const AdminPrograms = () => {
     title: '', description: '', details: '', duration: '', image: '', syllabus: []
   });
   const [syllabusInput, setSyllabusInput] = useState('');
+
+  
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.append('image', file);
+    try {
+      const res = await fetchApi('/api/upload', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Upload failed');
+      setCurrentProgram({ ...currentProgram, image: data.url });
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   const fetchPrograms = async () => {
     setLoading(true);
@@ -93,8 +117,16 @@ export const AdminPrograms = () => {
               <textarea required rows={4} value={currentProgram.details} onChange={e => setCurrentProgram({...currentProgram, details: e.target.value})} className="w-full bg-brand-dark-obsidian border border-brand-dark-border rounded-lg px-3 py-2 text-sm focus:border-brand-pink outline-none"></textarea>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-400 mb-1">Image URL</label>
-              <input required type="text" value={currentProgram.image} onChange={e => setCurrentProgram({...currentProgram, image: e.target.value})} className="w-full bg-brand-dark-obsidian border border-brand-dark-border rounded-lg px-3 py-2 text-sm focus:border-brand-pink outline-none" />
+              <label className="block text-xs font-semibold text-gray-400 mb-1">Image Upload</label>
+              <div className="flex items-center gap-4">
+                <input type="file" accept="image/*" onChange={handleImageUpload} className="w-full bg-brand-dark-obsidian border border-brand-dark-border rounded-lg px-3 py-2 text-sm focus:border-brand-pink outline-none" />
+                {isUploading && <span className="text-xs text-brand-pink animate-pulse">Uploading...</span>}
+              </div>
+              {currentProgram.image && (
+                <div className="mt-2 text-xs text-gray-400 truncate">
+                  Current: <a href={currentProgram.image} target="_blank" rel="noreferrer" className="text-brand-pink hover:underline">{currentProgram.image}</a>
+                </div>
+              )}
             </div>
             <div>
               <label className="block text-xs font-semibold text-gray-400 mb-1">Syllabus</label>

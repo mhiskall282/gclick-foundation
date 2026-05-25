@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Trash2, Edit2 } from 'lucide-react';
+import { Plus, Trash2, Edit2 , Upload } from 'lucide-react';
 import { fetchApi } from '../../lib/api';
 
 export const AdminLeadership = () => {
@@ -18,6 +18,30 @@ export const AdminLeadership = () => {
   useEffect(() => {
     fetchLeaders();
   }, []);
+
+  
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setIsUploading(true);
+    const dataObj = new FormData();
+    dataObj.append('image', file);
+    try {
+      const res = await fetchApi('/api/upload', {
+        method: 'POST',
+        body: dataObj
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Upload failed');
+      setFormData({ ...formData, image: data.url });
+    } catch (err: any) {
+      console.error(err.message);
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   const fetchLeaders = async () => {
     try {
@@ -127,8 +151,16 @@ export const AdminLeadership = () => {
                 <input required type="text" value={formData.role} onChange={(e) => setFormData({...formData, role: e.target.value})} className="w-full bg-brand-dark-obsidian border border-brand-dark-border rounded-xl px-4 py-3 text-white" />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-400 mb-1">Image URL</label>
-                <input type="text" value={formData.image} onChange={(e) => setFormData({...formData, image: e.target.value})} className="w-full bg-brand-dark-obsidian border border-brand-dark-border rounded-xl px-4 py-3 text-white" />
+                <label className="block text-xs font-semibold text-gray-400 mb-1">Image Upload</label>
+                <div className="flex items-center gap-4">
+                  <input type="file" accept="image/*" onChange={handleImageUpload} className="w-full bg-brand-dark-obsidian border border-brand-dark-border rounded-xl px-4 py-3 text-white" />
+                  {isUploading && <span className="text-xs text-brand-pink animate-pulse">Uploading...</span>}
+                </div>
+                {formData.image && (
+                  <div className="mt-2 text-xs text-gray-400 truncate">
+                    Current: <a href={formData.image} target="_blank" rel="noreferrer" className="text-brand-pink hover:underline">{formData.image}</a>
+                  </div>
+                )}
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-400 mb-1">Bio</label>

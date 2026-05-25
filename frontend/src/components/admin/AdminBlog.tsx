@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, Save } from 'lucide-react';
+import { Plus, Edit2, Trash2, Save , Upload } from 'lucide-react';
 import { fetchApi } from '../../lib/api';
 
 export const AdminBlog = () => {
@@ -9,6 +9,30 @@ export const AdminBlog = () => {
   const [currentPost, setCurrentPost] = useState<any>({
     title: '', date: '', author: '', readTime: '', image: '', content: ''
   });
+
+  
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.append('image', file);
+    try {
+      const res = await fetchApi('/api/upload', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Upload failed');
+      setCurrentPost({ ...currentPost, image: data.url });
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   const fetchPosts = async () => {
     setLoading(true);
@@ -81,8 +105,16 @@ export const AdminBlog = () => {
                 <input required type="date" value={currentPost.date} onChange={e => setCurrentPost({...currentPost, date: e.target.value})} className="w-full bg-brand-dark-obsidian border border-brand-dark-border rounded-lg px-3 py-2 text-sm focus:border-brand-pink outline-none" />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-400 mb-1">Image URL</label>
-                <input required type="text" value={currentPost.image} onChange={e => setCurrentPost({...currentPost, image: e.target.value})} className="w-full bg-brand-dark-obsidian border border-brand-dark-border rounded-lg px-3 py-2 text-sm focus:border-brand-pink outline-none" />
+                <label className="block text-xs font-semibold text-gray-400 mb-1">Image Upload</label>
+              <div className="flex items-center gap-4">
+                <input type="file" accept="image/*" onChange={handleImageUpload} className="w-full bg-brand-dark-obsidian border border-brand-dark-border rounded-lg px-3 py-2 text-sm focus:border-brand-pink outline-none" />
+                {isUploading && <span className="text-xs text-brand-pink animate-pulse">Uploading...</span>}
+              </div>
+              {currentPost.image && (
+                <div className="mt-2 text-xs text-gray-400 truncate">
+                  Current: <a href={currentPost.image} target="_blank" rel="noreferrer" className="text-brand-pink hover:underline">{currentPost.image}</a>
+                </div>
+              )}
               </div>
             </div>
             <div>
