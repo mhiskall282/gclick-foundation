@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users, BookOpen, Mail, DollarSign, LogOut, Activity, Database, CheckCircle, RefreshCw, PenTool, LayoutTemplate, Star, Video, Newspaper, Archive, Shield } from 'lucide-react';
+import { fetchApi } from '../lib/api';
 import { AdminPrograms } from './admin/AdminPrograms';
 import { AdminBlog } from './admin/AdminBlog';
 import { AdminMembers } from './admin/AdminMembers';
@@ -19,10 +20,66 @@ const AdminDashboard = () => {
   // Check if user is authenticated (using local storage token)
   const isAuthenticated = localStorage.getItem('token') !== null;
   
+  const [statsData, setStatsData] = useState({
+    membersCount: 0,
+    programsCount: 0,
+    blogsCount: 0,
+    adminsCount: 0,
+  });
+  const [recentLogs, setRecentLogs] = useState<any[]>([]);
+  const [isLoadingStats, setIsLoadingStats] = useState(true);
+
+  const loadStats = async () => {
+    try {
+      const [resMembers, resPrograms, resBlogs, resAdmins] = await Promise.all([
+        fetchApi('/api/members'),
+        fetchApi('/api/programs'),
+        fetchApi('/api/blog'),
+        fetchApi('/api/auth/users').catch(() => null)
+      ]);
+
+      const members = resMembers && resMembers.ok ? await resMembers.json() : [];
+      const programs = resPrograms && resPrograms.ok ? await resPrograms.json() : [];
+      const blogs = resBlogs && resBlogs.ok ? await resBlogs.json() : [];
+      const admins = resAdmins && resAdmins.ok ? await resAdmins.json() : [];
+
+      setStatsData({
+        membersCount: Array.isArray(members) ? members.length : 0,
+        programsCount: Array.isArray(programs) ? programs.length : 0,
+        blogsCount: Array.isArray(blogs) ? blogs.length : 0,
+        adminsCount: Array.isArray(admins) ? admins.length : 0,
+      });
+
+      // Construct live "Activity Logs" based on real members in database
+      if (Array.isArray(members) && members.length > 0) {
+        const sortedMembers = [...members]
+          .sort((a, b) => new Date(b.joined_at).getTime() - new Date(a.joined_at).getTime())
+          .slice(0, 3);
+        
+        const constructedLogs = sortedMembers.map((m: any) => ({
+          desc: `New member registered: ${m.name} (${m.email})`,
+          node: m.location || 'Ghana Node',
+          status: 'REGISTERED'
+        }));
+        setRecentLogs(constructedLogs);
+      } else {
+        setRecentLogs([
+          { desc: 'Waiting for database events...', node: 'System-Core', status: 'IDLE' }
+        ]);
+      }
+    } catch (err) {
+      console.error('Error loading dashboard stats:', err);
+    } finally {
+      setIsLoadingStats(false);
+    }
+  };
+
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/admin/login');
+      return;
     }
+    loadStats();
   }, [isAuthenticated, navigate]);
 
   if (!isAuthenticated) {
@@ -31,14 +88,15 @@ const AdminDashboard = () => {
 
   const triggerRefresh = () => {
     setIsRefreshing(true);
+    loadStats();
     setTimeout(() => setIsRefreshing(false), 800);
   };
 
   const stats = [
-    { name: 'Cluster Users', value: '1,234', icon: Users, change: '+12% growth' },
-    { name: 'Syllabi Modules', value: '12 Active', icon: BookOpen, change: 'All nodes healthy' },
-    { name: 'Form Submissions', value: '23 New', icon: Mail, change: 'Web3Forms integrated' },
-    { name: 'Total Sponsoring', value: 'GH₵172,830', icon: DollarSign, change: '+$2,100 this week' },
+    { name: 'Registered Members', value: isLoadingStats ? '...' : `${statsData.membersCount} Members`, icon: Users, change: 'Live from database' },
+    { name: 'Syllabi Modules', value: isLoadingStats ? '...' : `${statsData.programsCount} Programs`, icon: BookOpen, change: 'CMS Active' },
+    { name: 'Blog Publications', value: isLoadingStats ? '...' : `${statsData.blogsCount} Posts`, icon: Mail, change: 'Published' },
+    { name: 'Console Administrators', value: isLoadingStats ? '...' : `${statsData.adminsCount + 1} Admins`, icon: Shield, change: '1 Root + Sub-admins' },
   ];
 
   return (
