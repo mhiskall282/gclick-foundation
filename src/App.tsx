@@ -39,15 +39,16 @@ const ScrollToHash = () => {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
     // Scroll restoration / anchor scroll
     if (hash) {
       const id = hash.replace('#', '');
       const element = document.getElementById(id);
       if (element) {
-        const timeoutId = setTimeout(() => {
+        timeoutId = setTimeout(() => {
           element.scrollIntoView({ behavior: 'smooth' });
         }, 100);
-        return () => clearTimeout(timeoutId);
       }
     } else {
       window.scrollTo(0, 0);
@@ -62,18 +63,36 @@ const ScrollToHash = () => {
           entry.target.classList.remove('active');
         }
       });
-    }, { threshold: 0.05, rootMargin: '-20px 0px -20px 0px' });
+    }, { threshold: 0.05, rootMargin: '0px 0px -50px 0px' });
 
-    // Wait a brief tick for render updates
-    const timer = setTimeout(() => {
-      const elements = document.querySelectorAll('.reveal-on-scroll');
-      elements.forEach(el => observer.observe(el));
-    }, 100);
+    // Initial observation
+    const elements = document.querySelectorAll('.reveal-on-scroll');
+    elements.forEach(el => observer.observe(el));
+
+    // Observe dynamically added elements
+    const mutationObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            const el = node as HTMLElement;
+            if (el.classList && el.classList.contains('reveal-on-scroll')) {
+              observer.observe(el);
+            }
+            if (el.querySelectorAll) {
+              const children = el.querySelectorAll('.reveal-on-scroll');
+              children.forEach(child => observer.observe(child));
+            }
+          }
+        });
+      });
+    });
+
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
 
     return () => {
-      clearTimeout(timer);
-      const elements = document.querySelectorAll('.reveal-on-scroll');
-      elements.forEach(el => observer.unobserve(el));
+      if (timeoutId) clearTimeout(timeoutId);
+      mutationObserver.disconnect();
+      observer.disconnect();
     };
   }, [pathname, hash]);
 
