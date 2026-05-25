@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Users, Upload, Download, Trash2, Check, AlertCircle } from 'lucide-react';
 import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import { fetchApi } from '../../lib/api';
 
 export const AdminMembers = () => {
